@@ -15,6 +15,11 @@ gem "twitter-bootstrap-rails"   # 楽ちん部品
 gem "zurui-sass-rails"          # ズルいデザイン
 gem "kaminari"                  # ページング
 
+gem "omniauth"                  # OAuth
+gem "omniauth-facebook"         # OAuth for facebook
+gem "omniauth-twitter"          # OAuth for twitter
+gem "omniauth-google-oauth2"    # OAuth for google
+
 group :development do
   gem "spring"
   gem "rails-footnotes", ">= 4.0.0", "<5"
