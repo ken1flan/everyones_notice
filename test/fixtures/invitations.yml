@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mail_address: MyString
+  message: MyText
+  token: MyString
+  expire_at: 2014-10-24 09:12:32
+
+two:
+  mail_address: MyString
+  message: MyText
+  token: MyString
+  expire_at: 2014-10-24 09:12:32
