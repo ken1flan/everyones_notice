@@ -1,10 +1,11 @@
 class CreateInvitations < ActiveRecord::Migration
   def change
     create_table :invitations do |t|
-      t.string :mail_address, null:false
+      t.string :mail_address
       t.text :message
-      t.string :token, null: false
-      t.datetime :expire_at, null:false
+      t.integer :user_id
+      t.string :token
+      t.datetime :expired_at
 
       t.timestamps
     end

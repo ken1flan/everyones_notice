@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ユーザを招待する Integration::招待作成ページを訪れたとき" skipped="0" failures="0" errors="0" tests="1" assertions="2" time="5.424712526">
-  <testcase name="test_0001_Invitation Newと表示されていること" classname="ユーザを招待する Integration::招待作成ページを訪れたとき" assertions="2" time="5.424712526">
-  </testcase>
-</testsuite>

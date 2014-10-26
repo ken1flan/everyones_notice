@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Mail address:</strong>
+  <%= @invitation.mail_address %>
+</p>
+
+<p>
+  <strong>Message:</strong>
+  <%= @invitation.message %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @invitation.user_id %>
+</p>
+
+<p>
+  <strong>Token:</strong>
+  <%= @invitation.token %>
+</p>
+
+<p>
+  <strong>Expired at:</strong>
+  <%= @invitation.expired_at %>
+</p>
+
+<%= link_to 'Edit', edit_invitation_path(@invitation) %> |
+<%= link_to 'Back', invitations_path %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024001232) do
+ActiveRecord::Schema.define(version: 20141026033034) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",        limit: 128, null: false
@@ -22,10 +22,11 @@ ActiveRecord::Schema.define(version: 20141024001232) do
   end
 
   create_table "invitations", force: true do |t|
-    t.string   "mail_address", null: false
+    t.string   "mail_address"
     t.text     "message"
-    t.string   "token",        null: false
-    t.datetime "expire_at",    null: false
+    t.integer  "user_id"
+    t.string   "token"
+    t.datetime "expired_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
