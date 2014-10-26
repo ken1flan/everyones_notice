@@ -19,19 +19,7 @@
     <%= f.label :message %><br>
     <%= f.text_area :message %>
   </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.number_field :user_id %>
-  </div>
-  <div class="field">
-    <%= f.label :token %><br>
-    <%= f.text_field :token %>
-  </div>
-  <div class="field">
-    <%= f.label :expired_at %><br>
-    <%= f.datetime_select :expired_at %>
-  </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit "送信" %>
   </div>
 <% end %>

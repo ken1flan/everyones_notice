@@ -17,10 +17,6 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new
   end
 
-  # GET /invitations/1/edit
-  def edit
-  end
-
   # POST /invitations
   # POST /invitations.json
   def create
@@ -32,20 +28,6 @@ class InvitationsController < ApplicationController
         format.json { render :show, status: :created, location: @invitation }
       else
         format.html { render :new }
-        format.json { render json: @invitation.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /invitations/1
-  # PATCH/PUT /invitations/1.json
-  def update
-    respond_to do |format|
-      if @invitation.update(invitation_params)
-        format.html { redirect_to @invitation, notice: 'Invitation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @invitation }
-      else
-        format.html { render :edit }
         format.json { render json: @invitation.errors, status: :unprocessable_entity }
       end
     end

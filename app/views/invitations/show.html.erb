@@ -1,29 +1,28 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Mail address:</strong>
+  <strong>メールアドレス:</strong>
   <%= @invitation.mail_address %>
 </p>
 
 <p>
-  <strong>Message:</strong>
+  <strong>メッセージ:</strong>
   <%= @invitation.message %>
 </p>
 
 <p>
-  <strong>User:</strong>
+  <strong>ユーザ:</strong>
   <%= @invitation.user_id %>
 </p>
 
 <p>
-  <strong>Token:</strong>
+  <strong>トークン:</strong>
   <%= @invitation.token %>
 </p>
 
 <p>
-  <strong>Expired at:</strong>
+  <strong>期限:</strong>
   <%= @invitation.expired_at %>
 </p>
 
-<%= link_to 'Edit', edit_invitation_path(@invitation) %> |
-<%= link_to 'Back', invitations_path %>
+<%= link_to '一覧', invitations_path %>

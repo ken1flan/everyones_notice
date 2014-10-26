@@ -2,7 +2,9 @@
 
 FactoryGirl.define do
   factory :invitation do
-    mail_address "MyString"
+    sequence :mail_address do |n|
+      "hoge_#{n}@fuga.com"
+    end
     message "MyText"
     user_id 1
     token "MyString"
