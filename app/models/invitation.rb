@@ -1,6 +1,8 @@
 class Invitation < ActiveRecord::Base
   EXPIRATION_PERIOD = 3.days
 
+  before_save :generate_token
+
   def generate_token
     begin
       self.token = SecureRandom.urlsafe_base64

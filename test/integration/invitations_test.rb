@@ -48,6 +48,20 @@ describe "ユーザを招待する Integration" do
         page.text.must_include @invitation.message
       end
 
+      context "メールを受信したとき" do
+        before { open_email @invitation.mail_address }
+
+        context "メールのリンクをクリックしたとき" do
+          it "ユーザ作成ページであること" do
+            # TODO: 書く
+          end
+        end
+      end
+      it "メールにトークンが記述されていること" do
+        open_email(@invitation.mail_address)
+        current_email.text.must_include @invitation.token
+      end
+
       context "「一覧」ボタンを押したとき" do
         before { click_link "一覧" }
 

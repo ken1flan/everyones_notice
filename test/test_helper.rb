@@ -2,6 +2,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'capybara/rails'
+require 'capybara/email'
 require 'capybara/poltergeist'
 require 'minitest/reporters'
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter.new]
@@ -25,6 +26,7 @@ end
 
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
+  include Capybara::Email::DSL
   OmniAuth.config.test_mode = true
   Capybara.javascript_driver = :poltergeist
   Capybara.current_driver = :poltergeist

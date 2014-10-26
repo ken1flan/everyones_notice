@@ -24,6 +24,8 @@ class InvitationsController < ApplicationController
 
     respond_to do |format|
       if @invitation.save
+        InvitationMailer.invitation_mail(@invitation).deliver
+
         format.html { redirect_to @invitation, notice: 'Invitation was successfully created.' }
         format.json { render :show, status: :created, location: @invitation }
       else
