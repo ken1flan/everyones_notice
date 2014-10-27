@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141026033034) do
+ActiveRecord::Schema.define(version: 20141027000832) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",        limit: 128, null: false
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 20141026033034) do
     t.integer  "user_id"
     t.string   "token"
     t.datetime "expired_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "nickname"
+    t.integer  "club_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

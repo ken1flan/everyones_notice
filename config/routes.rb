@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :users
+
   resources :invitations, except: [:edit, :update]
 
   # The priority is based upon order of creation: first created -> highest priority.
