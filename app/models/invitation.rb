@@ -1,12 +1,18 @@
 class Invitation < ActiveRecord::Base
   EXPIRATION_PERIOD = 3.days
 
-  before_save :generate_token
+  before_create :generate_token
 
   def generate_token
     begin
       self.token = SecureRandom.urlsafe_base64
     end while Invitation.exists?(token: self.token)
     self.expired_at = EXPIRATION_PERIOD.ago
+  end
+
+  def expired?
+    puts self.expired_at
+    puts Time.zone.now
+    self.expired_at < Time.zone.now
   end
 end

@@ -20,4 +20,28 @@ describe Invitation do
       end
     end
   end
+
+  describe "#expired?" do
+    context "#{Time.zone.now}の招待のとき" do
+      before do
+        @invitation = create( :invitation )
+        @invitation.update_attributes expired_at:Time.zone.now
+      end
+
+      it "falseであること" do
+        @invitation.expired?.must_equal false
+      end
+    end
+
+    context "#{Time.zone.now - 1.second}の招待のとき" do
+      before do
+        @invitation = create( :invitation )
+        @invitation.update_attributes expired_at: (Time.zone.now - 1.second)
+      end
+
+      it "trueであること" do
+        @invitation.expired?.must_equal true
+      end
+    end
+  end
 end
