@@ -11,8 +11,6 @@ class Invitation < ActiveRecord::Base
   end
 
   def expired?
-    puts self.expired_at
-    puts Time.zone.now
     self.expired_at < Time.zone.now
   end
 end
