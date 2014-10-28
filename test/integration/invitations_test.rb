@@ -51,15 +51,11 @@ describe "ユーザを招待する Integration" do
       context "メールを受信したとき" do
         before { open_email @invitation.mail_address }
 
-        context "メールのリンクをクリックしたとき" do
-          it "ユーザ作成ページであること" do
-            # TODO: 書く
-          end
+        it "文面内のユーザ作成用URLでユーザ作成が表示できること" do
+          new_users_path = current_email.text.match(/\/users\/new.*\w/).to_s
+          visit new_users_path
+          current_path.must_equal new_user_path
         end
-      end
-      it "メールにトークンが記述されていること" do
-        open_email(@invitation.mail_address)
-        current_email.text.must_include @invitation.token
       end
 
       context "「一覧」ボタンを押したとき" do

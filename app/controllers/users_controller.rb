@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     @user = User.new
-    @token = Invitation.find_by token: params[:token]
+    @invitation = Invitation.find_by token: params[:token]
+    not_found if @invitation.blank?
   end
 
   # GET /users/1/edit
