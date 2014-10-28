@@ -1,0 +1,29 @@
+<h1>招待の一覧</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>メールアドレス</th>
+      <th>ユーザ</th>
+      <th>期限</th>
+      <th colspan="2"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invitations.each do |invitation| %>
+      <tr>
+        <td><%= invitation.mail_address %></td>
+        <td><%= invitation.user_id %></td>
+        <td><%= invitation.expired_at %></td>
+        <td><%= link_to '参照', invitation, id: "show_#{invitation.id}" %></td>
+        <td><%= link_to '削除', invitation, method: :delete, data: { confirm: 'よろしいですか?' }, id: "delete_#{invitation.id}" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to '新規作成', new_invitation_path %>
+      <th></th>

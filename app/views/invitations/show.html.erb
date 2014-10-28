@@ -1,0 +1,28 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>メールアドレス:</strong>
+  <%= @invitation.mail_address %>
+</p>
+
+<p>
+  <strong>メッセージ:</strong>
+  <%= @invitation.message %>
+</p>
+
+<p>
+  <strong>ユーザ:</strong>
+  <%= @invitation.user_id %>
+</p>
+
+<p>
+  <strong>トークン:</strong>
+  <%= @invitation.token %>
+</p>
+
+<p>
+  <strong>期限:</strong>
+  <%= @invitation.expired_at %>
+</p>
+
+<%= link_to '一覧', invitations_path %>
