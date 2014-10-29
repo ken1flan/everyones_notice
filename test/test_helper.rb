@@ -37,10 +37,12 @@ class ActionDispatch::IntegrationTest
   before do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.start
+    clear_emails
   end
 
   after do
     DatabaseCleaner.clean
+    Capybara.reset_sessions!
   end
 
   register_spec_type(/integration$/i, self)
