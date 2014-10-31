@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027000832) do
+ActiveRecord::Schema.define(version: 20141029033943) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",        limit: 128, null: false
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(version: 20141027000832) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "identities", force: true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
+  add_index "identities", ["user_id"], name: "index_identities_on_user_id", unique: true
 
   create_table "invitations", force: true do |t|
     t.string   "mail_address"
