@@ -15,8 +15,8 @@ describe Invitation do
         @invitation.present?.must_equal true
       end
 
-      it "expired_atが#{Invitation::EXPIRATION_PERIOD.ago}に設定されていること" do
-        @invitation.expired_at.must_equal Invitation::EXPIRATION_PERIOD.ago
+      it "expired_atが#{Invitation::EXPIRATION_PERIOD.since}に設定されていること" do
+        @invitation.expired_at.must_equal Invitation::EXPIRATION_PERIOD.since
       end
     end
   end
