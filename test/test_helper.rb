@@ -42,6 +42,7 @@ class ActionDispatch::IntegrationTest
 
   after do
     DatabaseCleaner.clean
+    Capybara.reset_sessions!
   end
 
   register_spec_type(/integration$/i, self)

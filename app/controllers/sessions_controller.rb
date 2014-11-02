@@ -2,7 +2,7 @@ class SessionsController < ApplicationController
   def create
     if params[:new_user]
       @invitation = Invitation.find_by(token: params[:token])
-      error404 if @invitation.blank? || @invitation.expired? || @invitation.user_id.present?
+      not_found if @invitation.blank? || @invitation.expired? || @invitation.user_id.present?
 
       @user = User.create_with_auth(auth_hash)
       @invitation.update_attributes(user_id: @user.id)

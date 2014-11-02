@@ -6,7 +6,7 @@ FactoryGirl.define do
       "hoge_#{n}@fuga.com"
     end
     message "MyText"
-    user_id 1
+    user_id nil
     token "MyString"
     expired_at "2014-10-26 12:30:34"
   end
