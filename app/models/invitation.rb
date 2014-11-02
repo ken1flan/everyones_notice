@@ -7,7 +7,7 @@ class Invitation < ActiveRecord::Base
     begin
       self.token = SecureRandom.urlsafe_base64
     end while Invitation.exists?(token: self.token)
-    self.expired_at = EXPIRATION_PERIOD.ago
+    self.expired_at = EXPIRATION_PERIOD.since
   end
 
   def expired?

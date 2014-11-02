@@ -1,12 +1,18 @@
 class SessionsController < ApplicationController
   def create
     if params[:new_user]
+      @invitation = Invitation.find_by(token: params[:token])
+      error404 if @invitation.blank? || @invitation.expired? || @invitation.user_id.present?
+
       @user = User.create_with_auth(auth_hash)
-      self.current_user = @user
-      redirect_to edit_user(@user)
+      @invitation.update_attributes(user_id: @user.id)
+
+      session[:user_id] = @user.id
+      redirect_to edit_user_path(@user)
     else
       @user = User.find_from(auth_hash)
-      self.current_user = @user
+      not_found if @user.blank?
+      session[:user_id] = @user.id
       redirect_to '/'
     end
   end

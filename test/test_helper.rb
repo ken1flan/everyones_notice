@@ -37,6 +37,7 @@ class ActionDispatch::IntegrationTest
   before do
     DatabaseCleaner.strategy = :truncation
     DatabaseCleaner.start
+    clear_emails
   end
 
   after do
