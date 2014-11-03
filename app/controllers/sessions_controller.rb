@@ -1,11 +1,9 @@
 class SessionsController < ApplicationController
   def create
     if params[:new_user]
-      @invitation = Invitation.find_by(token: params[:token])
-      not_found if @invitation.blank? || @invitation.expired? || @invitation.user_id.present?
+      not_found if Invitation.invalid_token? params[:token]
 
-      @user = User.create_with_auth(auth_hash)
-      @invitation.update_attributes(user_id: @user.id)
+      @user = User.create_with_identity(auth_hash, params[:token])
 
       session[:user_id] = @user.id
       redirect_to edit_user_path(@user)
@@ -13,8 +11,13 @@ class SessionsController < ApplicationController
       @user = User.find_from(auth_hash)
       not_found if @user.blank?
       session[:user_id] = @user.id
-      redirect_to '/'
+      redirect_to "/"
     end
+  end
+
+  def destroy
+    session[:user_id] = nil
+    redirect_to "/", notice: "ログアウトしました"
   end
 
   protected

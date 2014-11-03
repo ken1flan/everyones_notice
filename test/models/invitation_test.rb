@@ -44,4 +44,87 @@ describe Invitation do
       end
     end
   end
+
+  describe "#user_registered?" do
+    context "user_id = nilのとき" do
+      before do
+        @invitation = create( :invitation, user_id: nil )
+      end
+
+      it "falseであること" do
+        @invitation.user_registered?.must_equal false
+      end
+    end
+
+    context "user_id = 1のとき" do
+      before do
+        @invitation = create( :invitation, user_id: 1 )
+      end
+
+      it "trueであること" do
+        @invitation.user_registered?.must_equal true
+      end
+    end
+  end
+
+  describe ".invalid_token? / .valid_token?" do
+    before do
+      @token = "testtoken"
+    end
+
+    context "Invitationが1件もないとき" do
+      it ".invalid_token? = true / .valid_token? = falseであること" do
+        Invitation.invalid_token?(@token).must_equal true
+        Invitation.valid_token?(@token).must_equal   false
+      end
+    end
+
+    context "指定されたtokenのInvitationがないとき" do
+      before do
+        create_list(:invitation, 10)
+      end
+
+      it ".invalid_token? = true / .valid_token? = falseであること" do
+        Invitation.invalid_token?(@token).must_equal true
+        Invitation.valid_token?(@token).must_equal   false
+      end
+    end
+
+
+    context "指定されたtokenのInvitationがexpired_at = 昨日のとき" do
+      before do
+        @invitation = create(:invitation)
+        @invitation.update_attributes(expired_at: 1.day.ago)
+      end
+
+      it ".invalid_token? = true / .valid_token? = falseであること" do
+        Invitation.invalid_token?(@invitation.token).must_equal true
+        Invitation.valid_token?(@invitation.token).must_equal   false
+      end
+    end
+
+    context "指定されたtokenのInvitationがuser_id = 1のとき" do
+      before do
+        @invitation = create(:invitation, user_id: 1)
+      end
+
+      it ".invalid_token? = true / .valid_token? = falseであること" do
+        Invitation.invalid_token?(@invitation.token).must_equal true
+        Invitation.valid_token?(@invitation.token).must_equal   false
+      end
+    end
+
+    context "指定されたtokenのInvitationがuser_id = nil, expired_at = 明日のとき" do
+      before do
+        @invitation = create(:invitation, user_id: nil)
+        @invitation.update_attributes(expired_at: 1.day.since)
+      end
+
+      it ".invalid_token? = false / .valid_token? = trueであること" do
+        Invitation.invalid_token?(@invitation.token).must_equal false
+        Invitation.valid_token?(@invitation.token).must_equal   true
+      end
+    end
+  end
+
 end

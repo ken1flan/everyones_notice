@@ -9,6 +9,7 @@
 <body>
 <% if current_user.present? %>
   <%= current_user.nickname %>
+  <%= link_to "ログアウト", signout_path %>
 <% else %>
   <%= link_to "twitterログイン", "/auth/twitter" %>
 <% end %>

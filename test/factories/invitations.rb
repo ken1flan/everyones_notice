@@ -8,6 +8,12 @@ FactoryGirl.define do
     message "MyText"
     user_id nil
     token "MyString"
-    expired_at "2014-10-26 12:30:34"
+    expired_at { Invitation::EXPIRATION_PERIOD.since }
+    
+    trait :user_registered do
+      user_id 1
+    end
+
+    factory :user_registered_invitation, traits: [ :user_registered ]
   end
 end
