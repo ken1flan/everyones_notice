@@ -49,12 +49,33 @@ describe "ユーザを招待する Integration" do
       end
 
       context "メールを受信したとき" do
-        before { open_email @invitation.mail_address }
+        before do
+          open_email @invitation.mail_address
+          @new_users_path = current_email.text.match(/\/users\/new.*\w/).to_s
+        end
 
         it "文面内のユーザ作成用URLでユーザ作成が表示できること" do
-          new_users_path = current_email.text.match(/\/users\/new.*\w/).to_s
-          visit new_users_path
+          visit @new_users_path
           current_path.must_equal new_user_path
+        end
+
+        context "メール内のユーザ作成リンクをクリックしたとき" do
+          before do
+            visit @new_users_path
+          end
+
+          context "「twitterアカウントで登録する」リンクをクリックしたとき" do
+            before do
+              @uid = rand(1000) + 1
+              @nickname = "nickname_#{@uid}"
+              set_auth_mock(:twitter, @uid, @nickname)
+              click_link "twitterアカウントで登録する"
+            end
+
+            it "ニックネームが表示されていること" do
+              page.text.must_include @nickname
+            end
+          end
         end
       end
 
