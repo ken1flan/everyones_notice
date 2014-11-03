@@ -3,6 +3,11 @@ class User < ActiveRecord::Base
   has_one :invitation
 
   def self.create_with_identity(auth, token)
+    invitation = Invitation.find_by(token: token)
+    if invitation.blank?
+      raise ActiveRecord::RecordNotFound.new('Invitation Not Found') 
+    end
+
     user = create!(nickname: auth[:info][:nickname])
     identity = Identity.create!({
       user_id: user.id,
@@ -10,7 +15,6 @@ class User < ActiveRecord::Base
       uid: auth[:uid]
     })
 
-    invitation = Invitation.find_by(token: token)
     invitation.update_attributes(user_id: user.id)
 
     user
@@ -20,5 +24,9 @@ class User < ActiveRecord::Base
     user = User.joins(:identities).
       merge(Identity.where(provider: auth[:provider], uid: auth[:uid])).
       first
+    if user.blank?
+      raise ActiveRecord::RecordNotFound.new('User Not Found') 
+    end
+    user
   end
 end
