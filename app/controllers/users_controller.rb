@@ -15,6 +15,8 @@ class UsersController < ApplicationController
   # GET /users/new
   def new
     not_found if Invitation.invalid_token? params[:token]
+    session[:new_user] = true
+    session[:token] = params[:token]
   end
 
   # GET /users/1/edit

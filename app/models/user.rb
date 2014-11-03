@@ -8,7 +8,9 @@ class User < ActiveRecord::Base
       raise ActiveRecord::RecordNotFound.new('Invitation Not Found') 
     end
 
-    user = create!(nickname: auth[:info][:nickname])
+    nickname = auth[:info][:nickname]
+    nickname ||= auth[:info][:name]
+    user = create!(nickname: nickname)
     identity = Identity.create!({
       user_id: user.id,
       provider: auth[:provider],

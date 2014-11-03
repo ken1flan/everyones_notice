@@ -1,5 +1,5 @@
 <h1>ユーザ登録</h1>
 
-<%#= link_to "googleアカウントで登録する", "#" %>
-<%#= link_to "facebookアカウントで登録する", "#" %>
-<%= link_to "twitterアカウントで登録する", "/auth/twitter?new_user=true&token=#{params[:token]}" %><br>
+<%= link_to "googleアカウントで登録する", "/auth/google_oauth2" %>
+<%= link_to "facebookアカウントで登録する", "/auth/facebook" %>
+<%= link_to "twitterアカウントで登録する", "/auth/twitter" %><br>
