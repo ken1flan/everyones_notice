@@ -21,6 +21,9 @@ class InvitationsController < ApplicationController
   # POST /invitations.json
   def create
     @invitation = Invitation.new(invitation_params)
+    
+    # TODO: 現在のユーザのclub.idを設定する
+    @invitation.club_id = 1
 
     respond_to do |format|
       if @invitation.save
