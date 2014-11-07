@@ -11,7 +11,9 @@
   <%= current_user.nickname %>
   <%= link_to "ログアウト", signout_path %>
 <% else %>
+  <%= link_to "googleログイン", "/auth/google_oauth2" %>
   <%= link_to "twitterログイン", "/auth/twitter" %>
+  <%= link_to "facebookログイン", "/auth/facebook" %>
 <% end %>
 
 <%= yield %>
