@@ -33,20 +33,25 @@ ActiveRecord::Schema.define(version: 20141029033943) do
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", unique: true
 
   create_table "invitations", force: true do |t|
-    t.string   "mail_address"
+    t.string   "mail_address",                 null: false
     t.text     "message"
+    t.integer  "club_id",                      null: false
     t.integer  "user_id"
-    t.string   "token"
-    t.datetime "expired_at"
+    t.boolean  "admin",        default: false, null: false
+    t.string   "token",                        null: false
+    t.datetime "expired_at",                   null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
     t.string   "nickname"
-    t.integer  "club_id"
+    t.integer  "club_id",    default: 1,     null: false
+    t.boolean  "admin",      default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["club_id"], name: "index_users_on_club_id"
 
 end
