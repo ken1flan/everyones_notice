@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :require_login
-  helper_method :current_user
+  helper_method :current_user, :markdown_to_html
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
@@ -15,5 +15,13 @@ class ApplicationController < ActionController::Base
 
   def require_login
     redirect_to login_path unless current_user
+  end
+
+  def markdown_to_html(markdown_text)
+    @markdown ||= Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML.new(hard_wrap: true),
+      autolink: true
+    )
+    @markdown.render markdown_text
   end
 end

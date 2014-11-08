@@ -8,8 +8,8 @@ def create_user_and_identity(provider)
   user
 end
 
-def login
-  user = create_user_and_identity("twitter")
+def login(user = nil)
+  user ||= create_user_and_identity("twitter")
   set_auth_mock("twitter", user.identities.first.uid, user.nickname)
   visit "/auth/twitter"
 end
