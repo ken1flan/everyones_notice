@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_filter :require_login
+
   def create
     if session[:new_user]
       not_found if Invitation.invalid_token? session[:token]

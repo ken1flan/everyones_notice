@@ -3,7 +3,7 @@
 FactoryGirl.define do
   factory :identity do
     user_id 1
-    provider "MyString"
-    uid "MyString"
+    provider "twitter"
+    uid { "uid#{rand(10000)}" }
   end
 end
