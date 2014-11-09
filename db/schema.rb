@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029033943) do
+ActiveRecord::Schema.define(version: 20141108120727) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",        limit: 128, null: false
@@ -43,6 +43,19 @@ ActiveRecord::Schema.define(version: 20141029033943) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "notices", force: true do |t|
+    t.string   "title",                    null: false
+    t.text     "body"
+    t.integer  "user_id",                  null: false
+    t.datetime "published_at"
+    t.integer  "status",       default: 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "notices", ["published_at"], name: "index_notices_on_published_at"
+  add_index "notices", ["user_id"], name: "index_notices_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "nickname"

@@ -178,6 +178,7 @@ GEM
     rake (10.3.2)
     rdoc (4.1.2)
       json (~> 1.4)
+    redcarpet (3.2.0)
     ref (1.0.5)
     ruby-progressbar (1.6.0)
     sass (3.2.19)
@@ -251,6 +252,7 @@ DEPENDENCIES
   pry-rails
   rails (= 4.1.6)
   rails-footnotes (>= 4.0.0, < 5)
+  redcarpet
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   spring

@@ -14,6 +14,7 @@ gem "sdoc", "~> 0.4.0", group: :doc
 # gem "twitter-bootstrap-rails"   # 楽ちん部品
 gem "zurui-sass-rails"          # ズルいデザイン
 gem "kaminari"                  # ページング
+gem "redcarpet"                 # マークダウン
 
 gem "omniauth"                  # OAuth
 gem "omniauth-facebook"         # OAuth for facebook

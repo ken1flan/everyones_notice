@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :notices
+
   root "top#index"
   resource :login, only: [:show]
   resources :users
