@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   has_many :identities, dependent: :destroy
   has_many :notices
+  has_many :replies
   has_one :invitation
 
   def self.create_with_identity(auth, token)
