@@ -15,10 +15,22 @@
 #
 
 class User < ActiveRecord::Base
+  belongs_to :club
   has_many :identities, dependent: :destroy
   has_many :notices
   has_many :replies
   has_one :invitation
+
+  def activities_for_heatmap(
+    start_date = 5.month.ago.beginning_of_month,
+    end_date = Time.zone.now)
+
+    notices.where(created_at: [start_date..end_date]).
+      select("created_at").
+      map {|n| n.created_at.to_i }.
+      inject(Hash.new(0)){|h, tm| h[tm] += 1; h}.
+      to_json
+  end
 
   def self.create_with_identity(auth, token)
     invitation = Invitation.find_by(token: token)
