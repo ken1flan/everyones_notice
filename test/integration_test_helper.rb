@@ -12,4 +12,5 @@ def login(user = nil)
   user ||= create_user_and_identity("twitter")
   set_auth_mock("twitter", user.identities.first.uid, user.nickname)
   visit "/auth/twitter"
+  user
 end

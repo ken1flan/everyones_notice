@@ -25,5 +25,6 @@
   <%= @notice.status %>
 </p>
 
-<%= link_to 'Edit', edit_notice_path(@notice) %> |
-<%= link_to 'Back', notices_path %>
+<%= link_to 'Edit', edit_notice_path(@notice) if @notice.user_id == current_user.id%> |
+<%= link_to 'Back', notices_path %> |
+<%= link_to 'Reply', new_notice_reply_path(@notice) %>

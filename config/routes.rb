@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :notices
+
+  resources :notices do
+    resources :replies
+  end
 
   root "top#index"
   resource :login, only: [:show]
