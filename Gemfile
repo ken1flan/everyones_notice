@@ -15,6 +15,7 @@ gem "sdoc", "~> 0.4.0", group: :doc
 gem "zurui-sass-rails"          # ズルいデザイン
 gem "kaminari"                  # ページング
 gem "redcarpet"                 # マークダウン
+gem "active_decorator"          # デコレータ
 
 gem "omniauth"                  # OAuth
 gem "omniauth-facebook"         # OAuth for facebook
