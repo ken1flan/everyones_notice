@@ -1,22 +1,18 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>EveryonesNotice</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-<% if current_user.present? %>
-  <%= current_user.nickname %>
-  <%= link_to "ログアウト", signout_path %>
-<% else %>
-  <%= link_to "googleログイン", "/auth/google_oauth2" %>
-  <%= link_to "twitterログイン", "/auth/twitter" %>
-  <%= link_to "facebookログイン", "/auth/facebook" %>
-<% end %>
-
-<%= yield %>
-
-</body>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>EveryonesNotice</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render "shared/navigation" %>
+    <div class="container">
+      <%= render 'shared/flash' %>
+      <%= yield %>
+    </div>
+  </body>
 </html>

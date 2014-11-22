@@ -1,1 +1,70 @@
-top
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        あなたの活動
+      </div>
+      <div class="panel-body">
+        <div id="current_user_activity_map"></div>
+        <script type="text/javascript">
+          var startDate = new Date();
+          startDate.setMonth(startDate.getMonth() - 5);
+    
+          var cal = new CalHeatMap();
+          cal.init({
+            itemSelector: "#current_user_activity_map",
+            data: "/current_user_activities",
+            domain: "month",
+            subDomain: "day",
+            range: 6,
+            start: startDate,
+           });
+        </script>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        みんなの活動
+      </div>
+      <div class="panel-body">
+        <div id="current_club_activity_map"></div>
+        <script type="text/javascript">
+          var startDate = new Date();
+          startDate.setMonth(startDate.getMonth() - 5);
+    
+          var cal = new CalHeatMap();
+          cal.init({
+            itemSelector: "#current_club_activity_map",
+            data: "/current_club_activities",
+            domain: "month",
+            subDomain: "day",
+            range: 6,
+            start: startDate,
+           });
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= link_to "みんなのきづき", notices_path %>の最新5件
+      </div>
+      <div class="panel-body">
+        <% if @notices.blank? %>
+          まだありません
+        <% else %>
+          <% @notices.each do |notice| %>
+            <%= link_to notice_path(notice) do %>
+              <%= notice.created_at.to_date %> | <%= notice.user.nickname %>さんが「<%= notice.title %>」を書きました<br>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+source 'https://rails-assets.org'
 
 gem "rails", "4.1.6"
 gem "sqlite3"
@@ -11,7 +12,6 @@ gem "turbolinks"
 gem "jbuilder", "~> 2.0"
 gem "sdoc", "~> 0.4.0", group: :doc
 
-# gem "twitter-bootstrap-rails"   # 楽ちん部品
 gem "zurui-sass-rails"          # ズルいデザイン
 gem "kaminari"                  # ページング
 gem "redcarpet"                 # マークダウン
@@ -20,6 +20,9 @@ gem "omniauth"                  # OAuth
 gem "omniauth-facebook"         # OAuth for facebook
 gem "omniauth-twitter"          # OAuth for twitter
 gem "omniauth-google-oauth2"    # OAuth for google
+
+gem "rails-assets-bootstrap"    # 楽ちん部品
+gem "rails-assets-cal-heatmap"  # カレンダー型ヒートマップ
 
 group :development do
   gem "spring"

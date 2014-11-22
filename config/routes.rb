@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   end
 
   root "top#index"
+  get "current_user_activities", to: "top#current_user_activities"
+  get "current_club_activities", to: "top#current_club_activities"
   resource :login, only: [:show]
   resources :users
   resources :invitations, except: [:edit, :update]
