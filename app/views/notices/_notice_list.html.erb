@@ -1,25 +1,7 @@
 <div class="row" id="notice_list">
   <% notices.each do |notice| %>
-    <div class="col-md-12">
-      <div class="panel panel-default" id="notice_row_#{notice.id}">
-        <div class="panel-heading">
-          <strong><%= link_to notice.title, notice_path(notice) %></strong>
-          <span class="pull-right">
-            <%= notice.user.nickname %>
-          </span>
-        </div>
-        <div class="panel-body">
-          <%= raw markdown_to_html(notice.body) %>
-          <br><span class="pull-right"><%= notice.created_at_string %></span>
-        </div>
-        <div class="panel-footer">
-          いいね数：999
-          返信数：<%= notice.replies.count %>
-          <span class="pull-right">
-            <%= link_to '編集', edit_notice_path(notice) %>
-          </span>
-        </div>
-      </div>
+    <div class="col-md-12" id="notice_row_#{notice.id}">
+      <%= render "notices/detail", notice: notice %>
     </div>
   <% end %>
 </div>
