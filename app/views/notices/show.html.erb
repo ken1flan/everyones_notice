@@ -1,29 +1,8 @@
-<p id="notice"><%= notice %></p>
+<%= render "notices/detail", notice: @notice %>
 
-<p>
-  <strong>Title:</strong>
-  <%= @notice.title %>
-</p>
-
-<p>
-  <strong>Body:</strong>
-  <%= raw markdown_to_html(@notice.body) %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @notice.user_id %>
-</p>
-
-<p>
-  <strong>Published at:</strong>
-  <%= @notice.published_at %>
-</p>
-
-<p>
-  <strong>Status:</strong>
-  <%= @notice.status %>
-</p>
+<% @notice.replies.each do |reply| %>
+  <%= render "replies/detail", notice: @notice, reply: reply %>
+<% end %>
 
 <%= link_to 'Edit', edit_notice_path(@notice) if @notice.user_id == current_user.id%> |
 <%= link_to 'Back', notices_path %> |

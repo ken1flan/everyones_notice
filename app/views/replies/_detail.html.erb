@@ -1,0 +1,15 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= reply.user.nickname %>さんの返信
+  </div>
+  <div class="panel-body">
+    <%= raw markdown_to_html(reply.body) %>
+    <br><span class="pull-right"><%= reply.created_at %></span>
+  </div>
+  <div class="panel-footer">
+    いいね数：999
+    <span class="pull-right">
+      <%= link_to '編集', edit_notice_reply_path(notice, reply) if reply.user_id == current_user.id %>
+    </span>
+  </div>
+</div>
