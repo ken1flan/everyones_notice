@@ -18,6 +18,12 @@
 #
 
 class Notice < ActiveRecord::Base
+  attr_accessible :title, :body, :user_id, :published_at, :status
+
   belongs_to :user
   has_many :replies
+  has_reputation :likes, source: :user, aggregated_by: :sum
+  has_reputation :opened, source: :user, aggregated_by: :sum
+  include Liked
+  include Opened
 end

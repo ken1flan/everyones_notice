@@ -15,6 +15,7 @@
 #
 
 class User < ActiveRecord::Base
+  attr_accessible :nickname, :club_id, :admin
   belongs_to :club
   has_many :identities, dependent: :destroy
   has_many :notices

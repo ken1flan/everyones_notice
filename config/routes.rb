@@ -1,12 +1,22 @@
 Rails.application.routes.draw do
 
   resources :notices do
+    member do
+      get "opened"
+      get "not_opened"
+    end
     resources :replies
+  end
+
+  resource :reputation, only: [] do
+    get 'notice/:id/:up_down' => 'reputation#notice'
+    get 'reply/:id/:up_down' => 'reputation#reply'
   end
 
   root "top#index"
   get "current_user_activities", to: "top#current_user_activities"
   get "current_club_activities", to: "top#current_club_activities"
+
   resource :login, only: [:show]
   resources :users
   resources :invitations, except: [:edit, :update]

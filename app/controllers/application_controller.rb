@@ -3,10 +3,14 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :require_login
-  helper_method :current_user, :markdown_to_html
+  helper_method :user_signed_in?, :current_user, :markdown_to_html
 
   def not_found
     raise ActionController::RoutingError.new('Not Found')
+  end
+
+  def user_signed_in?
+    current_user.present?
   end
 
   def current_user
