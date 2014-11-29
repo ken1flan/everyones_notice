@@ -16,6 +16,7 @@
 #
 
 class Identity < ActiveRecord::Base
+  attr_accessible :user_id, :provider, :uid
   belongs_to :user
 
   PROVIDERS = %w(twitter google_oauth2 facebook)

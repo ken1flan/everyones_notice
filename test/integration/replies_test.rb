@@ -138,4 +138,39 @@ describe "返信 Integration" do
       end
     end
   end
+
+  describe "いいね" do
+    before do
+      @notice = create(:notice)
+      @reply = create(:reply, notice: @notice)
+      @user = create_user_and_identity("twitter")
+      login @user
+    end
+
+    context "きづき詳細ページを訪れたとき" do
+      before { visit notice_path(@notice) }
+
+      context "「いいね」を押したとき" do
+        before do
+          click_button "like_reply_#{@reply.id}"
+          sleep 1
+        end
+
+        it "ボタンの数値が1になること" do
+          find(:css, "#like_reply_#{@reply.id}").text.must_include "1"
+        end
+
+        context "「いいね」を解除したとき" do
+          before do
+            click_button "like_reply_#{@reply.id}"
+            sleep 1
+          end
+
+          it "ボタンの数値が0になること" do
+            find(:css, "#like_reply_#{@reply.id}").text.must_include "0"
+          end
+        end
+      end
+    end
+  end
 end

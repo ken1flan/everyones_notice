@@ -24,6 +24,10 @@ end
 class MiniTest::Spec
 end
 
+class ConcernTest < ActiveSupport::TestCase
+  register_spec_type(/concern$/i, self)
+end
+
 class ActionDispatch::IntegrationTest
   include Capybara::DSL
   include Capybara::Email::DSL

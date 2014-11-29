@@ -1,5 +1,5 @@
 class NoticesController < ApplicationController
-  before_action :set_notice, only: [:show, :edit, :update, :destroy]
+  before_action :set_notice, only: [:show, :edit, :update, :destroy, :opened, :not_opened]
 
   # GET /notices
   # GET /notices.json
@@ -65,6 +65,17 @@ class NoticesController < ApplicationController
       format.html { redirect_to notices_url, notice: 'Notice was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def opened
+    @evaluation_value = 1
+    @notice.add_or_update_evaluation(:opened, @evaluation_value, current_user)
+  end
+
+  def not_opened
+    @evaluation_value = 0
+    @notice.add_or_update_evaluation(:opened, @evaluation_value, current_user)
+    render "opened"
   end
 
   private

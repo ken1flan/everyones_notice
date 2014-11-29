@@ -16,8 +16,11 @@
 #
 
 class Reply < ActiveRecord::Base
+  attr_accessible :notice_id, :body, :user_id
   belongs_to :user
   belongs_to :notice
+  has_reputation :likes, source: :user, aggregated_by: :sum
+  include Liked
 
   validates :notice_id,
     presence: true,
