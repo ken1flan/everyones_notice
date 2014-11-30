@@ -29,7 +29,7 @@ describe "返信 Integration" do
             before do
               @reply_org = build(:reply)
               fill_in "reply_body", with: @reply_org.body
-              click_button "Create Reply"
+              click_button "登録する"
             end
 
             context "一覧を訪れたとき" do
@@ -81,7 +81,7 @@ describe "返信 Integration" do
           context "更新して保存したとき" do
             before do
               @reply_new = build(:reply)
-              click_button "Update Reply"
+              click_button "更新する"
             end
 
             context "一覧ページを訪れたとき" do

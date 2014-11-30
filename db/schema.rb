@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124084355) do
+ActiveRecord::Schema.define(version: 20141129140531) do
 
   create_table "clubs", force: true do |t|
     t.string   "name",        limit: 128, null: false
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20141124084355) do
     t.boolean  "admin",      default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "icon_url"
   end
 
   add_index "users", ["club_id"], name: "index_users_on_club_id"

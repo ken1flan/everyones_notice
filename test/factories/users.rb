@@ -8,6 +8,7 @@
 #  admin      :boolean          default(FALSE), not null
 #  created_at :datetime
 #  updated_at :datetime
+#  icon_url   :string(255)
 #
 # Indexes
 #
