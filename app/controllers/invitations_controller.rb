@@ -22,8 +22,7 @@ class InvitationsController < ApplicationController
   def create
     @invitation = Invitation.new(invitation_params)
     
-    # TODO: 現在のユーザのclub.idを設定する
-    @invitation.club_id = 1
+    @invitation.club_id = current_user.club_id
 
     respond_to do |format|
       if @invitation.save

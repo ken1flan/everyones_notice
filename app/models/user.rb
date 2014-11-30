@@ -8,6 +8,7 @@
 #  admin      :boolean          default(FALSE), not null
 #  created_at :datetime
 #  updated_at :datetime
+#  icon_url   :string(255)
 #
 # Indexes
 #
@@ -15,7 +16,7 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :nickname, :club_id, :admin
+  attr_accessible :nickname, :icon_url, :club_id, :admin
   belongs_to :club
   has_many :identities, dependent: :destroy
   has_many :notices
@@ -41,7 +42,8 @@ class User < ActiveRecord::Base
 
     nickname = auth[:info][:nickname]
     nickname ||= auth[:info][:name]
-    user = create!(nickname: nickname)
+    icon_url = auth[:info][:image]
+    user = create!(nickname: nickname, club_id: invitation.club_id, icon_url: icon_url)
     identity = Identity.create!({
       user_id: user.id,
       provider: auth[:provider],

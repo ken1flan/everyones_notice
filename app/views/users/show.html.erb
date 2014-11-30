@@ -1,14 +1,30 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>Nickname:</strong>
-  <%= @user.nickname %>
-</p>
-
-<p>
-  <strong>Club:</strong>
-  <%= @user.club_id %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="row">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <div class="media">
+          <a class="pull-left" href="#">
+            <%= image_tag @user.icon_url, alt: @user.nickname, class: "img-rounded", size: "64x64" %>
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading"><%= @user.nickname %></h4>
+            <strong>Club:</strong>
+            <%= @user.club.name %>
+          </div>
+        </div>
+      </div>
+      <% if @user == current_user %>
+        <div class="panel-footer">
+          <%= link_to "編集", edit_user_path(@user), class: "btn btn-info" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<br>
+<div class="row">
+  <div class="col-md-12">
+    <%= link_to "一覧", users_path, class: "btn btn-default" %>
+    <%= history_back_button %>
+  </div>
+</div>

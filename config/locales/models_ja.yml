@@ -1,0 +1,18 @@
+ja:
+  activerecord:
+    models:
+      invitation: 招待
+      user: ユーザ
+      identity: 識別情報
+      club: クラブ
+      notice: きづき
+      reply: 返信
+
+    attributes:
+      user:
+        nickname: ニックネーム
+        icon_url: アイコンURL
+        club_id: クラブ
+        admin: 管理者フラグ
+        created_at: 作成日時
+        updated_at: 更新日時
