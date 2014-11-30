@@ -52,3 +52,8 @@ group :test do
   gem "database_cleaner"                  # テスト時にdbのクリーンアップする方法を選択しやすくする。
   gem "timecop"                           # 時間を止めたり、変えたりする。
 end
+
+group :production do
+  gem 'pg'                                # heroku用
+  gem 'rails_12factor'                    # heroku用
+end
