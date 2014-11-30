@@ -2,7 +2,6 @@ source "https://rubygems.org"
 source 'https://rails-assets.org'
 
 gem "rails", "4.1.6"
-gem "sqlite3"
 gem "sass-rails", "~> 4.0.3"
 gem "uglifier", ">= 1.3.0"
 gem "coffee-rails", "~> 4.0.0"
@@ -36,6 +35,7 @@ group :development do
 end
 
 group :development, :test do
+  gem "sqlite3"                           # 開発とテスト環境はとりあえずsqlite
   gem "pry-rails"                         # rails console でpryが使える
   gem "pry-doc"                           # クラスやメソッドのドキュメントやソースを参照
   gem "pry-byebug"                        # binding.pryでデバッガ起動
