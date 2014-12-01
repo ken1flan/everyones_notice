@@ -28,10 +28,9 @@
       <span class="value"><%= notice.open_number %><span>
     </button>
 
-    いいね数：999
-    返信数：<%= notice.replies.count %>
+    <%= link_to "返信数：#{ notice.replies.count }", new_notice_reply_path(notice), class: "btn btn-default" %>
     <span class="pull-right">
-      <%= link_to '編集', edit_notice_path(notice)  if notice.user_id == current_user.id %>
+      <%= link_to '編集', edit_notice_path(notice), class: "btn btn-primary"  if notice.user_id == current_user.id %>
     </span>
   </div>
 </div>

@@ -1,6 +1,8 @@
-<h1>Editing notice</h1>
+<h1>きづきの編集中</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @notice %> |
-<%= link_to 'Back', notices_path %>
+<ol class="breadcrumb">
+  <li><%= link_to '参照', @notice %></li>
+  <li><%= link_to '一覧', notices_path %></li>
+</ol>
