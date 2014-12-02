@@ -4,6 +4,7 @@
   <%= render "replies/detail", notice: @notice, reply: reply %>
 <% end %>
 
-<%= link_to 'Edit', edit_notice_path(@notice) if @notice.user_id == current_user.id%> |
-<%= link_to 'Back', notices_path %> |
-<%= link_to 'Reply', new_notice_reply_path(@notice) %>
+<ol class="breadcrumb">
+  <li><%= link_to '参照', @notice %></li>
+  <li><%= link_to '一覧', notices_path %></li>
+</ol>

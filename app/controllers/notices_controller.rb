@@ -28,6 +28,7 @@ class NoticesController < ApplicationController
   # POST /notices.json
   def create
     @notice = Notice.new(notice_params)
+    @notice.published_at = Time.zone.now if params[:publish].present?
     @notice.user = current_user
 
     respond_to do |format|
@@ -46,8 +47,11 @@ class NoticesController < ApplicationController
   def update
     not_found unless @notice.user == current_user
 
+    @notice.attributes = notice_params
+    @notice.published_at = Time.zone.now if params[:publish].present?
+
     respond_to do |format|
-      if @notice.update(notice_params)
+      if @notice.save
         format.html { redirect_to @notice, notice: 'Notice was successfully updated.' }
         format.json { render :show, status: :ok, location: @notice }
       else
