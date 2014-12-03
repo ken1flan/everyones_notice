@@ -1,6 +1,7 @@
 <%= render 'form' %>
   
-<ol class="breadcrumb">
-  <li><%= link_to '参照', @user %></li>
-  <li><%= link_to '一覧', users_path %></li>
-</ol>
+<% @breadcrumb = [
+  [@user.nickname, user_path(@user)],
+  ["ユーザ一覧", users_path]
+]
+%>
