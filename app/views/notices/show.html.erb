@@ -4,7 +4,8 @@
   <%= render "replies/detail", notice: @notice, reply: reply %>
 <% end %>
 
-<ol class="breadcrumb">
-  <li><%= link_to '参照', @notice %></li>
-  <li><%= link_to '一覧', notices_path %></li>
-</ol>
+<% @breadcrumb = [
+  [@notice.title, notice_path(@notice)],
+  ["きづき一覧", notices_path]
+]
+%>

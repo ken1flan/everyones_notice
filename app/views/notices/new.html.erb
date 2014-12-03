@@ -2,6 +2,7 @@
 
 <%= render 'form' %>
 
-<ol class="breadcrumb">
-  <li><%= link_to '一覧', notices_path %></li>
-</ol>
+<% @breadcrumb = [
+  ["きづき一覧", notices_path]
+]
+%>
