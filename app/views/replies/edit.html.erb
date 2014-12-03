@@ -1,6 +1,8 @@
-<h1>Editing reply</h1>
+<h1>返信の編集</h1>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', [@notice, @reply] %> |
-<%= link_to 'Back', notice_replies_path(@notice) %>
+<ol class="breadcrumb">
+  <li><%= link_to @notice.title, notice_path(@notice) %></li>
+  <li><%= link_to "きづき一覧", notices_path %></li>
+</ol>
