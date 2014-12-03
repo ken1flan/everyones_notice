@@ -16,10 +16,8 @@
       <span class="value"><%= reply.like_number %><span>
     </button>
 
-
-    いいね数：999
     <span class="pull-right">
-      <%= link_to '編集', edit_notice_reply_path(notice, reply) if reply.user_id == current_user.id %>
+      <%= link_to '編集', edit_notice_reply_path(notice, reply), class: "btn btn-primary" if reply.user_id == current_user.id %>
     </span>
   </div>
 </div>
