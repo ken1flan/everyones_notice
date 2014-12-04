@@ -81,6 +81,7 @@ describe "返信 Integration" do
           context "更新して保存したとき" do
             before do
               @reply_new = build(:reply)
+              fill_in "reply_body", with: @reply_new.body
               click_button "更新する"
             end
 
@@ -93,8 +94,8 @@ describe "返信 Integration" do
               end
             end
 
-            context "詳細ページを訪れたとき" do
-              before { visit notice_reply_path(@notice, @reply) }
+            context "きづきの詳細ページを訪れたとき" do
+              before { visit notice_path(@notice) }
 
               it "表示されていること" do
                 page.text.must_include @reply_new.body

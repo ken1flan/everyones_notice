@@ -26,4 +26,14 @@ class Notice < ActiveRecord::Base
   has_reputation :opened, source: :user, aggregated_by: :sum
   include Liked
   include Opened
+
+  scope :displayable, -> { where.not(published_at: nil) }
+
+  def published?
+    self.published_at.present?
+  end
+
+  def draft?
+    self.published_at.blank?
+  end
 end

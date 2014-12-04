@@ -1,30 +1,17 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <div class="media">
-          <a class="pull-left" href="#">
-            <%= image_tag @user.icon_url, alt: @user.nickname, class: "img-rounded", size: "64x64" %>
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading"><%= @user.nickname %></h4>
-            <strong>Club:</strong>
-            <%= @user.club.name %>
-          </div>
-        </div>
-      </div>
-      <% if @user == current_user %>
-        <div class="panel-footer">
-          <%= link_to "編集", edit_user_path(@user), class: "btn btn-info" %>
-        </div>
-      <% end %>
-    </div>
-  </div>
-</div>
+<% nav_links = [
+  [@user.nickname, user_path(@user), :active],
+  ["きづき", notices_user_path(@user), nil],
+  ["返信", replies_user_path(@user), nil]
+]
+%>
+<%= render "shared/tabs", links: nav_links %>
 <br>
 <div class="row">
   <div class="col-md-12">
-    <%= link_to "一覧", users_path, class: "btn btn-default" %>
-    <%= history_back_button %>
+    <%= render "detail", user: @user %>
+  </div>
+
+  <div class="col-md-12">
+    <%= render "users/activities", user: @user %>
   </div>
 </div>

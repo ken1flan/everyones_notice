@@ -44,4 +44,157 @@ describe "ユーザ管理 Integration" do
       end
     end
   end
+
+  describe "ユーザ詳細ページ" do
+    context "ログインしているとき" do
+      before do
+        @user = create_user_and_identity("twitter")
+        login @user
+      end
+
+      context "自分のユーザ詳細ページを訪れたとき" do
+        before { visit user_path(@user) }
+
+        it "自分の情報が表示されていること" do
+          includes_user_info? page.text, @user
+        end
+
+        it "編集ボタンが表示されていること" do
+          has_link?("編集").must_equal true
+        end
+      end
+
+      context "同じクラブで他のユーザの詳細ページを訪れたとき" do
+        before do
+          @another_user = create(:user, club: @user.club)
+          visit user_path @another_user
+        end
+
+        it "ユーザの情報が表示されていること" do
+          includes_user_info? page.text, @another_user
+        end
+
+        it "編集ボタンが表示されていないこと" do
+          has_link?("編集").must_equal false
+        end
+      end
+    end
+  end
+
+  describe "ユーザのきづき一覧ページ" do
+    context "ユーザAとBがそれぞれ公開済みと下書きのきづきを持っているとき" do
+      before do
+        @club = create(:club)
+        @users = {}
+        @public_notices = {}
+        @draft_notices = {}
+        [:A, :B].each do |i|
+          @users[i] = create_user_and_identity("twitter", @club)
+          @public_notices[i] = create(:notice, user: @users[i])
+          @draft_notices[i] = create(:notice, :draft, user: @users[i])
+        end
+      end
+
+      context "ユーザAがログインしているとき" do
+        before { login @users[:A] }
+
+        context "自分のきづき一覧ページを訪れたとき" do
+          before { visit notices_user_path(@users[:A]) }
+
+          it "自分の公開中と下書きのきづきが表示されていること" do
+            includes_notice_info? page.text, @public_notices[:A]
+            includes_notice_info? page.text, @draft_notices[:A]
+          end
+
+          it "ユーザBの公開中と下書きのきづきは表示されていないこと" do
+            not_includes_notice_info? page.text, @public_notices[:B]
+            not_includes_notice_info? page.text, @draft_notices[:B]
+          end
+        end
+
+        context "ユーザBのきづき一覧ページを訪れたとき" do
+          before { visit notices_user_path(@users[:B]) }
+
+          it "自分の公開中と下書きのきづきが表示されていないこと" do
+            not_includes_notice_info? page.text, @public_notices[:A]
+            not_includes_notice_info? page.text, @draft_notices[:A]
+          end
+
+          it "ユーザBの公開中のきづきは表示されていること" do
+            includes_notice_info? page.text, @public_notices[:B]
+          end
+
+          it "ユーザBの下書きのきづきは表示されていないこと" do
+            not_includes_notice_info? page.text, @draft_notices[:B]
+          end
+        end
+      end
+    end
+  end
+
+  describe "ユーザの返信一覧ページ" do
+    context "ユーザAとBがそれぞれ返信を持っているとき" do
+      before do
+        @club = create(:club)
+        @users = {}
+        @notice_user = create(:user, club: @club)
+        @notice = create(:notice, user: @notice_user)
+        @replies = {}
+        [:A, :B].each do |i|
+          @users[i] = create_user_and_identity("twitter", @club)
+          @replies[i] = create(:reply, user: @users[i], notice: @notice)
+        end
+      end
+
+      context "ユーザAがログインしているとき" do
+        before { login @users[:A] }
+
+        context "自分の返信一覧ページを訪れたとき" do
+          before { visit replies_user_path(@users[:A]) }
+
+          it "自分の返信が表示されていること" do
+            includes_reply_info? page.text, @replies[:A]
+          end
+
+          it "ユーザBの返信は表示されていないこと" do
+            not_includes_reply_info? page.text, @replies[:B]
+          end
+        end
+
+        context "ユーザBの返信一覧ページを訪れたとき" do
+          before { visit replies_user_path(@users[:B]) }
+
+          it "自分の返信が表示されていないこと" do
+            not_includes_reply_info? page.text, @replies[:A]
+          end
+
+          it "ユーザBの返信は表示されていること" do
+            includes_reply_info? page.text, @replies[:B]
+          end
+        end
+      end
+    end
+  end
+
+  def includes_user_info?(text, user)
+    text.must_include user.nickname
+  end
+
+  def includes_notice_info?(text, notice)
+    text.must_include notice.title
+    text.must_include notice.body
+  end
+
+  def not_includes_notice_info?(text, notice)
+    text.wont_include notice.title
+    text.wont_include notice.body
+  end
+
+  def includes_reply_info?(text, reply)
+    text.must_include reply.body
+  end
+
+  def not_includes_reply_info?(text, reply)
+    text.wont_include reply.body
+  end
 end

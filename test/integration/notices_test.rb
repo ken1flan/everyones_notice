@@ -51,7 +51,7 @@ describe "きづき Integration" do
               @notice_new = build(:notice)
               fill_in "notice_title", with: @notice_new.title
               fill_in "notice_body", with: @notice_new.body
-              click_button "公開"
+              click_button "保存"
             end
 
             context "一覧画面を訪れたとき" do

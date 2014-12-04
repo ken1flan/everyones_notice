@@ -22,7 +22,11 @@ FactoryGirl.define do
     title { "title" + ('a'..'z').to_a.sample(26).join }
     body { "body" + ('a'..'z').to_a.sample(26).join }
     user_id 1
-    published_at nil
+    published_at { (rand(10) + 1).days.ago }
     status 1
+
+    trait :draft do
+      published_at nil
+    end
   end
 end

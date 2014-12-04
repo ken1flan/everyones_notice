@@ -18,7 +18,13 @@ Rails.application.routes.draw do
   get "current_club_activities", to: "top#current_club_activities"
 
   resource :login, only: [:show]
-  resources :users
+  resources :users do
+    member do
+      get 'notices'
+      get 'replies'
+      get 'activities'
+    end
+  end
   resources :invitations, except: [:edit, :update]
   get "/auth/:provider/callback", to: "sessions#create"
   get "/signout", to: "sessions#destroy", as: :signout

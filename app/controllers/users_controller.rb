@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_filter :require_login, only: [:new, :create]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, except: [:index, :new, :create]
 
   # GET /users
   # GET /users.json
@@ -62,6 +62,21 @@ class UsersController < ApplicationController
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def notices
+    @notices = Notice.where(user_id: @user.id)
+    unless @user == current_user
+      @notices = @notices.displayable
+    end
+  end
+
+  def replies
+    @replies = Reply.where(user_id: @user.id)
+  end
+
+  def activities
+    render json: @user.activities_for_heatmap
   end
 
   private

@@ -1,0 +1,11 @@
+<% unless replies.present? %>
+  返信はありません。
+<% else %>
+  <div class="row" id="reply_list">
+    <% replies.each do |reply| %>
+      <div class="col-md-12" id="reply_row_#{reply.id}">
+        <%= render "replies/detail", notice: reply.notice, reply: reply %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

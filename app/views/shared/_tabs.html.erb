@@ -1,0 +1,9 @@
+<% if links.present? %>
+  <ul class="nav nav-tabs">
+    <% links.each do |link| %>
+      <li role="presentation" class="<%= link[2] %>">
+      <%= link_to link[0], link[1] %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
