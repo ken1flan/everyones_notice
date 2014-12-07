@@ -1,6 +1,7 @@
 class TopController < ApplicationController
+  PAGE_PAR = 10
+
   def index
-    # TODO: ちゃんと書く
     @notices = Notice.all
   end
 

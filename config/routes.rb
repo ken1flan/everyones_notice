@@ -5,6 +5,11 @@ Rails.application.routes.draw do
       get "opened"
       get "not_opened"
     end
+    collection do
+      get "todays"
+      get "unread"
+      get "watched"
+    end
     resources :replies
   end
 
