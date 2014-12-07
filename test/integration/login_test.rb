@@ -14,7 +14,7 @@ describe "ログイン・ログアウト Integration" do
         before { visit login_path }
 
         context "#{provider_name}ログインをクリックしたとき" do
-          before { click_link "#{provider_name}ログイン" }
+          before { click_link "#{provider_name}" }
 
           it "トップページであること" do
             current_path.must_equal root_path
@@ -45,7 +45,7 @@ describe "ログイン・ログアウト Integration" do
 
           context "ログインしたとき" do
             before do
-              click_link "twitterログイン"
+              click_link "twitter"
             end
 
             it "トップページが表示されること" do
