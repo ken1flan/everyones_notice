@@ -1,0 +1,9 @@
+<% nav_links = [
+  [@user.nickname, user_path(@user), nil],
+  ["きづき", notices_user_path(@user), nil],
+  ["返信", replies_user_path(@user), :active]
+]
+%>
+<%= render "shared/tabs", links: nav_links %>
+<br>
+<%= render "replies/reply_list", replies: @replies %>

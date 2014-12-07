@@ -1,8 +1,11 @@
-<div class="row" id="notice_list">
-  <% notices.each do |notice| %>
-    <div class="col-md-12" id="notice_row_#{notice.id}">
-      <%= render "notices/detail", notice: notice %>
-    </div>
-  <% end %>
-</div>
-
+<% unless notices.present? %>
+  きづきはまだありません。
+<% else %>
+  <div class="row" id="notice_list">
+    <% notices.each do |notice| %>
+      <div class="col-md-12" id="notice_row_#{notice.id}">
+        <%= render "notices/detail", notice: notice %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
