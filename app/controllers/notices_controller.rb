@@ -1,12 +1,16 @@
 class NoticesController < ApplicationController
   before_action :set_notice, only: [:show, :edit, :update, :destroy, :opened, :not_opened]
 
+  PAR_PAGE = 10
+
   # GET /notices
   # GET /notices.json
   def index
     @notices = Notice.
-      order("created_at DESC").
-      page(params[:page])
+      order("published_at DESC").
+      displayable.
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
   end
 
   # GET /notices/1

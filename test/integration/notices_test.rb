@@ -11,21 +11,35 @@ describe "きづき Integration" do
       context "新規作成ページを訪れたとき" do
         before { visit new_notice_path }
 
-        context "タイトルと本文を入力して公開を押したとき" do
+        context "内容を入力したとき" do
           before do
             @notice_org = build :notice
-            fill_in "notice_title", with: @notice_org.title
-            fill_in "notice_body", with: @notice_org.body
-            click_button "公開"
+            input_notice @notice_org
           end
 
-          context "一覧を訪れたとき" do
-            before { visit notices_path }
+          context "公開を押したとき" do
+            before { click_button "公開" }
 
-            it "表示されていること" do
-              notice_list = find("#notice_list").text
-              notice_list.must_include @notice_org.title
-              notice_list.must_include @user.nickname
+            context "一覧を訪れたとき" do
+              before { visit notices_path }
+
+              it "表示されていること" do
+                notice_list = find("#notice_list").text
+                must_include_notice?(notice_list, @notice_org, @user)
+              end
+            end
+          end
+
+          context "下書きを押したとき" do
+            before { click_button "下書き" }
+
+            context "一覧を訪れたとき" do
+              before { visit notices_path }
+
+              it "表示されていないこと" do
+                notice_list = find("#notice_list").text
+                wont_include_notice?(notice_list, @notice_org, @user)
+              end
             end
           end
         end
@@ -40,7 +54,49 @@ describe "きづき Integration" do
         login @user
       end
 
-      context "自分のきづきがあるとき" do
+      context "自分の下書きしたきづきがあるとき" do
+        before { @notice_org = create(:notice, :draft, user: @user) }
+
+        context "編集画面に訪れたとき" do
+          before { visit edit_notice_path(@notice_org) }
+
+          context "内容を変更して、公開を押したとき" do
+            before do
+              @notice_new = build(:notice)
+              input_notice @notice_new
+              click_button "公開"
+            end
+
+            context "一覧画面を訪れたとき" do
+              before { visit notices_path }
+
+              it "変更した内容が反映されていること" do
+                notice_list = find("#notice_list").text
+                must_include_notice?(notice_list, @notice_new, @user)
+              end
+            end
+          end
+
+          context "内容を変更して、下書きを押したとき" do
+            before do
+              @notice_new = build(:notice)
+              input_notice @notice_new
+              click_button "下書き"
+            end
+
+            context "一覧画面を訪れたとき" do
+              before { visit notices_path }
+
+              it "表示されていないこと" do
+                notice_list = find("#notice_list").text
+                wont_include_notice?(notice_list, @notice_new, @user)
+              end
+            end
+          end
+        end
+      end
+
+      context "自分の公開したきづきがあるとき" do
         before { @notice_org = create :notice, user: @user }
 
         context "編集画面に訪れたとき" do
@@ -177,7 +233,17 @@ describe "きづき Integration" do
     end
   end
 
-  def must_include_title_and_body(text, notice, user)
+  def input_notice(notice)
+    fill_in "notice_title", with: notice.title
+    fill_in "notice_body", with: notice.body
+  end
+
+  def wont_include_notice?(text, notice, user)
+    text.wont_include notice.title
+    text.wont_include user.nickname
+  end
+
+  def must_include_notice?(text, notice, user)
     text.must_include notice.title
     text.must_include user.nickname
   end
