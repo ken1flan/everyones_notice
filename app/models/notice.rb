@@ -28,6 +28,7 @@ class Notice < ActiveRecord::Base
   include Opened
 
   scope :displayable, -> { where.not(published_at: nil) }
+  scope :default_order, -> { order(published_at: :desc) }
 
   def published?
     self.published_at.present?

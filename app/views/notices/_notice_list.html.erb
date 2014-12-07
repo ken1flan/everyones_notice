@@ -1,5 +1,9 @@
 <% unless notices.present? %>
-  きづきはまだありません。
+  <div class="row" id="notice_list">
+    <div class="col-md-12" id="notice_row_#{notice.id}">
+      きづきはまだありません。
+    </div>
+  </div>
 <% else %>
   <div class="row" id="notice_list">
     <% notices.each do |notice| %>
