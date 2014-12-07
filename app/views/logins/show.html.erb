@@ -1,13 +1,14 @@
-<h1>login page</h1>
 <br>
-<%= link_to "googleログイン", "/auth/google_oauth2" %><br>
-<%= link_to "twitterログイン", "/auth/twitter" %><br>
-<%= link_to "facebookログイン", "/auth/facebook" %><br>
-
-
-<div
-  class="fb-like"
-  data-share="true"
-  data-width="450"
-  data-show-faces="true">
+<div class="col-md-12">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h1>みんなのきづき ログイン</h1>
+      <br>
+      <%= link_to "google", "/auth/google_oauth2", class: "btn btn-lg btn-danger" %>
+      <%= link_to "twitter", "/auth/twitter", class: "btn btn-lg btn-info"  %>
+      <%= link_to "facebook", "/auth/facebook", class: "btn btn-lg btn-primary" %>
+      <br>
+      <br>
+    </div>
+  </div>
 </div>
