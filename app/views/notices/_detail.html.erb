@@ -26,12 +26,11 @@
         </button>
     
         <button id="opened_notice_<%= notice.id %>" type="button" class="openedNotice btn btn-default">
-          <% if user_signed_in? && notice.opened_by?(current_user) %>
+          <% if user_signed_in? && notice.read_by?(current_user) %>
             <span class="opened glyphicon glyphicon-ok"></span>
           <% else %>
             <span class="opened glyphicon glyphicon-minus"></span> 
           <% end %>
-          <span class="value"><%= notice.open_number %><span>
         </button>
     
         <%= link_to "返信数：#{ notice.replies.count }", new_notice_reply_path(notice), class: "btn btn-default" %>

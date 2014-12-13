@@ -22,10 +22,12 @@ class Notice < ActiveRecord::Base
 
   belongs_to :user
   has_many :replies
+  has_and_belongs_to_many :read_users,
+    class_name: "User", join_table: :read_notices_by_users,
+    foreign_key: :notice_id, references_foreign_key: :user_id
+
   has_reputation :likes, source: :user, aggregated_by: :sum
-  has_reputation :opened, source: :user, aggregated_by: :sum
   include Liked
-  include Opened
 
   scope :displayable, -> { where.not(published_at: nil) }
   scope :default_order, -> { order(published_at: :desc) }
@@ -37,5 +39,13 @@ class Notice < ActiveRecord::Base
 
   def draft?
     self.published_at.blank?
+  end
+
+  def read_by?(user)
+    read_users.include? user
+  end
+
+  def read_user_number
+    read_users.count
   end
 end

@@ -76,13 +76,13 @@ class NoticesController < ApplicationController
   end
 
   def opened
-    @evaluation_value = 1
-    @notice.add_or_update_evaluation(:opened, @evaluation_value, current_user)
+    unless @notice.read_users.include? current_user
+      @notice.read_users << current_user
+    end
   end
 
   def not_opened
-    @evaluation_value = 0
-    @notice.add_or_update_evaluation(:opened, @evaluation_value, current_user)
+    @notice.read_users.delete current_user
     render "opened"
   end
 
