@@ -86,6 +86,23 @@ class NoticesController < ApplicationController
     render "opened"
   end
 
+  def todays
+    @notices = Notice.displayable.today.page(params[:page]).per(PAR_PAGE)
+    render "index"
+  end
+
+  def unread
+    # TODO: ちゃんとかく
+    @notices = Notice.all.page(params[:page]).per(PAR_PAGE)
+    render "index"
+  end
+
+  def watched
+    # TODO: ちゃんとかく
+    @notices = Notice.all.page(params[:page]).per(PAR_PAGE)
+    render "index"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_notice

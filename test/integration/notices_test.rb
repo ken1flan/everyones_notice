@@ -233,6 +233,39 @@ describe "きづき Integration" do
     end
   end
 
+  describe "今日のきづき" do
+    before do
+      login
+    end
+
+    context "昨日のきづきがあるとき" do
+      before { @notice = create(:notice, published_at: 1.day.ago) }
+
+      it "表示されないこと" do
+        visit todays_notices_path
+        wont_include_notice? page.text, @notice, @notice.user
+      end
+    end
+
+    context "今日のきづきがあるとき" do
+      before { @notice = create(:notice, published_at: Time.zone.now) }
+
+      it "表示されること" do
+        visit todays_notices_path
+        must_include_notice? page.text, @notice, @notice.user
+      end
+    end
+
+    context "明日のきづきがあるとき" do
+      before { @notice = create(:notice, published_at: 1.day.since) }
+
+      it "表示されること" do
+        visit todays_notices_path
+        must_include_notice? page.text, @notice, @notice.user
+      end
+    end
+  end
+
   def input_notice(notice)
     fill_in "notice_title", with: notice.title
     fill_in "notice_body", with: notice.body

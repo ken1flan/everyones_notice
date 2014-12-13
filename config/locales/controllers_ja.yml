@@ -1,0 +1,10 @@
+ja:
+  controllers:
+    notices: きづき
+
+  actions:
+    notices:
+      index: すべての
+      todays: 今日の
+      unread: まだ読んでいない
+      watched: 注目の
