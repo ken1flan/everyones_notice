@@ -90,7 +90,86 @@ describe User do
     end
   end
 
-  describe ".activities_for_heatmap" do
+  describe "#read_notices / #unread_notices" do
+    before { @user = create(:user) }
+
+    context "きづきがないとき" do
+      it "#read_noticesが0件であること" do
+        @user.read_notices.count.must_equal 0
+      end
+
+      it "#unread_noticesが0件であること" do
+        @user.unread_notices.count.must_equal 0
+      end
+    end
+
+    context "きづきが1件のとき" do
+      before { @notice = create(:notice) }
+
+      it "#read_noticesが0件であること" do
+        @user.read_notices.count.must_equal 0
+      end
+
+      it "#unread_noticesが1件であること" do
+        @user.unread_notices.count.must_equal 1
+        @user.unread_notices.first.must_equal @notice
+      end
+    end
+
+    context "読まれたきづきが1件のとき" do
+      before do
+        @notice = create(:notice)
+        @notice.read_by @user
+      end
+
+      it "#read_noticesが1件であること" do
+        @user.read_notices.count.must_equal 1
+        @user.read_notices.first.must_equal @notice
+      end
+
+      it "#unread_noticesが1件であること" do
+        @user.unread_notices.count.must_equal 0
+      end
+    end
+
+    context "ほかのひとに読まれたきづきが1件のとき" do
+      before do
+        @another_user = create(:user)
+        @notice = create(:notice)
+        @notice.read_by @another_user
+      end
+
+      it "#read_noticesが1件であること" do
+        @user.read_notices.count.must_equal 0
+      end
+
+      it "#unread_noticesが1件であること" do
+        @user.unread_notices.count.must_equal 1
+        @user.unread_notices.first.must_equal @notice
+      end
+    end
+
+    context "読んだきづきと読んでいないものが1件ずつあるとき" do
+      before do
+        @unread_notice = create(:notice)
+        @read_notice = create(:notice)
+        @read_notice.read_by @user
+      end
+
+      it "#read_noticesが1件であること" do
+        @user.read_notices.count.must_equal 1
+        @user.read_notices.first.must_equal @read_notice
+      end
+
+      it "#unread_noticesが1件であること" do
+        @user.unread_notices.count.must_equal 1
+        @user.unread_notices.first.must_equal @unread_notice
+      end
+
+    end
+  end
+
+  describe "#activities_for_heatmap" do
     before do
       @user = create(:user)
       Timecop.freeze

@@ -20,21 +20,114 @@
 require 'test_helper'
 
 describe Notice do
+  describe "#read_by" do
+    before do
+      @notice = create(:notice)
+      @user = create(:user)
+    end
+
+    context "ユーザを指定して#read_byを実行したとき" do
+      before { @notice.read_by @user }
+
+      it "NoticeReadUserに指定したユーザとそのnoticeが追加されること" do
+        NoticeReadUser.count.must_equal 1
+        notice_read_user = NoticeReadUser.first
+        notice_read_user.notice_id.must_equal @notice.id
+        notice_read_user.user_id.must_equal @user.id
+      end
+
+      context "もう一度同じユーザを指定して#read_byを実行したとき" do
+        before { @notice.read_by @user }
+
+        it "NoticeReadUserの件数は1であること" do
+          NoticeReadUser.count.must_equal 1
+        end
+      end
+
+      context "ほかのユーザを指定して#read_byを実行したとき" do
+        before do
+          @another_user = create(:user)
+          @notice.read_by @another_user
+        end
+
+        it "NoticeReadUserが2件になること" do
+          NoticeReadUser.count.must_equal 2
+        end
+      end
+
+      context "#read_byしたユーザを指定して#unread_byを実行したとき" do
+        before { @notice.unread_by @user }
+
+        it "NoticeReadUserが空になること" do
+          NoticeReadUser.count.must_equal 0
+        end
+      end
+    end
+  end
+
+  describe "#unread_by" do
+    before do
+      @notice = create(:notice)
+      @user = create(:user)
+    end
+
+    context "#unread_byしたとき" do
+      it "NoticeReadUserが0件であること" do
+        NoticeReadUser.count.must_equal 0
+      end
+    end
+
+    context "noticeが#read_byされたとき" do
+      before { @notice.read_by @user }
+
+      it "NoticeReadUserが1件になること" do
+        NoticeReadUser.count.must_equal 1
+      end
+
+      context "#unread_byしたとき" do
+        before { @notice.unread_by @user }
+
+        it "NoticeReadUserが0件になること" do
+          NoticeReadUser.count.must_equal 0
+        end
+      end
+    end
+
+    context "noticeが他のユーザにread_byされたとき" do
+      before do
+        @another_user = create(:user)
+        @notice.read_by @another_user
+      end
+
+      it "NoticeReadUserが1件になること" do
+        NoticeReadUser.count.must_equal 1
+      end
+
+      context "#unread_byを実行したとき" do
+        before { @notice.unread_by @user }
+
+        it "NoticeReadUserが1件になること" do
+          NoticeReadUser.count.must_equal 1
+        end
+      end
+    end
+  end
+
   describe "#read_by?" do
     before do
       @user = create(:user)
       @notice = create(:notice)
     end
 
-    context "userがopenしていないとき" do
+    context "userが#read_byしていないとき" do
       it "falseであること" do
         ret = @notice.read_by?(@user)
         ret.must_equal(false)
       end
     end
 
-    context "userがopenしたとき" do
-      before { @notice.read_users << @user }
+    context "userが#read_byしたとき" do
+      before { @notice.read_by @user }
 
       it "trueであること" do
         ret = @notice.read_by?(@user)
@@ -49,16 +142,16 @@ describe Notice do
       @notice = create(:notice)
     end
 
-    context "誰もlikeしてないとき" do
+    context "誰も#read_byしてないとき" do
       it "0であること" do
         ret = @notice.read_user_number
         ret.must_equal(0)
       end
     end
 
-    context "openしたひとが1人いるとき" do
+    context "#read_byしたひとが1人いるとき" do
       before do
-        @notice.read_users << @users[0]
+        @notice.read_by @users[0]
       end
 
       it "1であること" do
@@ -67,15 +160,76 @@ describe Notice do
       end
     end
 
-    context "openしたひとが2人いるとき" do
+    context "#read_byしたひとが2人いるとき" do
       before do
-        @notice.read_users << @users[0]
-        @notice.read_users << @users[1]
+        @notice.read_by @users[0]
+        @notice.read_by @users[1]
       end
 
       it "1であること" do
         ret = @notice.read_user_number
         ret.must_equal(2)
+      end
+    end
+  end
+
+  describe "#read_users / #unread_users" do
+    before do
+      @notice = create(:notice)
+      @users = [@notice.user]
+    end
+
+    context "ほかにユーザが二人いたとき" do
+      before { @users += create_list(:user, 2) }
+
+      it ".read_usersが空であること" do
+        @notice.read_users.blank?.must_equal true
+      end
+
+      it ".unread_usersがユーザが全員いること" do
+        unread_users = @notice.unread_users
+        unread_users.include?(@notice.user).must_equal true
+        @users.each do |user|
+          unread_users.include?(user).must_equal true
+        end
+      end
+
+      context "いずれかのユーザが読んだとき" do
+        before do
+          @read_user = @users.sample
+          @notice.read_by @read_user
+          @unread_users = @users.reject {|user| user == @read_user }
+        end
+
+        it ".read_usersに読んだユーザがいること" do
+          @notice.read_users.include?(@read_user).must_equal true
+          @unread_users.each do |user|
+            @notice.read_users.include?(user).must_equal false
+          end
+        end
+
+        it ".unread_usersに読んだユーザがいないこと" do
+          @notice.unread_users.include?(@read_user).must_equal false
+          @unread_users.each do |user|
+            @notice.unread_users.include?(user).must_equal true
+          end
+        end
+
+        context "読んだユーザが読まなかったことにしたとき" do
+          before { @notice.unread_by @read_user }
+
+          it ".read_usersが空であること" do
+            @notice.read_users.blank?.must_equal true
+          end
+    
+          it ".unread_usersがユーザが全員いること" do
+            unread_users = @notice.unread_users
+            unread_users.include?(@notice.user).must_equal true
+            @users.each do |user|
+              unread_users.include?(user).must_equal true
+            end
+          end
+        end
       end
     end
   end
