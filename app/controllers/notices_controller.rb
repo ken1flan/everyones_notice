@@ -7,7 +7,6 @@ class NoticesController < ApplicationController
   # GET /notices.json
   def index
     @notices = Notice.
-      order("published_at DESC").
       displayable.
       default_order.
       page(params[:page]).per(PAR_PAGE)
@@ -87,13 +86,19 @@ class NoticesController < ApplicationController
   end
 
   def todays
-    @notices = Notice.displayable.today.page(params[:page]).per(PAR_PAGE)
+    @notices = Notice.
+      displayable.
+      today.
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
     render "index"
   end
 
   def unread
-    # TODO: ちゃんとかく
-    @notices = Notice.all.page(params[:page]).per(PAR_PAGE)
+    @notices = current_user.unread_notices.
+      displayable.
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
     render "index"
   end
 

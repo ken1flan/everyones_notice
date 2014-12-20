@@ -22,9 +22,8 @@ class Notice < ActiveRecord::Base
 
   belongs_to :user
   has_many :replies
-  has_and_belongs_to_many :read_users,
-    class_name: "User", join_table: :read_notices_by_users,
-    foreign_key: :notice_id, references_foreign_key: :user_id
+  has_many :notice_read_users
+  has_many :read_users, through: :notice_read_users, source: :user
 
   has_reputation :likes, source: :user, aggregated_by: :sum
   include Liked
@@ -41,11 +40,23 @@ class Notice < ActiveRecord::Base
     self.published_at.blank?
   end
 
+  def read_by(user)
+    self.read_users << user unless self.read_users.include? user
+  end
+
+  def unread_by(user)
+    self.read_users.delete user if self.read_users.include? user
+  end
+
   def read_by?(user)
     read_users.include? user
   end
 
   def read_user_number
     read_users.count
+  end
+
+  def unread_users
+    User.where.not(id: read_users.pluck(:id))
   end
 end

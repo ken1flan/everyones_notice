@@ -266,6 +266,56 @@ describe "きづき Integration" do
     end
   end
 
+  describe "まだ読んでいないきづき" do
+    before do
+      @user = create_user_and_identity("twitter")
+      login @user
+    end
+
+    context "未読のきづきがあるとき" do
+      before { @notice = create(:notice) }
+
+      it "表示されていること" do
+        visit unread_notices_path
+        page.text.must_include @notice.title
+      end
+    end
+
+    context "下書きのきづきがあるとき" do
+      before { @notice = create(:notice, :draft) }
+
+      it "表示されていないこと" do
+        visit unread_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
+
+    context "既読のきづきがあるとき" do
+      before do
+        @notice = create(:notice)
+        @notice.read_by @user
+      end
+
+      it "表示されていないこと" do
+        visit unread_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
+
+    context "ほかのひとが既読のきづきがあるとき" do
+      before do
+        another_user = create(:user)
+        @notice = create(:notice)
+        @notice.read_by another_user
+      end
+
+      it "表示されていること" do
+        visit unread_notices_path
+        page.text.must_include @notice.title
+      end
+    end
+  end
+
   def input_notice(notice)
     fill_in "notice_title", with: notice.title
     fill_in "notice_body", with: notice.body
@@ -279,5 +329,46 @@ describe "きづき Integration" do
   def must_include_notice?(text, notice, user)
     text.must_include notice.title
     text.must_include user.nickname
+  end
+
+  describe "まだ読んでいないきづき" do
+    before do
+      @user = create_user_and_identity("twitter")
+      login @user
+    end
+
+    context "下書きのきづきがあるとき" do
+      before do
+        @notice = create(:notice, :draft)
+      end
+
+      it "表示されないこと" do
+        visit unread_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
+
+    context "読んでいないきづきがあるとき" do
+      before do
+        @notice = create(:notice)
+      end
+
+      it "表示されること" do
+        visit unread_notices_path
+        page.text.must_include @notice.title
+      end
+    end
+
+    context "すでに読んだきづきがあるとき" do
+      before do
+        @notice = create(:notice)
+        @notice.read_users << @user
+      end
+
+      it "表示されないこと" do
+        visit unread_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
   end
 end
