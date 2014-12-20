@@ -102,6 +102,13 @@ class NoticesController < ApplicationController
     render "index"
   end
 
+  def draft
+    @notices = current_user.draft_notices.
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
+    render "index"
+  end
+
   def watched
     # TODO: ちゃんとかく
     @notices = Notice.all.page(params[:page]).per(PAR_PAGE)

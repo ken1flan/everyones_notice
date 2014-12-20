@@ -29,6 +29,10 @@ class User < ActiveRecord::Base
     Notice.where.not(id: read_notices.pluck(:id))
   end
 
+  def draft_notices
+    Notice.where(user_id: id, published_at: nil)
+  end
+
   def activities_for_heatmap(
     start_date = 5.month.ago.beginning_of_month,
     end_date = Time.zone.now)

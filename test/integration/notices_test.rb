@@ -371,4 +371,53 @@ describe "きづき Integration" do
       end
     end
   end
+
+  describe "下書きの一覧" do
+    before do
+      @user = create_user_and_identity("twitter")
+      login @user
+    end
+
+    context "下書きのきづきがあるとき" do
+      before { @notice = create(:notice, :draft, user: @user) }
+
+      it "表示されること" do
+        visit draft_notices_path
+        page.text.must_include @notice.title
+      end
+    end
+
+    context "公開したきづきがあるとき" do
+      before { @notice = create(:notice, user: @user) }
+
+      it "表示されないこと" do
+        visit draft_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
+
+    context "ほかのひとの下書きのきづきがあるとき" do
+      before do
+        another_user = create(:user)
+        @notice = create(:notice, :draft, user: another_user)
+      end
+
+      it "表示されないこと" do
+        visit draft_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
+
+    context "ほかのひとの公開したきづきがあるとき" do
+      before do
+        another_user = create(:user)
+        @notice = create(:notice, user: another_user)
+      end
+
+      it "表示されないこと" do
+        visit draft_notices_path
+        page.text.wont_include @notice.title
+      end
+    end
+  end
 end

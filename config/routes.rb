@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     collection do
       get "todays"
       get "unread"
+      get "draft"
       get "watched"
     end
     resources :replies
