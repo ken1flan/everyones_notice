@@ -44,21 +44,6 @@
   </div>
 
   <div class="col-md-6">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <%= link_to "みんなのきづき", notices_path %>の最新5件
-      </div>
-      <div class="panel-body">
-        <% if @notices.blank? %>
-          まだありません
-        <% else %>
-          <% @notices.each do |notice| %>
-            <%= link_to notice_path(notice) do %>
-              <%= notice.created_at.to_date %> | <%= notice.user.nickname %>さんが「<%= notice.title %>」を書きました<br>
-            <% end %>
-          <% end %>
-        <% end %>
-      </div>
-    </div>
+    <%= render "activities/list", activities: @activities %>
   </div>
 </div>

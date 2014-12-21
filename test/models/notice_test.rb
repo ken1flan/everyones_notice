@@ -233,4 +233,61 @@ describe Notice do
       end
     end
   end
+
+  describe "#register_activity" do
+    context "noticeを公開状態でcreateしたとき" do
+      before do
+        @notice = create(:notice)
+        @activity_count = Activity.count
+        @activity = Activity.find_by(type_id: Activity::type_ids[:notice], notice_id: @notice.id)
+      end
+
+      it "Activityにユーザが登録されていること" do
+        @activity.user_id.must_equal @notice.user_id
+      end
+
+      context "noticeを更新したとき" do
+        before { @notice.update_attributes(title: "更新タイトル", body: "更新内容") }
+
+        it "Activityのレコード数が変わっていないこと" do
+          Activity.count.must_equal @activity_count
+        end
+
+        it "activityの内容が更新されていないこと" do
+          Activity.find_by(type_id: Activity::type_ids[:notice], notice_id: @notice.id).must_equal @activity
+        end
+      end
+    end
+
+    context "noticeを下書き状態でcreateしたとき" do
+      before do
+        @notice = create(:notice, :draft)
+        @activity_count = Activity.count
+        @activity = Activity.find_by(type_id: Activity::type_ids[:notice], notice_id: @notice.id)
+      end
+
+      it "Activityのレコード数が変わっていないこと" do
+        Activity.count.must_equal @activity_count
+      end
+
+      context "noticeを更新したとき" do
+        before { @notice.update_attributes(title: "更新タイトル", body: "更新内容") }
+
+        it "Activityのレコード数が変わっていないこと" do
+          Activity.count.must_equal @activity_count
+        end
+      end
+
+      context "noticeを公開として更新したとき" do
+        before do
+          @notice.update_attributes(title: "更新タイトル", body: "更新内容", published_at: Time.zone.now)
+          @activity = Activity.find_by(type_id: Activity::type_ids[:notice], notice_id: @notice.id)
+        end
+
+        it "Activityにユーザが登録されていること" do
+          @activity.user_id.must_equal @notice.user_id
+        end
+      end
+    end
+  end
 end

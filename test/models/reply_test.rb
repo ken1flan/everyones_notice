@@ -93,4 +93,30 @@ describe Reply do
       end
     end
   end
+
+  describe "#register_activity" do
+    context "replyをcreateしたとき" do
+      before do
+        @reply = create(:reply)
+        @activity_count = Activity.count
+        @activity = Activity.find_by(type_id: Activity::type_ids[:reply], reply_id: @reply.id)
+      end
+
+      it "Activityにユーザが登録されていること" do
+        @activity.user_id.must_equal @reply.user_id
+      end
+
+      context "replyを更新したとき" do
+        before { @reply.update_attributes(body: "更新内容") }
+
+        it "Activityのレコード数が変わっていないこと" do
+          Activity.count.must_equal @activity_count
+        end
+
+        it "activityの内容が更新されていないこと" do
+          Activity.find_by(type_id: Activity::type_ids[:reply], reply_id: @reply.id).must_equal @activity
+        end
+      end
+    end
+  end
 end

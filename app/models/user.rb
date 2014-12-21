@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :notice_read_users
   has_many :read_notices, through: :notice_read_users, source: :notice
   has_many :replies
+  has_many :activities
   has_one :invitation
 
   def unread_notices
