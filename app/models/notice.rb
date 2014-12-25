@@ -32,7 +32,7 @@ class Notice < ActiveRecord::Base
 
   scope :displayable, -> { where.not(published_at: nil) }
   scope :default_order, -> { order(published_at: :desc) }
-  scope :today, -> { where("published_at > ?", Time.zone.today) }
+  scope :today, -> { where("published_at > ?", 1.day.ago) }
 
   def published?
     self.published_at.present?
