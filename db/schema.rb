@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141217000859) do
+ActiveRecord::Schema.define(version: 20141221080025) do
+
+  create_table "activities", force: true do |t|
+    t.integer  "type_id"
+    t.integer  "user_id"
+    t.integer  "notice_id"
+    t.integer  "reply_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "activities", ["created_at"], name: "index_activities_on_created_at"
+  add_index "activities", ["notice_id"], name: "index_activities_on_notice_id"
+  add_index "activities", ["reply_id"], name: "index_activities_on_reply_id"
+  add_index "activities", ["type_id", "user_id", "notice_id", "reply_id"], name: "index_activities_unique_key", unique: true
+  add_index "activities", ["type_id"], name: "index_activities_on_type_id"
+  add_index "activities", ["user_id"], name: "index_activities_on_user_id"
 
   create_table "clubs", force: true do |t|
     t.string   "name",        limit: 128, null: false

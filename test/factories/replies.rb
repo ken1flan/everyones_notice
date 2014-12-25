@@ -19,8 +19,8 @@
 
 FactoryGirl.define do
   factory :reply do
-    notice_id 1
+    notice
     body { "body" + ('a'..'z').to_a.sample(26).join }
-    user_id 1
+    user
   end
 end

@@ -28,6 +28,15 @@ describe "きづき Integration" do
                 must_include_notice?(notice_list, @notice_org, @user)
               end
             end
+
+            context "トップ画面を訪れたとき" do
+              before { visit root_path }
+
+              it "アクティビティが表示されていること" do
+                find(:css, ".activity_list").text.must_include @user.nickname
+                find(:css, ".activity_list").text.must_include @notice_org.title
+              end
+            end
           end
 
           context "下書きを押したとき" do
@@ -73,6 +82,15 @@ describe "きづき Integration" do
               it "変更した内容が反映されていること" do
                 notice_list = find("#notice_list").text
                 must_include_notice?(notice_list, @notice_new, @user)
+              end
+            end
+
+            context "トップ画面を訪れたとき" do
+              before { visit root_path }
+
+              it "アクティビティが表示されていること" do
+                find(:css, ".activity_list").text.must_include @user.nickname
+                find(:css, ".activity_list").text.must_include @notice_new.title
               end
             end
           end
@@ -174,6 +192,15 @@ describe "きづき Integration" do
 
           it "ボタンの数値が1であること" do
             find(:css, "#like_notice_#{@notice.id}").text.must_include "1"
+          end
+        end
+
+        context "トップ画面を訪れたとき" do
+          before { visit root_path }
+
+          it "アクティビティが表示されていること" do
+            find(:css, ".activity_list").text.must_include @user.nickname
+            find(:css, ".activity_list").text.must_include @notice.title
           end
         end
 

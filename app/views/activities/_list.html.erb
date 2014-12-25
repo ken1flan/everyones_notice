@@ -1,0 +1,14 @@
+<div class="activity_list panel panel-default">
+  <div class="panel-heading">
+    <%= link_to "みんなのきづき", notices_path %>の最新5件
+  </div>
+  <div class="panel-body">
+    <% if activities.blank? %>
+      まだありません
+    <% else %>
+      <% activities.each do |activity| %>
+        <%= activity.summary_html %><br>
+      <% end %>
+    <% end %>
+  </div>
+</div>

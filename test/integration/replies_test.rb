@@ -40,6 +40,15 @@ describe "返信 Integration" do
                 reply_list.must_include @reply_org.body
               end
             end
+
+            context "トップ画面を訪れたとき" do
+              before { visit root_path }
+
+              it "アクティビティが表示されていること" do
+                find(:css, ".activity_list").text.must_include @user.nickname
+                find(:css, ".activity_list").text.must_include @notice.title
+              end
+            end
           end
         end
       end
@@ -159,6 +168,15 @@ describe "返信 Integration" do
 
         it "ボタンの数値が1になること" do
           find(:css, "#like_reply_#{@reply.id}").text.must_include "1"
+        end
+
+        context "トップ画面を訪れたとき" do
+          before { visit root_path }
+
+          it "アクティビティが表示されていること" do
+            find(:css, ".activity_list").text.must_include @user.nickname
+            find(:css, ".activity_list").text.must_include @notice.title
+          end
         end
 
         context "「いいね」を解除したとき" do

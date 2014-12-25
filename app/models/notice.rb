@@ -19,18 +19,20 @@
 
 class Notice < ActiveRecord::Base
   attr_accessible :title, :body, :user_id, :published_at, :status
+  after_save :register_activity
 
   belongs_to :user
   has_many :replies
   has_many :notice_read_users
   has_many :read_users, through: :notice_read_users, source: :user
+  has_many :activities
 
   has_reputation :likes, source: :user, aggregated_by: :sum
   include Liked
 
   scope :displayable, -> { where.not(published_at: nil) }
   scope :default_order, -> { order(published_at: :desc) }
-  scope :today, -> { where("published_at > ?", Time.zone.today) }
+  scope :today, -> { where("published_at > ?", 1.day.ago) }
 
   def published?
     self.published_at.present?
@@ -59,4 +61,21 @@ class Notice < ActiveRecord::Base
   def unread_users
     User.where.not(id: read_users.pluck(:id))
   end
+
+  private
+    def register_activity
+      return if published_at.blank?
+      return if Activity.find_by(
+        type_id: Activity.type_ids[:notice], notice_id: id).present?
+
+      begin
+        activity = Activity.new
+        activity.type_id = Activity.type_ids[:notice]
+        activity.user_id = user_id
+        activity.notice_id = id
+        activity.save!
+      rescue
+        logger.warn("failed to register writing notice(id: #{self.id})")
+      end
+    end
 end

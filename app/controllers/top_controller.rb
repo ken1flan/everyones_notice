@@ -3,6 +3,8 @@ class TopController < ApplicationController
 
   def index
     @notices = Notice.all
+    @activities = Activity.joins(:notice, :user).
+      default_order.limit(5)
   end
 
   def current_club_activities
