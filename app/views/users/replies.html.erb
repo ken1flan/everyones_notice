@@ -7,3 +7,5 @@
 <%= render "shared/tabs", links: nav_links %>
 <br>
 <%= render "replies/reply_list", replies: @replies %>
+
+<%= paginate @replies %>

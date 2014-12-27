@@ -7,3 +7,5 @@
 <%= render "shared/tabs", links: nav_links %>
 <br>
 <%= render "notices/notice_list", notices: @notices %>
+
+<%= paginate @notices %>
