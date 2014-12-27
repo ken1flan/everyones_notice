@@ -1,6 +1,9 @@
 <h1>招待の一覧</h1>
 
-<table>
+<br>
+<%= link_to '新規作成', new_invitation_path, class: "btn btn-primary" %>
+
+<table class="table table-hover">
   <thead>
     <tr>
       <th>メールアドレス</th>
@@ -14,16 +17,13 @@
     <% @invitations.each do |invitation| %>
       <tr>
         <td><%= invitation.mail_address %></td>
-        <td><%= invitation.user_id %></td>
-        <td><%= invitation.expired_at %></td>
-        <td><%= link_to '参照', invitation, id: "show_#{invitation.id}" %></td>
-        <td><%= link_to '削除', invitation, method: :delete, data: { confirm: 'よろしいですか?' }, id: "delete_#{invitation.id}" %></td>
+        <td><%= link_to invitation.user.nickname, user_path(invitation.user_id) if invitation.user_id.present? %></td>
+        <td><%= invitation.expired_at_string %></td>
+        <td><%= link_to '参照', invitation, id: "show_#{invitation.id}", class: "btn btn-default" %></td>
+        <td><%= link_to '削除', invitation, method: :delete, data: { confirm: 'よろしいですか?' }, id: "delete_#{invitation.id}", class: "btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<br>
-
-<%= link_to '新規作成', new_invitation_path %>
-      <th></th>
+<%= paginate @invitations %>

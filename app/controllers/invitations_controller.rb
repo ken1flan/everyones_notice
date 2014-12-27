@@ -1,10 +1,14 @@
 class InvitationsController < ApplicationController
   before_action :set_invitation, only: [:show, :edit, :update, :destroy]
 
+  PAR_PAGE = 10
+
   # GET /invitations
   # GET /invitations.json
   def index
-    @invitations = Invitation.all
+    @invitations = Invitation.
+      order("created_at DESC").
+      page(params[:page]).per(PAR_PAGE)
   end
 
   # GET /invitations/1

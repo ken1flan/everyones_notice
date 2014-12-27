@@ -1,4 +1,6 @@
 module ActivityDecorator
+  include CommonDecorator
+
   def summary_html
     summary =  "#{ created_at.to_date } | " +
       "#{ link_to(user.nickname, user_path(user)) }さんは" +
