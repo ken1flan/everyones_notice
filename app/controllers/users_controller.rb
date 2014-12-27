@@ -2,6 +2,8 @@ class UsersController < ApplicationController
   skip_filter :require_login, only: [:new, :create]
   before_action :set_user, except: [:index, :new, :create]
 
+  PAR_PAGE = 10
+
   # GET /users
   # GET /users.json
   def index
@@ -69,10 +71,16 @@ class UsersController < ApplicationController
     unless @user == current_user
       @notices = @notices.displayable
     end
+    @notices = @notices.
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
   end
 
   def replies
-    @replies = Reply.where(user_id: @user.id)
+    @replies = Reply.
+      where(user_id: @user.id).
+      order("created_at DESC").
+      page(params[:page]).per(PAR_PAGE)
   end
 
   def activities
