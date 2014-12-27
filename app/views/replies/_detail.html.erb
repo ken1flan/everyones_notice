@@ -7,7 +7,7 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <%= raw markdown_to_html(reply.body) %>
-        <br><span class="pull-right"><%= reply.created_at %></span>
+        <br><span class="pull-right"><%= reply.created_at_string %></span>
       </div>
       <div class="panel-footer">
         <button id="like_reply_<%= reply.id %>" type="button" class="likeReply btn btn-default">

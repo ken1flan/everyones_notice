@@ -1,10 +1,4 @@
-# coding: utf-8
 module ReplyDecorator
-  def created_at_string
-    created_at.strftime "%Y/%m/%d %H:%M:%S"
-  end
+  include CommonDecorator
 
-  def updated_at_string
-    updated_at.strftime "%Y/%m/%d %H:%M:%S"
-  end
 end
