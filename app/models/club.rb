@@ -18,7 +18,9 @@ class Club < ActiveRecord::Base
     start_date = 5.month.ago.beginning_of_month,
     end_date = Time.zone.now)
 
-    Notice.where(created_at: [start_date..end_date]).
+    Activity.where(
+      type_id: [Activity.type_ids[:notice], Activity.type_ids[:reply]],
+      created_at: [start_date..end_date]).
       select("created_at").
       joins(user: :club).merge(Club.where(id: id)).
       map {|n| n.created_at.to_i }.
