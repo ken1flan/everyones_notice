@@ -175,89 +175,91 @@ describe User do
       Timecop.freeze
     end
 
-    context "noticeがないとき" do
-      it "nilであること" do
-        @heatmap = @user.activities_for_heatmap
-        JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal nil
-      end
-    end
-
-    context "現在が2014/11/29 09:04:12 のとき" do
-      before do
-        @now = Time.local(2014, 11, 29, 9, 4, 12)
-        Timecop.travel @now
-      end
-
-      context "2014/05/31 23:59:59にnoticeが1件あったとき" do
-        before do
-          @published_at = Time.local(2014, 5, 31, 23, 59, 59)
-          create(:notice, user_id: @user.id, published_at: @published_at)
-        end
-
+    [:notice, :reply].each do |activity_type|
+      context "noticeがないとき" do
         it "nilであること" do
           @heatmap = @user.activities_for_heatmap
-          JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal nil
+          JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
         end
       end
 
-      context "2014/06/01 00:00:00にnoticeが1件あったとき" do
+      context "現在が2014/11/29 09:04:12 のとき" do
         before do
-          @published_at = Time.local(2014, 6, 1, 0, 0, 0)
-          create(:notice, user_id: @user.id, published_at: @published_at)
+          @now = Time.local(2014, 11, 29, 9, 4, 12)
+          Timecop.travel @now
         end
 
-        it "1であること" do
-          @heatmap = @user.activities_for_heatmap
-          JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal 1
-        end
-      end
+        context "2014/05/31 23:59:59に#{activity_type}が1件あったとき" do
+          before do
+            @created_at = Time.local(2014, 5, 31, 23, 59, 59)
+            create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
+          end
 
-      context "2014/11/29 09:04:12にnoticeが1件あったとき" do
-        before do
-          @published_at = Time.local(2014, 11, 29, 9, 4, 12)
-          create(:notice, user_id: @user.id, published_at: @published_at)
-        end
-
-        it "1であること" do
-          @heatmap = @user.activities_for_heatmap
-          JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal 1
-        end
-      end
-
-      context "2014/11/29 09:04:13にnoticeが1件あったとき" do
-        before do
-          @published_at = Time.local(2014, 11, 29, 9, 4, 13)
-          create(:notice, user_id: @user.id, published_at: @published_at)
+          it "nilであること" do
+            @heatmap = @user.activities_for_heatmap
+            JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
+          end
         end
 
-        it "nilであること" do
-          @heatmap = @user.activities_for_heatmap
-          JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal nil
-        end
-      end
+        context "2014/06/01 00:00:00に#{activity_type}が1件あったとき" do
+          before do
+            @created_at = Time.local(2014, 6, 1, 0, 0, 0)
+            create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
+          end
 
-      context "2014/06/01 00:00:00にnoticeが2件あったとき" do
-        before do
-          @published_at = Time.local(2014, 6, 1, 0, 0, 0)
-          create_list(:notice, 2, user_id: @user.id, published_at: @published_at)
+          it "1であること" do
+            @heatmap = @user.activities_for_heatmap
+            JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 1
+          end
         end
+
+        context "2014/11/29 09:04:12に#{activity_type}が1件あったとき" do
+          before do
+            @created_at = Time.local(2014, 11, 29, 9, 4, 12)
+            create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
+          end
+
+          it "1であること" do
+            @heatmap = @user.activities_for_heatmap
+            JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 1
+          end
+        end
+
+        context "2014/11/29 09:04:13に#{activity_type}が1件あったとき" do
+          before do
+            @created_at = Time.local(2014, 11, 29, 9, 4, 13)
+            create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
+          end
+
+          it "nilであること" do
+            @heatmap = @user.activities_for_heatmap
+            JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
+          end
+        end
+
+        context "2014/06/01 00:00:00に#{activity_type}が2件あったとき" do
+          before do
+            @created_at = Time.local(2014, 6, 1, 0, 0, 0)
+            create_list(:activity, 2, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
+          end
  
-        it "2であること" do
-          @heatmap = @user.activities_for_heatmap
-          JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal 2
+          it "2であること" do
+            @heatmap = @user.activities_for_heatmap
+            JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 2
+          end
         end
-      end
 
-      context "2014/06/01 00:00:00に他のユーザのnoticeが1件あったとき" do
-        before do
-          @user_another = create(:user)
-          @published_at = Time.local(2014, 6, 1, 0, 0, 0)
-          create(:notice, user_id: @user_another.id, published_at: @published_at)
-        end
+        context "2014/06/01 00:00:00に他のユーザの#{activity_type}が1件あったとき" do
+          before do
+            @user_another = create(:user)
+            @created_at = Time.local(2014, 6, 1, 0, 0, 0)
+            create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user_another.id, created_at: @created_at)
+          end
  
-        it "nilであること" do
-          @heatmap = @user.activities_for_heatmap
-          JSON.parse(@heatmap)[@published_at.to_i.to_s].must_equal nil
+          it "nilであること" do
+            @heatmap = @user.activities_for_heatmap
+            JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
+          end
         end
       end
     end
