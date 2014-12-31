@@ -110,8 +110,7 @@ class NoticesController < ApplicationController
   end
 
   def watched
-    # TODO: ちゃんとかく
-    @notices = Notice.all.page(params[:page]).per(PAR_PAGE)
+    @notices = Notice.weekly_watched.page(params[:page]).per(PAR_PAGE)
     render "index"
   end
 

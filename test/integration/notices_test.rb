@@ -447,4 +447,68 @@ describe "きづき Integration" do
       end
     end
   end
+
+  describe "注目のきづき" do
+    before do
+      Notice.skip_callback(:save, :after, :register_activity)
+      login
+    end
+
+    context "アクティビティが0〜12あるきづきがあるとき" do
+      before do
+        @notices = create_list(:notice, 13)
+        @notices.each_with_index do |notice, activity_num|
+          activity_num.times do
+            create(
+              :activity,
+              notice: notice,
+              type_id: Activity::type_ids[:thumbup_notice]
+            )
+          end
+        end
+      end
+
+      context "注目のきづきの1ページ目を訪れたとき" do
+        before { visit watched_notices_path }
+
+        it "アクティビティ0のきづきは表示されないこと" do
+          page.text.wont_include @notices[0].title
+        end
+
+        it "アクティビティ1、2のきづきは表示されないこと" do
+          (1..2).each do |activity_num|
+            page.text.wont_include @notices[activity_num].title
+          end
+        end
+
+        it "アクティビティ3〜12のきづきは表示されていること" do
+          (3..12).each do |activity_num|
+            page.text.must_include @notices[activity_num].title
+          end
+        end
+      end
+
+      context "注目のきづきの1ページ目を訪れたとき" do
+        before { visit watched_notices_path(page: 2) }
+
+        it "アクティビティ0のきづきは表示されないこと" do
+          page.text.wont_include @notices[0].title
+        end
+
+        it "アクティビティ1、2のきづきは表示されていること" do
+          (1..2).each do |activity_num|
+            page.text.must_include @notices[activity_num].title
+          end
+        end
+
+        it "アクティビティ3〜12のきづきは表示されないこと" do
+          (3..12).each do |activity_num|
+            page.text.wont_include @notices[activity_num].title
+          end
+        end
+      end
+    end
+
+    after { Notice.set_callback(:save, :after, :register_activity) }
+  end
 end

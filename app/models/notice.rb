@@ -62,6 +62,17 @@ class Notice < ActiveRecord::Base
     User.where.not(id: read_users.pluck(:id))
   end
 
+  def self.weekly_watched
+    Notice.select("notices.*").
+      joins(:activities).merge(
+        Activity.
+        select("notice_id, count(activities.id) AS count_id").
+        where("activities.created_at >= ?", 1.week.ago).
+        group(:notice_id)
+      ).
+      order("count_id DESC")
+  end
+
   private
     def register_activity
       return if published_at.blank?

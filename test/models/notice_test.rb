@@ -290,4 +290,178 @@ describe Notice do
       end
     end
   end
+
+  describe ".weekly_watched" do
+    before do
+      Timecop.freeze
+      Notice.skip_callback(:save, :after, :register_activity)
+      Reply.skip_callback(:save, :after, :register_activity)
+    end
+      
+    describe "選択について" do
+      context "7日+1秒前のactivity(notice)のあるnoticeがあるとき" do
+        before do
+          @notice = create(:notice)
+          @activity = create(
+            :activity,
+            notice: @notice,
+            type_id: Activity::type_ids[:notice],
+            created_at: (7.days.ago - 1))
+        end
+
+        it "空であること" do
+          Notice.weekly_watched.blank?.must_equal true
+        end
+      end
+
+      context "7日前のactivity(notice)のあるnoticeがあるとき" do
+        before do
+          @notice = create(:notice)
+          @activity = create(
+            :activity,
+            notice: @notice,
+            type_id: Activity::type_ids[:notice],
+            created_at: 7.days.ago)
+        end
+
+        it "activityのnoticeが1件含まれていること" do
+          result = Notice.weekly_watched
+          result.to_a.count.must_equal 1
+          result.first.must_equal @activity.notice
+        end
+      end
+
+      context "7日+1秒前のactivity(thumbup_notice)のあるnoticeがあるとき" do
+        before do
+          @notice = create(:notice)
+          @activity = create(
+            :activity,
+            notice: @notice,
+            type_id: Activity::type_ids[:thumbup_notice],
+            created_at: (7.days.ago - 1))
+        end
+
+        it "空であること" do
+          Notice.weekly_watched.blank?.must_equal true
+        end
+      end
+
+      context "7日前のactivity(thumbup_notice)のあるnoticeがあるとき" do
+        before do
+          @notice = create(:notice)
+          @activity = create(
+            :activity,
+            notice: @notice,
+            type_id: Activity::type_ids[:thumbup_notice],
+            created_at: 7.days.ago)
+        end
+
+        it "activityのnoticeが1件含まれていること" do
+          result = Notice.weekly_watched
+          result.to_a.count.must_equal 1
+          result.first.must_equal @activity.notice
+        end
+      end
+
+      context "7日+1秒前のactivity(reply)のあるnoticeがあるとき" do
+        before do
+          @reply = create(:reply)
+          @activity = create(
+            :activity,
+            notice: @reply.notice,
+            reply: @reply,
+            type_id: Activity::type_ids[:reply],
+            created_at: (7.days.ago - 1))
+        end
+
+        it "空であること" do
+          Notice.weekly_watched.blank?.must_equal true
+        end
+      end
+
+      context "7日前のactivity(reply)のあるnoticeがあるとき" do
+        before do
+          @reply = create(:reply)
+          @activity = create(
+            :activity,
+            notice: @reply.notice,
+            reply: @reply,
+            type_id: Activity::type_ids[:reply],
+            created_at: 7.days.ago)
+        end
+
+        it "activityのnoticeが1件含まれていること" do
+          result = Notice.weekly_watched
+          result.to_a.count.must_equal 1
+          result.first.must_equal @activity.notice
+        end
+      end
+
+      context "7日+1秒前のactivity(thumbup_reply)のあるnoticeがあるとき" do
+        before do
+          @reply = create(:reply)
+          @activity = create(
+            :activity,
+            notice: @reply.notice,
+            reply: @reply,
+            type_id: Activity::type_ids[:thumbup_reply],
+            created_at: (7.days.ago - 1))
+        end
+
+        it "空であること" do
+          Notice.weekly_watched.blank?.must_equal true
+        end
+      end
+
+      context "7日前のactivity(thumbup_reply)のあるnoticeがあるとき" do
+        before do
+          @reply = create(:reply)
+          @activity = create(
+            :activity,
+            notice: @reply.notice,
+            reply: @reply,
+            type_id: Activity::type_ids[:thumbup_reply],
+            created_at: 7.days.ago)
+        end
+
+        it "activityのnoticeが1件含まれていること" do
+          result = Notice.weekly_watched
+          result.to_a.count.must_equal 1
+          result.first.must_equal @activity.notice
+        end
+      end
+    end
+
+    describe "順序について" do
+      context "4〜1activityのついたnoticeがそれぞれあるとき" do
+        before do
+          @notices = create_list(:notice, 4)
+          @notices.each_with_index do |notice, i|
+            (i + 1).times do
+              create(
+                :activity,
+                notice: notice,
+                type_id: Activity::type_ids[:thumbup_notice]
+              )
+            end
+          end
+        end
+
+        it "4〜1activityのnoticeが順に入っていること" do
+          result = Notice.weekly_watched.to_a
+          result.count.must_equal 4
+          result[0].must_equal @notices[3]
+          result[1].must_equal @notices[2]
+          result[2].must_equal @notices[1]
+          result[3].must_equal @notices[0]
+        end
+      end
+    end
+
+    after do
+      Timecop.return
+      Notice.set_callback(:save, :after, :register_activity)
+      Reply.set_callback(:save, :after, :register_activity)
+    end
+  end
 end
