@@ -67,7 +67,7 @@ GEM
       mail
     cliver (0.3.2)
     coderay (1.1.0)
-    coffee-rails (4.0.1)
+    coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
     coffee-script (2.3.0)
@@ -222,12 +222,13 @@ GEM
     redcarpet (3.2.2)
     ref (1.0.5)
     ruby-progressbar (1.7.1)
-    sass (3.2.19)
-    sass-rails (4.0.5)
+    sass (3.4.9)
+    sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
-      sass (~> 3.2.2)
-      sprockets (~> 2.8, < 3.0)
-      sprockets-rails (~> 2.0)
+      sass (~> 3.1)
+      sprockets (>= 2.8, < 4.0)
+      sprockets-rails (>= 2.0, < 4.0)
+      tilt (~> 1.1)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -282,7 +283,7 @@ DEPENDENCIES
   better_errors
   capybara
   capybara-email
-  coffee-rails (~> 4.0.0)
+  coffee-rails (~> 4.1.0)
   database_cleaner
   factory_girl_rails
   jbuilder (~> 2.0)
@@ -307,7 +308,7 @@ DEPENDENCIES
   rails-footnotes (>= 4.0.0, < 5)
   rails_12factor
   redcarpet
-  sass-rails (~> 4.0.3)
+  sass-rails (~> 5.0.0)
   sdoc (~> 0.4.0)
   spring
   sqlite3
