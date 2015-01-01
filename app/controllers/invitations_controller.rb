@@ -30,7 +30,7 @@ class InvitationsController < ApplicationController
 
     respond_to do |format|
       if @invitation.save
-        InvitationMailer.invitation_mail(@invitation).deliver
+        InvitationMailer.invitation_mail(@invitation).deliver_now
 
         format.html { redirect_to @invitation, notice: 'Invitation was successfully created.' }
         format.json { render :show, status: :created, location: @invitation }

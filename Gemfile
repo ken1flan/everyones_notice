@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 source 'https://rails-assets.org'
 
-gem "rails", "4.1.6"
+gem "rails", "4.2.0"
 gem "sass-rails", "~> 4.0.3"
 gem "uglifier", ">= 1.3.0"
 gem "coffee-rails", "~> 4.0.0"
@@ -26,6 +26,7 @@ gem "rails-assets-bootstrap"              # 楽ちん部品
 gem "rails-assets-cal-heatmap"            # カレンダー型ヒートマップ
 
 group :development do
+  gem 'web-console', '~> 2.0'             # ブラウザからconsoleが利用できる
   gem "spring"
   gem "rails-footnotes", ">= 4.0.0", "<5" # ページのフッタにデバッグ情報を表示
   gem "better_errors"                     # エラー画面をリッチに
