@@ -32,9 +32,11 @@ class RepliesController < ApplicationController
       if @reply.save
         format.html { redirect_to [@notice, @reply], notice: 'Reply was successfully created.' }
         format.json { render :show, status: :created, location: @reply }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @reply.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
