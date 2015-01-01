@@ -13,6 +13,9 @@
     <div class="container">
       <%= render 'shared/flash' %>
       <%= yield %>
+    </div>
+
+    <div class="container">
       <%= render "shared/breadcrumbs", links: @breadcrumb %>
     </div>
 
