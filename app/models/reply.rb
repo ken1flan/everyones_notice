@@ -16,7 +16,6 @@
 #
 
 class Reply < ActiveRecord::Base
-  attr_accessible :notice_id, :body, :user_id
   after_save :register_activity
 
   belongs_to :user

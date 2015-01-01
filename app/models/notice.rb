@@ -18,7 +18,6 @@
 #
 
 class Notice < ActiveRecord::Base
-  attr_accessible :title, :body, :user_id, :published_at, :status
   after_save :register_activity
 
   belongs_to :user

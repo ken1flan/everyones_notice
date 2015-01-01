@@ -11,7 +11,6 @@
 #
 
 class Club < ActiveRecord::Base
-  attr_accessible :name, :slug, :description
   has_many :users
 
   def activities_for_heatmap(
