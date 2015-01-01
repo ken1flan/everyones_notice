@@ -1,8 +1,10 @@
 <div class="media">
-  <%= link_to user_path(reply.user), class: "pull-left" do %>
-    <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
-    <br><%= reply.user.nickname %>
-  <% end %>
+  <div class="col-md-1 pull-left">
+    <%= link_to user_path(reply.user) do %>
+      <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><%= reply.user.nickname %>
+    <% end %>
+  </div>
   <div class="media-body">
     <div class="panel panel-default">
       <div class="panel-body">
