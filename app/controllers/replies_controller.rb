@@ -50,9 +50,11 @@ class RepliesController < ApplicationController
       if @reply.update(reply_params)
         format.html { redirect_to @reply, notice: 'Reply was successfully updated.' }
         format.json { render :show, status: :ok, location: @reply }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @reply.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

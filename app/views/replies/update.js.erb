@@ -1,4 +1,4 @@
-<% base_id = "#{@notice.id}" %>
+<% base_id = "#{@notice.id}"; base_id += "_#{@reply.id}" if @reply.id %>
 <% if @reply.errors.any? %>
   <%
       error_html = "<ul>"
@@ -10,7 +10,7 @@
   $("#reply_errors_<%= base_id %>").html('<%= error_html.html_safe %>');
   $("#reply_errors_<%= base_id %>").show();
 <% else %>
-  $("#reply_errors_<%= base_id %>").hide();
-  $("#reply_notice_builtin_form_<%= base_id %>").before('<%= j(render "replies/detail", notice: @notice, reply: @reply) %>');
-  $("#reply_body_<%= base_id %>").val("");
+  $('#reply_detail_<%= base_id %>').remove();
+  $('#reply_notice_builtin_form_<%= base_id %>').before('<%= j(render("replies/detail", notice: @notice, reply: @reply)) %>')
+  $('#reply_notice_builtin_form_<%= base_id %>').remove()
 <% end %>

@@ -1,4 +1,5 @@
-<div class="media">
+<% base_id = "#{notice.id}"; base_id += "_#{reply.id}" if reply.id %>
+<div class="media" id="reply_detail_<%= base_id %>">
   <div class="col-md-1 pull-left">
     <%= link_to user_path(reply.user) do %>
       <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
@@ -22,7 +23,7 @@
         </button>
     
         <span class="pull-right">
-          <%= link_to '編集', edit_notice_reply_path(notice, reply), class: "btn btn-primary" if reply.user_id == current_user.id %>
+          <%= link_to '編集', edit_notice_reply_path(notice, reply), remote: true, class: "btn btn-primary" if reply.user_id == current_user.id %>
         </span>
       </div>
     </div>
