@@ -4,6 +4,8 @@
   <%= render "replies/detail", notice: @notice, reply: reply %>
 <% end %>
 
+<%= render "replies/builtin_form", user: current_user, notice: @notice, reply: Reply.new %>
+
 <% @breadcrumb = [
   [@notice.title, notice_path(@notice)],
   ["きづき一覧", notices_path]

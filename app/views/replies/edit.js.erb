@@ -1,0 +1,3 @@
+<% base_id = "#{@notice.id}"; base_id += "_#{@reply.id}" if @reply.id %>
+$("#reply_detail_<%= base_id %>").before('<%= j(render("replies/builtin_form", user: current_user, notice: @notice, reply: @reply)) %>');
+$("#reply_detail_<%= base_id %>").hide();

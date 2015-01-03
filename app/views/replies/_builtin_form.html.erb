@@ -1,0 +1,26 @@
+<% base_id = "#{notice.id}"; base_id += "_#{reply.id}" if reply.id %>
+<div class="media" id="reply_notice_builtin_form_<%= base_id %>">
+  <div class="col-md-1 pull-left">
+    <%= image_tag user.icon_url, alt: user.nickname, class: "img-rounded", size: "64x64" %>
+    <br><%= user.nickname %>
+  </div>
+  <div class="media-body col-md-11">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= form_for [notice, reply], remote: true do |f| %>
+          <div id="reply_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
+          <%= f.text_area :body, id: "reply_body_#{base_id}", class: "form-control", rows: 5, placeholder: "返信を書く" %>
+          <br>
+          <span class="pull-right">
+            <% if reply.id? %>
+              <%= f.submit "更新する", class: "btn btn-primary" %>
+              <a class="btn btn-default" onClick="$('#reply_detail_<%= base_id %>').show(); $('#reply_notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
+            <% else %>
+              <%= f.submit "返信する", class: "btn btn-primary" %>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
