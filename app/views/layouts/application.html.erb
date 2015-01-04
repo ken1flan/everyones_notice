@@ -19,6 +19,7 @@
       <%= render "shared/breadcrumbs", links: @breadcrumb %>
     </div>
 
-    <%#= render "shared/facebook" %>
+    <%= render "notices/dialog_form", notice: Notice.new %>
+    <%= render "shared/message_dialog" %>
   </body>
 </html>

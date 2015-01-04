@@ -20,6 +20,82 @@
 require 'test_helper'
 
 describe Notice do
+  describe "バリデーション" do
+    before { @notice_data = build(:notice) }
+
+    describe "title" do
+      valid_data = [1, 2, "a", "aaa", "あああ", "あ"*64]
+      valid_data.each do |vd|
+        context "title = #{vd}のとき" do
+          before { @notice_data.title = vd }
+
+          it "validであること" do
+            @notice_data.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "あ"*65]
+      invalid_data.each do |ivd|
+        context "title = #{ivd}のとき" do
+          before { @notice_data.title = ivd }
+
+          it "invalidであること" do
+            @notice_data.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "body" do
+      valid_data = [1, 2, "a", "aaa", "あああ"]
+      valid_data.each do |vd|
+        context "body = #{vd}のとき" do
+          before { @notice_data.body = vd }
+
+          it "validであること" do
+            @notice_data.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, ""]
+      invalid_data.each do |ivd|
+        context "body = #{ivd}のとき" do
+          before { @notice_data.body = ivd }
+
+          it "invalidであること" do
+            @notice_data.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "user_id" do
+      valid_data = [1, 2]
+      valid_data.each do |vd|
+        context "user_id = #{vd}のとき" do
+          before { @notice_data.user_id = vd }
+
+          it "validであること" do
+            @notice_data.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "a"]
+      invalid_data.each do |ivd|
+        context "user_id = #{ivd}のとき" do
+          before { @notice_data.user_id = ivd }
+
+          it "invalidであること" do
+            @notice_data.invalid?.must_equal true
+          end
+        end
+      end
+    end
+  end
+
   describe "#read_by" do
     before do
       @notice = create(:notice)

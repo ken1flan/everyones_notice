@@ -1,0 +1,20 @@
+<% base_id = "new" %>
+<% if @notice.errors.any? %>
+  <%
+      error_html = "<ul>"
+      @notice.errors.full_messages.each do |message|
+        error_html += "<li>#{message}</li>"  
+      end
+      error_html += "</ul>"
+  %>
+  $("#notice_errors_<%= base_id %>").html('<%= error_html.html_safe %>');
+  $("#notice_errors_<%= base_id %>").show();
+<% else %>
+  $("#notice_errors_<%= base_id %>").hide();
+  $("#notice_title_<%= base_id %>").val("");
+  $("#notice_body_<%= base_id %>").val("");
+  $("#newNoticeDialog").modal("hide");
+  <% message = @notice.published? ? "公開しました" : "下書きに保存しました" %>
+  $("#message_body").html("<%= message %>");
+  $("#messageDialog").modal("show");
+<% end %>

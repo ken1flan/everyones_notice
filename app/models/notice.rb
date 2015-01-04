@@ -33,6 +33,15 @@ class Notice < ActiveRecord::Base
   scope :default_order, -> { order(published_at: :desc) }
   scope :today, -> { where("published_at > ?", 1.day.ago) }
 
+  validates :title,
+    presence: true,
+    length: { maximum: 64 }
+  validates :body,
+    presence: true
+  validates :user_id,
+    presence: true,
+    numericality: { allow_blank: true, greater_than: 0 }
+
   def published?
     self.published_at.present?
   end
