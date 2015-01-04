@@ -35,7 +35,7 @@
           <% end %>
         </button>
     
-        <%= link_to "返信数：#{ notice.replies.count }", new_notice_reply_path(notice), class: "btn btn-default" %>
+        <%= link_to "返信数：#{ notice.replies.count }", notice_path(notice), class: "btn btn-default" %>
         <span class="pull-right">
           <%= link_to('編集', edit_notice_path(notice), class: "btn btn-primary", remote: true) if notice.user_id == current_user.id %>
         </span>
