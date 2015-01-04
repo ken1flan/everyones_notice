@@ -3,7 +3,7 @@
   <div class="col-md-1 pull-left">
     <%= link_to user_path(reply.user) do %>
       <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
-      <br><%= reply.user.nickname %>
+      <br><small><%= reply.user.nickname %></small>
     <% end %>
   </div>
   <div class="media-body col-md-11">
