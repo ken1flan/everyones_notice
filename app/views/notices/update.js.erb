@@ -1,0 +1,16 @@
+<% base_id = "#{@notice.id}" %>
+<% if @notice.errors.any? %>
+  <%
+      error_html = "<ul>"
+      @notice.errors.full_messages.each do |message|
+        error_html += "<li>#{message}</li>"  
+      end
+      error_html += "</ul>"
+  %>
+  $("#notice_errors_<%= base_id %>").html('<%= error_html.html_safe %>');
+  $("#notice_errors_<%= base_id %>").show();
+<% else %>
+  $('#notice_detail_<%= base_id %>').remove();
+  $('#notice_builtin_form_<%= base_id %>').before('<%= j(render("notices/detail", notice: @notice)) %>')
+  $('#notice_builtin_form_<%= base_id %>').remove()
+<% end %>

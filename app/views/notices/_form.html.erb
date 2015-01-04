@@ -22,7 +22,7 @@
         <%= f.text_area :body, rows: 15, class: "form-control" %>
       </div>
       <div class="actions">
-        <% if @notice.published_at.blank? %>
+        <% if @notice.draft? %>
           <%= f.submit "公開", class: "btn btn-primary", name: "publish" %>
           <%= f.submit "下書き", class: "btn btn-default" %>
         <% else %>

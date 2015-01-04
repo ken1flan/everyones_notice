@@ -38,9 +38,11 @@ class NoticesController < ApplicationController
       if @notice.save
         format.html { redirect_to @notice, notice: 'Notice was successfully created.' }
         format.json { render :show, status: :created, location: @notice }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @notice.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -57,9 +59,11 @@ class NoticesController < ApplicationController
       if @notice.save
         format.html { redirect_to @notice, notice: 'Notice was successfully updated.' }
         format.json { render :show, status: :ok, location: @notice }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @notice.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
