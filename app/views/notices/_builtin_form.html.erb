@@ -10,6 +10,7 @@
     <div class="panel panel-default">
       <%= form_for notice, remote: true do |f| %>
         <div class="panel-body">
+          <div id="notice_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
           <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
           <br>
           <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>

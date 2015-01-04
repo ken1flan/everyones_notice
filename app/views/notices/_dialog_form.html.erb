@@ -1,0 +1,25 @@
+<% base_id = "new" %>
+<div class="modal fade" id="newNoticeDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <%= form_for notice, remote: true, id: "notice_dialog_form" do |f| %>
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">新規作成</h4>
+        </div>
+        <div class="modal-body">
+          <div id="notice_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
+          <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
+          <br>
+          <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%= f.submit "公開", class: "btn btn-primary", name: "publish" %>
+          <%= f.submit "下書き", class: "btn btn-default" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
