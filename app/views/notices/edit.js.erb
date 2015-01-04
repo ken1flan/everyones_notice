@@ -1,0 +1,3 @@
+<% base_id = "#{@notice.id}" %>
+$("#notice_detail_<%= base_id %>").before('<%= j(render("notices/builtin_form", user: current_user, notice: @notice)) %>');
+$("#notice_detail_<%= base_id %>").hide();

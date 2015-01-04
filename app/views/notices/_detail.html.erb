@@ -1,4 +1,4 @@
-<div class="media">
+<div class="media" id="notice_detail_<%= notice.id %>">
   <div class="col-md-1 pull-left">
     <%= link_to user_path(notice.user) do %>
       <%= image_tag notice.user.icon_url, alt: notice.user.nickname, class: "img-rounded", size: "64x64" %>
@@ -37,7 +37,7 @@
     
         <%= link_to "返信数：#{ notice.replies.count }", new_notice_reply_path(notice), class: "btn btn-default" %>
         <span class="pull-right">
-          <%= link_to '編集', edit_notice_path(notice), class: "btn btn-primary"  if notice.user_id == current_user.id %>
+          <%= link_to('編集', edit_notice_path(notice), class: "btn btn-primary", remote: true) if notice.user_id == current_user.id %>
         </span>
       </div>
     </div>
