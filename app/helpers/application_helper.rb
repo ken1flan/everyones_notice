@@ -10,4 +10,16 @@ module ApplicationHelper
       user.nickname + "さん"
     end
   end
+
+  def set_google_oauth2?
+    Rails.application.secrets.google_client_id.present? && Rails.application.secrets.google_client_secret.present?
+  end
+
+  def set_twitter_oauth2?
+    Rails.application.secrets.twitter_consumer_key.present? && Rails.application.secrets.twitter_consumer_secret.present?
+  end
+
+  def set_facebook_oauth2?
+    Rails.application.secrets.facebook_app_id.present? && Rails.application.secrets.facebook_app_secret.present?
+  end
 end

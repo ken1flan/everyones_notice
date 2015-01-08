@@ -4,9 +4,9 @@
     <div class="panel-body">
       <h1>みんなのきづき ログイン</h1>
       <br>
-      <%= link_to "google", "/auth/google_oauth2", class: "btn btn-lg btn-danger" %>
-      <%= link_to "twitter", "/auth/twitter", class: "btn btn-lg btn-info"  %>
-      <%= link_to "facebook", "/auth/facebook", class: "btn btn-lg btn-primary" %>
+      <%= link_to "google", "/auth/google_oauth2", class: "btn btn-lg btn-danger" if set_google_oauth2? %>
+      <%= link_to "twitter", "/auth/twitter", class: "btn btn-lg btn-info" if set_twitter_oauth2? %>
+      <%= link_to "facebook", "/auth/facebook", class: "btn btn-lg btn-primary" if set_facebook_oauth2? %>
       <br>
       <br>
     </div>
