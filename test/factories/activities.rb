@@ -24,9 +24,8 @@
 
 FactoryGirl.define do
   factory :activity do
-    type_id 1
-    user_id 1
-    notice_id 1
-    reply_id 1
+    type_id { Activity.type_ids.sample }
+    user
+    notice
   end
 end
