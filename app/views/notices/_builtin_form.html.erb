@@ -22,6 +22,7 @@
               <a class="btn btn-default" onClick="$('#notice_detail_<%= base_id %>').show(); $('#notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
             <% else %>
               <%= f.submit "更新する", class: "btn btn-primary" %>
+              <a class="btn btn-default" onClick="$('#notice_detail_<%= base_id %>').show(); $('#notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
             <% end %>
           </span>
         </div>
