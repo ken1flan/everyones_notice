@@ -118,6 +118,17 @@ class NoticesController < ApplicationController
     render "index"
   end
 
+  def searched_by_word
+    @search = Notice.search do
+      fulltext params[:search]
+      with :published, true
+      paginate page: params[:page], per_page: PAR_PAGE
+    end
+
+    @notices = @search.results
+    render "index"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_notice

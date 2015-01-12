@@ -16,11 +16,11 @@ gem "kaminari"                            # ページング
 gem "redcarpet"                           # マークダウン
 gem "active_decorator"                    # デコレータ
 gem "activerecord-reputation-system"      # いいね
-
 gem "omniauth"                            # OAuth
 gem "omniauth-facebook"                   # OAuth for facebook
 gem "omniauth-twitter"                    # OAuth for twitter
 gem "omniauth-google-oauth2"              # OAuth for google
+gem "sunspot_rails"                       # 全文検索
 
 gem "rails-assets-bootstrap"              # 楽ちん部品
 gem "rails-assets-cal-heatmap"            # カレンダー型ヒートマップ
@@ -41,6 +41,7 @@ group :development, :test do
   gem "pry-doc"                           # クラスやメソッドのドキュメントやソースを参照
   gem "pry-byebug"                        # binding.pryでデバッガ起動
   gem "factory_girl_rails"                # fixturesより細やかなデータを記述できる
+  gem "sunspot_solr"                      # sunspot用solrパック
 end
 
 group :test do

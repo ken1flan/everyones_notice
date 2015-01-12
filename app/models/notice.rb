@@ -33,6 +33,16 @@ class Notice < ActiveRecord::Base
   scope :default_order, -> { order(published_at: :desc) }
   scope :today, -> { where("published_at > ?", 1.day.ago) }
 
+  searchable do
+    text :title, :body
+    text :replies do
+      replies.map { |reply| reply.body }
+    end
+    boolean :published do
+      published_at.present?
+    end
+  end
+
   validates :title,
     presence: true,
     length: { maximum: 64 }

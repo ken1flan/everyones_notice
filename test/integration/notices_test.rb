@@ -686,4 +686,80 @@ describe "きづき Integration" do
 
     after { Notice.set_callback(:save, :after, :register_activity) }
   end
+
+  describe "ワード検索" do
+    before { login }
+
+    context "タイトルに「あかさたな」が含まれるきづきがあるとき" do
+      before do
+        @notice = create(:notice, title: "xあかさたなy")
+        @notice_not_selected = create(:notice, title: "xはまやらわy")
+        @notice_draft = create(:notice, :draft, title: "zあかさたなz")
+        sleep 5 # solrのindexに時間がかかる
+      end
+
+      context "「あかさたな」で検索したとき" do
+        before do
+          visit root_path
+          fill_in "search", with: "あかさたな"
+          click_button "search_button"
+        end
+
+        it "表示されていること" do
+          page.text.must_include @notice.title
+          page.text.wont_include @notice_not_selected.title
+          page.text.wont_include @notice_draft.title
+        end
+      end
+    end
+
+    context "本文に「あかさたな」が含まれるきづきがあるとき" do
+      before do
+        @notice = create(:notice, body: "xあかさたなy")
+        @notice_not_selected = create(:notice, body: "xはまやらわy")
+        @notice_draft = create(:notice, :draft, body: "zあかさたなz")
+        sleep 5 # solrのindexに時間がかかる
+      end
+
+      context "「あかさたな」で検索したとき" do
+        before do
+          visit root_path
+          fill_in "search", with: "あかさたな"
+          click_button "search_button"
+        end
+
+        it "表示されていること" do
+          page.text.must_include @notice.title
+          page.text.wont_include @notice_not_selected.title
+          page.text.wont_include @notice_draft.title
+        end
+      end
+    end
+
+    context "返信に「あかさたな」が含まれるきづきがあるとき" do
+      before do
+        @notice = create(:notice)
+        create(:reply, notice: @notice, body: "xあかさたなy")
+        @notice_not_selected = create(:notice)
+        create(:reply, notice: @notice_not_selected, body: "xはまやらわy")
+        @notice_draft = create(:notice, :draft)
+        create(:reply, notice: @notice_draft, body: "zあかさたなz")
+        sleep 5 # solrのindexに時間がかかる
+      end
+
+      context "「あかさたな」で検索したとき" do
+        before do
+          visit root_path
+          fill_in "search", with: "あかさたな"
+          click_button "search_button"
+        end
+
+        it "表示されていること" do
+          page.text.must_include @notice.title
+          page.text.wont_include @notice_not_selected.title
+          page.text.wont_include @notice_draft.title
+        end
+      end
+    end
+  end
 end
