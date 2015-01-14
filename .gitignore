@@ -16,3 +16,8 @@
 /tmp
 
 /test/reports
+
+solr/pids
+solr/default
+solr/development
+solr/test

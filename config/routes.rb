@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get "unread"
       get "draft"
       get "watched"
+      get "searched_by_word"
     end
     resources :replies
   end

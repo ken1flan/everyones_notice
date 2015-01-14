@@ -16,7 +16,7 @@
 #
 
 class Reply < ActiveRecord::Base
-  after_save :register_activity
+  after_save :register_activity, :index_notice
 
   belongs_to :user
   belongs_to :notice
@@ -47,5 +47,10 @@ class Reply < ActiveRecord::Base
       rescue
         logger.warn("failed to register writing notice(id: #{self.id})")
       end
+    end
+
+    def index_notice
+      Notice.reindex
+      Sunspot.commit
     end
 end
