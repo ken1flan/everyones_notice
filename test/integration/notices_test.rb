@@ -690,6 +690,31 @@ describe "きづき Integration" do
   describe "ワード検索" do
     before { login }
 
+    context "ニックネーム「キムタク」であるユーザのきづきがあるとき" do
+      before do
+        @user = create(:user, nickname: "キムタク")
+        @notice = create(:notice, user: @user)
+        @user_not_selected = create(:user, nickname: "キム兄")
+        @notice_not_selected = create(:notice, user: @user_not_selected)
+        @notice_draft = create(:notice, :draft, user: @user)
+        sleep 5 # solrのindexに時間がかかる
+      end
+
+      context "「キムタク」で検索したとき" do
+        before do
+          visit root_path
+          fill_in "search", with: "キムタク"
+          click_button "search_button"
+        end
+
+        it "表示されていること" do
+          page.text.must_include @notice.title
+          page.text.wont_include @notice_not_selected.title
+          page.text.wont_include @notice_draft.title
+        end
+      end
+    end
+
     context "タイトルに「あかさたな」が含まれるきづきがあるとき" do
       before do
         @notice = create(:notice, title: "xあかさたなy")

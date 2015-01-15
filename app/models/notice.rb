@@ -34,6 +34,9 @@ class Notice < ActiveRecord::Base
   scope :today, -> { where("published_at > ?", 1.day.ago) }
 
   searchable do
+    text :user_nickname do
+      user.nickname
+    end
     text :title, :body
     text :replies do
       replies.map { |reply| reply.body }
