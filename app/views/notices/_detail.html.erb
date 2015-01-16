@@ -15,6 +15,9 @@
       </div>
       <div class="panel-body">
         <%= raw markdown_to_html(notice.body) %>
+        <pre id="notice_body_src_<%= notice.id %>" style="display: none;">
+<%= notice.body %>
+        </pre>
         <br><span class="pull-right"><%= notice.created_at_string %></span>
       </div>
       <div class="panel-footer">
@@ -37,7 +40,11 @@
     
         <%= link_to "返信数：#{ notice.replies.count }", notice_path(notice), class: "btn btn-default" %>
         <span class="pull-right">
-          <%= link_to('編集', edit_notice_path(notice), class: "btn btn-primary", remote: true) if notice.user_id == current_user.id %>
+          <% if notice.user_id == current_user.id %>
+            <%= link_to('編集', edit_notice_path(notice), class: "btn btn-primary", remote: true) if notice.user_id == current_user.id %>
+          <% else %>
+            <button class="btn btn-default" onclick="$('#notice_body_src_<%= notice.id %>').toggle(200);">ソース</button>
+          <% end %>
         </span>
       </div>
     </div>
