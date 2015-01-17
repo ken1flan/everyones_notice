@@ -10,7 +10,10 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <%= raw markdown_to_html(reply.body) %>
-        <br><span class="pull-right"><%= reply.created_at_string %></span>
+        <pre id="reply_body_src_<%= reply.id %>" style="display: none;">
+<%= notice.body %>
+        </pre>
+        <span class="pull-right"><%= reply.created_at_string %></span>
       </div>
       <div class="panel-footer">
         <button id="like_reply_<%= reply.id %>" type="button" class="likeReply btn btn-default">
@@ -23,7 +26,11 @@
         </button>
     
         <span class="pull-right">
-          <%= link_to '編集', edit_notice_reply_path(notice, reply), remote: true, class: "btn btn-primary" if reply.user_id == current_user.id %>
+          <% if reply.user.id == current_user.id %>
+            <%= link_to '編集', edit_notice_reply_path(notice, reply), remote: true, class: "btn btn-primary" %>
+          <% else %>
+            <button class="btn btn-default" onclick="$('#reply_body_src_<%= reply.id %>').toggle(200);">ソース</button>
+          <% end %>
         </span>
       </div>
     </div>
