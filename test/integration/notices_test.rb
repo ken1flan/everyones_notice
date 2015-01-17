@@ -14,8 +14,7 @@ describe "きづき Integration" do
 
         context "新規作成ボタンを押したとき" do
           before do
-            click_button "new_notice_button"
-            sleep 1 # 反映されるまで少しタイムラグがあるので…
+            click_link "new_notice_button"
           end
 
           context "正しい値を入力したとき" do
@@ -27,7 +26,7 @@ describe "きづき Integration" do
 
             context "「公開」を押したとき" do
               before do
-                find(:css, "#newNoticeDialog}").click_button("公開")
+                click_button("公開")
                 sleep 1 # 反映されるまで少しタイムラグがあるので…
               end
 
@@ -52,7 +51,7 @@ describe "きづき Integration" do
 
             context "「下書き」を押したとき" do
               before do
-                find(:css, "#newNoticeDialog").click_button("下書き")
+                click_button("下書き")
                 sleep 1 # 反映されるまで少しタイムラグがあるので…
               end
 
@@ -170,172 +169,6 @@ describe "きづき Integration" do
                 page.text.must_include @notice_new.body
               end
             end
-          end
-        end
-      end
-    end
-  end
-
-  describe "新規作成" do
-    context "ログインしているとき" do
-      before do
-        @user = create_user_and_identity("twitter")
-        login @user
-      end
-
-      context "新規作成ページを訪れたとき" do
-        before { visit new_notice_path }
-
-        context "内容を入力したとき" do
-          before do
-            @notice_org = build :notice
-            input_notice @notice_org
-          end
-
-          context "公開を押したとき" do
-            before { click_button "公開" }
-
-            context "一覧を訪れたとき" do
-              before { visit notices_path }
-
-              it "表示されていること" do
-                notice_list = find("#notice_list").text
-                must_include_notice?(notice_list, @notice_org, @user)
-              end
-            end
-
-            context "トップ画面を訪れたとき" do
-              before { visit root_path }
-
-              it "アクティビティが表示されていること" do
-                find(:css, ".activity_list").text.must_include @user.nickname
-                find(:css, ".activity_list").text.must_include @notice_org.title
-              end
-            end
-          end
-
-          context "下書きを押したとき" do
-            before { click_button "下書き" }
-
-            context "一覧を訪れたとき" do
-              before { visit notices_path }
-
-              it "表示されていないこと" do
-                notice_list = find("#notice_list").text
-                wont_include_notice?(notice_list, @notice_org, @user)
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
-  describe "編集" do
-    context "ログインしているとき" do
-      before do
-        @user = create_user_and_identity("twitter")
-        login @user
-      end
-
-      context "自分の下書きしたきづきがあるとき" do
-        before { @notice_org = create(:notice, :draft, user: @user) }
-
-        context "編集画面に訪れたとき" do
-          before { visit edit_notice_path(@notice_org) }
-
-          context "内容を変更して、公開を押したとき" do
-            before do
-              @notice_new = build(:notice)
-              input_notice @notice_new
-              click_button "公開"
-            end
-
-            context "一覧画面を訪れたとき" do
-              before { visit notices_path }
-
-              it "変更した内容が反映されていること" do
-                notice_list = find("#notice_list").text
-                must_include_notice?(notice_list, @notice_new, @user)
-              end
-            end
-
-            context "トップ画面を訪れたとき" do
-              before { visit root_path }
-
-              it "アクティビティが表示されていること" do
-                find(:css, ".activity_list").text.must_include @user.nickname
-                find(:css, ".activity_list").text.must_include @notice_new.title
-              end
-            end
-          end
-
-          context "内容を変更して、下書きを押したとき" do
-            before do
-              @notice_new = build(:notice)
-              input_notice @notice_new
-              click_button "下書き"
-            end
-
-            context "一覧画面を訪れたとき" do
-              before { visit notices_path }
-
-              it "表示されていないこと" do
-                notice_list = find("#notice_list").text
-                wont_include_notice?(notice_list, @notice_new, @user)
-              end
-            end
-          end
-        end
-      end
-
-      context "自分の公開したきづきがあるとき" do
-        before { @notice_org = create :notice, user: @user }
-
-        context "編集画面に訪れたとき" do
-          before { visit edit_notice_path(@notice_org) }
-
-          context "内容を変更して、公開を押したとき" do
-            before do
-              @notice_new = build(:notice)
-              fill_in "notice_title", with: @notice_new.title
-              fill_in "notice_body", with: @notice_new.body
-              click_button "保存"
-            end
-
-            context "一覧画面を訪れたとき" do
-              before { visit notices_path }
-
-              it "変更した内容が反映されていること" do
-                notice_list = find("#notice_list").text
-                notice_list.must_include @notice_new.title
-                notice_list.must_include @user.nickname
-              end
-            end
-
-            context "詳細画面を訪れたとき" do
-              before { visit notice_path(@notice_org) }
-
-              it "変更した内容が反映されていること" do
-                page.text.must_include @notice_new.title
-                page.text.must_include @notice_new.body
-              end
-            end
-          end
-        end
-      end
-
-      context "他のひとのきづきがあるとき" do
-        before do
-          user_anoter = create :user
-          @notice_anoter_user = create :notice, user: user_anoter
-        end
-
-        context "編集画面を訪れたとき" do
-          before { visit edit_notice_path(@notice_anoter_user) }
-
-          it "404 not foundであること" do
-            page.status_code.must_equal 404
           end
         end
       end
@@ -516,11 +349,6 @@ describe "きづき Integration" do
         page.text.must_include @notice.title
       end
     end
-  end
-
-  def input_notice(notice)
-    fill_in "notice_title", with: notice.title
-    fill_in "notice_body", with: notice.body
   end
 
   def wont_include_notice?(text, notice, user)

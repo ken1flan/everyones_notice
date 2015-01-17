@@ -1,34 +1,40 @@
-<div class="panel panel-default">
-  <div class="panel-body">
-    <%= form_for(@notice) do |f| %>
-      <% if @notice.errors.any? %>
-        <div id="error_explanation">
-          <h2><%= pluralize(@notice.errors.count, "error") %> prohibited this notice from being saved:</h2>
-    
-          <ul>
-          <% @notice.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-          </ul>
+<%
+  builtin ||= false
+  remote = builtin ? true : false
+  base_id = notice.present? && notice.id.present? ? notice.id : "new"
+%>
+<div class="media" id="notice_builtin_form_<%= base_id %>">
+  <div class="col-md-1 pull-left">
+    <%= link_to user_path(current_user) do %>
+      <%= image_tag current_user.icon_url, alt: current_user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= current_user.nickname %></small>
+    <% end %>
+  </div>
+  <div class="media-body col-md-11">
+    <div class="panel panel-default">
+      <%= form_for notice, remote: remote do |f| %>
+        <div class="panel-body">
+          <div id="notice_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
+          <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
+          <br>
+          <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>
+          <br>
+          <span class="pull-right">
+            <% if notice.draft? %>
+              <%= f.submit "公開", class: "btn btn-primary", name: "publish" %>
+              <%= f.submit "下書き", class: "btn btn-default" %>
+              <% if builtin %>
+                <a class="btn btn-default" onClick="$('#notice_detail_<%= base_id %>').show(); $('#notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
+              <% end %>
+            <% else %>
+              <%= f.submit "更新する", class: "btn btn-primary" %>
+              <% if builtin %>
+                <a class="btn btn-default" onClick="$('#notice_detail_<%= base_id %>').show(); $('#notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
+              <% end %>
+            <% end %>
+          </span>
         </div>
       <% end %>
-    
-      <div class="form-group field">
-        <%= f.label :title %><br>
-        <%= f.text_field :title, class: "form-control" %>
-      </div>
-      <div class="form-group field">
-        <%= f.label :body %><br>
-        <%= f.text_area :body, rows: 15, class: "form-control" %>
-      </div>
-      <div class="actions">
-        <% if @notice.draft? %>
-          <%= f.submit "公開", class: "btn btn-primary", name: "publish" %>
-          <%= f.submit "下書き", class: "btn btn-default" %>
-        <% else %>
-          <%= f.submit "保存", class: "btn btn-primary" %>
-        <% end %>
-      </div>
-    <% end %>
+    </div>
   </div>
 </div>
