@@ -11,7 +11,6 @@
       <%= link_to "みんなのきづき", root_path, class: "navbar-brand" %>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav navbar-right">
         <% if current_user.present? %>
@@ -34,9 +33,14 @@
         <% end %>
       </ul>
       <% if current_user.present? %>
-        <button id="new_notice_button" type="button" class="btn btn-primary navbar-btn navbar-right" data-toggle="modal" data-target="#newNoticeDialog">
+        <%#
+          <button id="new_notice_button" type="button" class="btn btn-primary navbar-btn navbar-right" data-toggle="modal" data-target="#newNoticeDialog">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+        %>
+        <%= link_to new_notice_path,  id: "new_notice_button", class: "btn btn-primary navbar-btn navbar-right" do %>
           <span class="glyphicon glyphicon-edit"></span>
-        </button>
+        <% end %>
 
         <%= form_tag searched_by_word_notices_path, method: :get, class: "navbar-form navbar-right", role: "search" do %>
           <div class="input-group">
