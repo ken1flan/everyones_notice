@@ -24,4 +24,8 @@ FactoryGirl.define do
     end
     club_id 1
   end
+
+  trait :admin do
+    admin true
+  end
 end

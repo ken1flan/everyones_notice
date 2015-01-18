@@ -1,19 +1,26 @@
 <div class="panel panel-default">
   <div class="panel-body">
     <div class="media">
-      <a class="pull-left" href="#">
+      <span class="pull-right">
+        <% if user == current_user %>
+          <%= link_to edit_user_path(user), id: "edit_user_button_#{user.id}", class: "btn btn-primary" do %>
+            <span class="glyphicon glyphicon-edit"></span>
+          <% end %>
+        <% end %>
+        <% if can_manage_users? %>
+          <%= link_to user, id: "destroy_user_button_#{user.id}", method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-default" do %>
+            <span class="glyphicon glyphicon-remove"></span>
+          <% end %>
+        <% end %>
+      </span>
+      <%= link_to user, class: "pull-left" do %>
         <%= image_tag user.icon_url, alt: user.nickname, class: "img-rounded", size: "64x64" %>
-      </a>
+      <% end %>
       <div class="media-body">
-        <h4 class="media-heading"><%= user.nickname %></h4>
-        <strong>Club:</strong>
-        <%= user.club.name %>
+        <h4 class="media-heading"><%= link_to user.nickname, user %></h4>
+          <strong>Club:</strong>
+          <%= user.club.name %>
       </div>
     </div>
   </div>
-  <% if user == current_user %>
-    <div class="panel-footer">
-      <%= link_to "編集", edit_user_path(user), class: "btn btn-info" %>
-    </div>
-  <% end %>
 </div>
