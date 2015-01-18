@@ -1,6 +1,7 @@
 require "test_helper"
 
 describe "ユーザ管理 Integration" do
+=begin
   describe "ユーザの新規作成" do
     context "トークンなしでユーザ作成ページへ訪れたとき" do
       before { visit new_user_path }
@@ -60,7 +61,7 @@ describe "ユーザ管理 Integration" do
         end
 
         it "編集ボタンが表示されていること" do
-          has_link?("編集").must_equal true
+          has_link?("edit_user_button_#{@user.id}").must_equal true
         end
       end
 
@@ -170,6 +171,60 @@ describe "ユーザ管理 Integration" do
 
           it "ユーザBの返信は表示されていること" do
             includes_reply_info? page.text, @replies[:B]
+          end
+        end
+      end
+    end
+  end
+=end
+
+  describe "ユーザの一覧ページ" do
+    context "ユーザがいたとき" do
+      before { @user = create(:user) }
+
+      context "管理者でないユーザでログインしたとき" do
+        before do
+          @no_admin_user = create_user_and_identity(:twitter, nil, false)
+          login @no_admin_user
+        end
+
+        context "ユーザ一覧を訪れたとき" do
+          before { visit users_path }
+
+          it "削除ボタンがないこと" do
+            page.text.must_include @user.nickname
+            has_link?("destroy_user_button_#{@user.id}").must_equal false
+          end
+        end
+      end
+
+      context "管理者でログインしたとき" do
+        before do
+          @admin_user = create_user_and_identity(:twitter, nil, true)
+          login @admin_user
+        end
+
+        context "ユーザ一覧を訪れたとき" do
+          before { visit users_path }
+
+          it "削除ボタンがあること" do
+            page.text.must_include @user.nickname
+            has_link?("destroy_user_button_#{@user.id}").must_equal true
+          end
+
+          context "削除ボタンを押したとき" do
+            before do
+              click_link("destroy_user_button_#{@user.id}")
+              # 確認ダイアログがpoltergeistにはない
+            end
+
+            context "ユーザ一覧を訪れたとき" do
+              before { visit users_path }
+
+              it "ユーザのニックネームが表示されていないこと" do
+                page.text.wont_include @user.nickname
+              end
+            end
           end
         end
       end

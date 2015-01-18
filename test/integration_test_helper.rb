@@ -2,9 +2,9 @@ def set_auth_mock( provider, uid, nickname )
   OmniAuth.config.add_mock( provider, uid: uid, info: { nickname: nickname } )
 end
 
-def create_user_and_identity(provider, club = nil)
+def create_user_and_identity(provider, club = nil, admin = false)
   club = create(:club) unless club.present?
-  user = create(:user, club: club)
+  user = create(:user, club: club, admin: admin)
   create(:identity, user_id: user.id, provider: provider)
   user
 end
