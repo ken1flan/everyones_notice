@@ -1,7 +1,6 @@
 require "test_helper"
 
 describe "ユーザ管理 Integration" do
-=begin
   describe "ユーザの新規作成" do
     context "トークンなしでユーザ作成ページへ訪れたとき" do
       before { visit new_user_path }
@@ -176,7 +175,6 @@ describe "ユーザ管理 Integration" do
       end
     end
   end
-=end
 
   describe "ユーザの一覧ページ" do
     context "ユーザがいたとき" do
