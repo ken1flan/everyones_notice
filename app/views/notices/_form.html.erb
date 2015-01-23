@@ -12,7 +12,7 @@
   </div>
   <div class="media-body col-md-11">
     <div class="panel panel-default">
-      <%= form_for notice, remote: remote do |f| %>
+      <%= form_for notice, remote: remote, html: { class: "easy_submit_form" } do |f| %>
         <div class="panel-body">
           <div id="notice_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
           <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
