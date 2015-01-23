@@ -7,7 +7,7 @@
   <div class="media-body col-md-11">
     <div class="panel panel-default">
       <div class="panel-body">
-        <%= form_for [notice, reply], remote: true do |f| %>
+        <%= form_for [notice, reply], remote: true, html: { class: "easy_submit_form" } do |f| %>
           <div id="reply_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
           <%= f.text_area :body, id: "reply_body_#{base_id}", class: "form-control", rows: 5, placeholder: "返信を書く" %>
           <br>
