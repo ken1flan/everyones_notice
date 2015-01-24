@@ -11,7 +11,7 @@
       <div class="panel-body">
         <%= raw markdown_to_html(reply.body) %>
         <pre id="reply_body_src_<%= reply.id %>" style="display: none;">
-<%= notice.body %>
+<%= reply.body %>
         </pre>
         <span class="pull-right"><%= reply.created_at_string %></span>
       </div>
