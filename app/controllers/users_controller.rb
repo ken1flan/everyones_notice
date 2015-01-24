@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   skip_filter :require_login, only: [:new, :create]
   before_action :set_user, except: [:index, :new, :create]
+  before_action :redirect_no_user_manager, only: [:destroy]
+  before_action :redirect_no_current_user, only: [:edit, :update]
 
   PAR_PAGE = 10
 
@@ -59,6 +61,8 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    not_found unless can_manage_users?
+
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
@@ -96,5 +100,13 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.require(:user).permit(:nickname, :icon_url, :club_id)
+    end
+
+    def redirect_no_current_user
+      not_found unless current_user == @user
+    end
+
+    def redirect_no_user_manager
+      not_found unless can_manage_users?
     end
 end

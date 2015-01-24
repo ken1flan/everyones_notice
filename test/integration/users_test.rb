@@ -77,6 +77,14 @@ describe "ユーザ管理 Integration" do
         it "編集ボタンが表示されていないこと" do
           has_link?("編集").must_equal false
         end
+
+        context "他のユーザの編集画面を直接見ようとしたとき" do
+          before { visit edit_user_path(@another_user) }
+
+          it "404 not foundになること" do
+            page.status_code.must_equal 404
+          end
+        end
       end
     end
   end
@@ -176,52 +184,50 @@ describe "ユーザ管理 Integration" do
     end
   end
 
-  describe "ユーザの一覧ページ" do
-    context "ユーザがいたとき" do
-      before { @user = create(:user) }
+  describe "ユーザの削除" do
+    before { @user = create(:user) }
 
-      context "管理者でないユーザでログインしたとき" do
-        before do
-          @no_admin_user = create_user_and_identity(:twitter, nil, false)
-          login @no_admin_user
-        end
-
-        context "ユーザ一覧を訪れたとき" do
-          before { visit users_path }
-
-          it "削除ボタンがないこと" do
-            page.text.must_include @user.nickname
-            has_link?("destroy_user_button_#{@user.id}").must_equal false
-          end
-        end
+    context "管理者でないユーザでログインしたとき" do
+      before do
+        @no_admin_user = create_user_and_identity(:twitter, nil, false)
+        login @no_admin_user
       end
 
-      context "管理者でログインしたとき" do
-        before do
-          @admin_user = create_user_and_identity(:twitter, nil, true)
-          login @admin_user
+      context "ユーザ一覧を訪れたとき" do
+        before { visit users_path }
+
+        it "削除ボタンがないこと" do
+          page.text.must_include @user.nickname
+          has_link?("destroy_user_button_#{@user.id}").must_equal false
+        end
+      end
+    end
+
+    context "管理者でログインしたとき" do
+      before do
+        @admin_user = create_user_and_identity(:twitter, nil, true)
+        login @admin_user
+      end
+
+      context "ユーザ一覧を訪れたとき" do
+        before { visit users_path }
+
+        it "削除ボタンがあること" do
+          page.text.must_include @user.nickname
+          has_link?("destroy_user_button_#{@user.id}").must_equal true
         end
 
-        context "ユーザ一覧を訪れたとき" do
-          before { visit users_path }
-
-          it "削除ボタンがあること" do
-            page.text.must_include @user.nickname
-            has_link?("destroy_user_button_#{@user.id}").must_equal true
+        context "削除ボタンを押したとき" do
+          before do
+            click_link("destroy_user_button_#{@user.id}")
+            # 確認ダイアログがpoltergeistにはない
           end
 
-          context "削除ボタンを押したとき" do
-            before do
-              click_link("destroy_user_button_#{@user.id}")
-              # 確認ダイアログがpoltergeistにはない
-            end
+          context "ユーザ一覧を訪れたとき" do
+            before { visit users_path }
 
-            context "ユーザ一覧を訪れたとき" do
-              before { visit users_path }
-
-              it "ユーザのニックネームが表示されていないこと" do
-                page.text.wont_include @user.nickname
-              end
+            it "ユーザのニックネームが表示されていないこと" do
+              page.text.wont_include @user.nickname
             end
           end
         end
