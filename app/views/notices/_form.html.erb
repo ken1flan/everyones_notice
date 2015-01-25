@@ -14,7 +14,17 @@
     <div class="panel panel-default">
       <%= form_for notice, remote: remote, html: { class: "easy_submit_form" } do |f| %>
         <div class="panel-body">
-          <div id="notice_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
+          <% if remote %>
+            <div id="notice_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
+          <% elsif notice.errors.any? %>
+            <div id="notice_errors_<%= base_id %>" class="alert alert-warning">
+              <ul>
+                <% @notice.errors.full_messages.each do |message| %>
+                  <li><%= message %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
           <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
           <br>
           <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>
