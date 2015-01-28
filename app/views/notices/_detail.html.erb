@@ -14,7 +14,9 @@
         </div>
       </div>
       <div class="panel-body">
-        <%= raw markdown_to_html(notice.body) %>
+        <div class="markdown_body">
+          <%= raw markdown_to_html(notice.body) %>
+        </div>
         <pre id="notice_body_src_<%= notice.id %>" style="display: none;">
 <%= notice.body %>
         </pre>

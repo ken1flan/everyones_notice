@@ -9,7 +9,9 @@
   <div class="media-body col-md-11">
     <div class="panel panel-default">
       <div class="panel-body">
-        <%= raw markdown_to_html(reply.body) %>
+        <div class="markdown_body">
+          <%= raw markdown_to_html(reply.body) %>
+        </div>
         <pre id="reply_body_src_<%= reply.id %>" style="display: none;">
 <%= reply.body %>
         </pre>
