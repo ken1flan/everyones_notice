@@ -11,6 +11,10 @@
         <div class="panel-title">
           <% if notice.draft? %><span class="label label-default">下書き</span><% end %>
           <strong><%= link_to notice.title, notice_path(notice) %></strong>
+          <br>
+          <% notice.tags.each do |tag| %>
+            <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-tag"><%= tag.name %></a>
+          <% end %>
         </div>
       </div>
       <div class="panel-body">
