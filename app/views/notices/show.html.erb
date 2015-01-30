@@ -1,3 +1,8 @@
+<div class="container">
+  <span class="pull-left"><a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-backward"></span></a></span>
+  <span class="pull-right"><a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-forward"></span></a></span>
+</div>
+
 <%= render "notices/detail", notice: @notice %>
 
 <% @notice.replies.each do |reply| %>
@@ -5,6 +10,12 @@
 <% end %>
 
 <%= render "replies/builtin_form", user: current_user, notice: @notice, reply: Reply.new %>
+
+<div class="container">
+  <span class="pull-left"><a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-backward"></span></a></span>
+  <span class="pull-right"><a href="#" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-step-forward"></span></a></span>
+</div>
+<br>
 
 <% @breadcrumb = [
   [@notice.title, notice_path(@notice)],
