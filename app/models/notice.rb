@@ -83,6 +83,16 @@ class Notice < ActiveRecord::Base
     User.where.not(id: read_users.pluck(:id))
   end
 
+  def previous
+    @previous ||= Notice.displayable.where("id < ?", id).order("id DESC").first
+    @previous
+  end
+
+  def next
+    @next ||= Notice.displayable.where("id > ?", id).order("id ASC").first
+    @next
+  end
+
   def self.weekly_watched
     Notice.select("notices.*").
       joins(:activities).merge(
