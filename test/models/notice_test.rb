@@ -367,6 +367,85 @@ describe Notice do
     end
   end
 
+  describe "#previous" do
+    context "前にnoticeがないとき" do
+      before { @notice = create(:notice) }
+
+      it "nilであること" do
+        @notice.previous.must_be_nil
+      end
+    end
+
+    context "前にひとつ下書きのnoticeがあるとき" do
+      before do
+        @previous_notice = create(:notice, :draft)
+        @notice = create(:notice)
+      end
+
+      it "nilであること" do
+        @notice.previous.must_be_nil
+      end
+    end
+
+    context "前にひとつ公開されたnoticeがあるとき" do
+      before do
+        @previous_notice = create(:notice)
+        @notice = create(:notice)
+      end
+
+      it "前に公開されたnoticeであること" do
+        @notice.previous.must_equal @previous_notice
+      end
+    end
+
+    context "前にふたつ公開されたnoticeがあるとき" do
+      before do
+        @previous_previous_notice = create(:notice)
+        @previous_notice = create(:notice)
+        @notice = create(:notice)
+      end
+
+      it "直前で公開されたnoticeであること" do
+        @notice.previous.must_equal @previous_notice
+      end
+    end
+  end
+
+  describe "#next" do
+    context "後にnoticeがないとき" do
+      before { @notice = create(:notice) }
+
+      it "nilであること" do
+        @notice.next.must_be_nil
+      end
+    end
+
+    context "後にひとつ下書きのnoticeがあるとき" do
+      before do
+        @notice = create(:notice)
+        @next_notice = create(:notice, :draft)
+      end
+
+      it "nilであること" do
+        @notice.next.must_be_nil
+      end
+    end
+
+    context "後にふたつ公開されたnoticeがあるとき" do
+      before do
+        @notice = create(:notice)
+        @next_notice = create(:notice)
+        @next_next_notice = create(:notice)
+      end
+
+      it "直後に公開されたnoticeであること" do
+        @notice.next.must_equal @next_notice
+      end
+    end
+  end
+
+
+
   describe ".weekly_watched" do
     before do
       Timecop.freeze
