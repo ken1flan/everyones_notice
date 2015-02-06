@@ -7,7 +7,7 @@
 #  body         :text
 #  user_id      :integer          not null
 #  published_at :datetime
-#  status       :integer          default(0)
+#  status       :integer          default("0")
 #  created_at   :datetime
 #  updated_at   :datetime
 #
@@ -27,6 +27,16 @@ FactoryGirl.define do
 
     trait :draft do
       published_at nil
+    end
+
+    trait :with_tags do
+      ignore do
+        tags_count { rand(3) + 1 }
+      end
+
+      after(:create) do |notice, evaluator|
+        create_list(:tag, evaluator.tags_count, notices: [notice])
+      end
     end
   end
 end

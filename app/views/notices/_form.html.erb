@@ -29,6 +29,8 @@
           <br>
           <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>
           <br>
+          <%= f.text_field :tags_string, id: "notice_tags_string_#{base_id}", class: "form-control", placeholder: "タグ1,タグ2" %></strong>
+          <br>
           <span class="pull-right">
             <% if notice.draft? %>
               <%= f.submit "公開", class: "btn btn-primary", name: "publish" %>

@@ -7,7 +7,7 @@
 #  body         :text
 #  user_id      :integer          not null
 #  published_at :datetime
-#  status       :integer          default(0)
+#  status       :integer          default("0")
 #  created_at   :datetime
 #  updated_at   :datetime
 #
@@ -18,12 +18,17 @@
 #
 
 class Notice < ActiveRecord::Base
+  before_save :create_tags
   after_save :register_activity
+
+  attr_accessor :tags_string
 
   belongs_to :user
   has_many :replies
   has_many :notice_read_users
   has_many :read_users, through: :notice_read_users, source: :user
+  has_many :notice_tags
+  has_many :tags, through: :notice_tags
   has_many :activities
 
   has_reputation :likes, source: :user, aggregated_by: :sum
@@ -92,6 +97,10 @@ class Notice < ActiveRecord::Base
     @next ||= Notice.displayable.where("id > ?", id).order("id ASC").first
     @next
   end
+ 
+  def tags_string
+    @tags_string ||= tags.map {|tag| tag.name }.join(",")
+  end
 
   def self.weekly_watched
     Notice.select("notices.*").
@@ -105,6 +114,12 @@ class Notice < ActiveRecord::Base
   end
 
   private
+    def create_tags
+      self.tags = tags_string.split(",").map do |tag_name|
+        Tag.find_or_create_by(name: tag_name)
+      end
+    end
+
     def register_activity
       return if published_at.blank?
       return if Activity.find_by(

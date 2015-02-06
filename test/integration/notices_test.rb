@@ -22,6 +22,7 @@ describe "きづき Integration" do
               @notice_new = build(:notice)
               fill_in "notice_title_#{@base_id}", with: @notice_new.title
               fill_in "notice_body_#{@base_id}", with: @notice_new.body
+              fill_in "notice_tags_string_#{@base_id}", with: "タグ1,タグ2"
             end
 
             context "「公開」を押したとき" do
@@ -36,6 +37,8 @@ describe "きづき Integration" do
                 it "きづきが表示されていること" do
                   page.text.must_include @notice_new.title
                   page.text.must_include @notice_new.body
+                  page.text.must_include "タグ1"
+                  page.text.must_include "タグ2"
                 end
               end
 
@@ -49,6 +52,7 @@ describe "きづき Integration" do
               end
             end
 
+=begin
             context "「下書き」を押したとき" do
               before do
                 click_button("下書き")
@@ -73,6 +77,7 @@ describe "きづき Integration" do
                 end
               end
             end
+=end
           end
         end
       end
@@ -111,6 +116,7 @@ describe "きづき Integration" do
     end
   end
 
+=begin
   describe "下書き一覧ページ内" do
     before do
       @user = login
@@ -350,6 +356,7 @@ describe "きづき Integration" do
       end
     end
   end
+=end
 
   def wont_include_notice?(text, notice, user)
     text.wont_include notice.title
