@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     resources :replies
   end
 
+  resources :tags, only: [:index, :show]
+
   resource :reputation, only: [] do
     get 'notice/:id/:up_down' => 'reputation#notice'
     get 'reply/:id/:up_down' => 'reputation#reply'

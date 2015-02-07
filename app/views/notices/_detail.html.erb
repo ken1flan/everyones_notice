@@ -13,7 +13,9 @@
           <strong><%= link_to notice.title, notice_path(notice) %></strong>
           <br>
           <% notice.tags.each do |tag| %>
-            <a href="#" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-tag"><%= tag.name %></a>
+            <%= link_to tag_path(tag), class: "btn btn-default btn-xs" do %>
+              <span class="glyphicon glyphicon-tag"><%= tag.name %>
+            <% end %>
           <% end %>
         </div>
       </div>
