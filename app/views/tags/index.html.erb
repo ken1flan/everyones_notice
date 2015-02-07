@@ -1,0 +1,7 @@
+<% @tags.each do |tag| %>
+  <%= link_to tag_path(tag), class: "btn btn-default" do %>
+    <%= tag.name %>
+    <span class="badge"><%= tag.notices_count %></span>
+  <% end %>
+  &nbsp;
+<% end %>

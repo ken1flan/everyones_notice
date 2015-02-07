@@ -52,7 +52,6 @@ describe "きづき Integration" do
               end
             end
 
-=begin
             context "「下書き」を押したとき" do
               before do
                 click_button("下書き")
@@ -77,7 +76,6 @@ describe "きづき Integration" do
                 end
               end
             end
-=end
           end
         end
       end
@@ -116,7 +114,6 @@ describe "きづき Integration" do
     end
   end
 
-=begin
   describe "下書き一覧ページ内" do
     before do
       @user = login
@@ -356,7 +353,6 @@ describe "きづき Integration" do
       end
     end
   end
-=end
 
   def wont_include_notice?(text, notice, user)
     text.wont_include notice.title

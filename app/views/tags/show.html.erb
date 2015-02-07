@@ -1,0 +1,9 @@
+<% nav_links = [[@tag.name, tag_path(@tag), :active]] %>
+
+<%= render "shared/tabs", links: nav_links %>
+<br>
+
+<% notices = @tagged_notices.map {|t| t.notice } %>
+<%= render "notices/notice_list", notices: notices %>
+
+<%= paginate @tagged_notices %>
