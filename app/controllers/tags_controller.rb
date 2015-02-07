@@ -3,7 +3,7 @@ class TagsController < ApplicationController
   PAR_PAGE = 10
 
   def index
-    @tags = Tag.page(params[:page]).per(PAR_PAGE)
+    @tags = Tag.joins(:notice_tags).select("tags.*, count(notice_tags.notice_id) as notices_count").group("tags.id").order("notices_count DESC")
   end
 
   def show
