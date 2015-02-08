@@ -29,6 +29,14 @@ class Activity < ActiveRecord::Base
 
   scope :default_order, -> { order("created_at DESC") }
 
+  def self.related_user (user)
+    Activity.
+      joins("LEFT JOIN notices ON activities.notice_id = notices.id").
+      joins("LEFT JOIN replies ON activities.reply_id = replies.id").
+      where("activities.user_id = ? or notices.user_id = ? or replies.user_id = ?",
+            user.id, user.id, user.id)
+  end
+
   def self.permit(params)
     params.require(:activity).permit(:notice_id, :user_id)
   end
