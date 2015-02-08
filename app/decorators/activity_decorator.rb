@@ -2,7 +2,7 @@ module ActivityDecorator
   include CommonDecorator
 
   def summary_html
-    summary =  "#{ created_at.to_date } | " +
+    summary =  "#{ created_at_string } | " +
       "#{ link_to(user.nickname, user_path(user)) }さんは" +
       "「#{ link_to(notice.title, notice_path(notice)) }」" +
       if notice?

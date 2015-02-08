@@ -16,6 +16,11 @@ Rails.application.routes.draw do
   end
 
   resources :tags, only: [:index, :show]
+  resources :activities, only: [:index] do
+    collection do
+      get "all"
+    end
+  end
 
   resource :reputation, only: [] do
     get 'notice/:id/:up_down' => 'reputation#notice'

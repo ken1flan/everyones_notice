@@ -9,8 +9,8 @@ describe "タグ Integration" do
     context "一覧ページを訪れたとき" do
       before { visit tags_path }
 
-      it "タグ名があること" do
-        page.text.must_include @tag.name
+      it "タグ名がないこと" do
+        page.html.wont_include @tag.name
       end
     end
 
