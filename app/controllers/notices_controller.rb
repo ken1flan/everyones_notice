@@ -1,5 +1,6 @@
 class NoticesController < ApplicationController
   before_action :set_notice, only: [:show, :edit, :update, :destroy, :opened, :not_opened]
+  after_action :opened_by_current_user, only: [:show, :unread]
 
   PAR_PAGE = 10
 
@@ -79,9 +80,7 @@ class NoticesController < ApplicationController
   end
 
   def opened
-    unless @notice.read_users.include? current_user
-      @notice.read_users << current_user
-    end
+    opened_by_current_user
   end
 
   def not_opened
@@ -99,11 +98,10 @@ class NoticesController < ApplicationController
   end
 
   def unread
-    @notices = current_user.unread_notices.
+    @notice = current_user.unread_notices.
       displayable.
       default_order.
-      page(params[:page]).per(PAR_PAGE)
-    render "index"
+      first
   end
 
   def draft
@@ -138,5 +136,12 @@ class NoticesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def notice_params
       params.require(:notice).permit(:title, :body, :tags_string)
+    end
+
+    def opened_by_current_user
+      return if @notice.blank?
+      unless @notice.read_users.include? current_user
+        @notice.read_users << current_user
+      end
     end
 end
