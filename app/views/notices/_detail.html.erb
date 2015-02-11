@@ -13,10 +13,31 @@
           <strong><%= link_to notice.title, notice_path(notice) %></strong>
           <br>
           <% notice.tags.each do |tag| %>
-            <%= link_to tag_path(tag), class: "btn btn-default btn-xs" do %>
-              <span class="glyphicon glyphicon-tag"><%= tag.name %>
-            <% end %>
+            <%= link_to tag.name, tag_path(tag), class: "btn btn-default btn-xs" %>
           <% end %>
+          <button id="add_tag_button_<%= notice.id %>" class="btn btn-xs btn-default" onclick="$('#notice_tag_form_<%= notice.id %>').toggle();$('#notice_tag_error_<%= notice.id %>').hide();">
+            <span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-tag"></span>
+          </button>
+          <div id="notice_tag_form_<%= notice.id %>" style="display: none;">
+            <% tag = Tag.new %>
+            <%= form_for tag, url: add_tag_notice_path(notice), remote: true do |f| %>
+              <br>
+              <div id="notice_tag_error_<%= notice.id %>" class="alert alert-danger" style="display: none;">
+              </div>
+              <div class="input-group col-md-4">
+                <span class="input-group-addon glyphicon glyphicon-tag" id="basic-addon1"></span>
+                <%= f.text_field :name, id: "notice_tag_name_#{notice.id}", class: "form-control" %>
+                <span class="input-group-btn">
+                  <button id="submit_notice_tag_button_<%= notice.id %>" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-ok text-success"></span> 
+                  </button>
+                  <button class="btn btn-default" onclick="$('#notice_tag_form_<%= notice.id %>').toggle();$('#notice_tag_error_<%= notice.id %>').hide();">
+                    <span class="glyphicon glyphicon-remove text-danger"></span> 
+                  </button>
+                </span>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
       <div class="panel-body">

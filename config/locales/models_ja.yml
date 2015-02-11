@@ -7,6 +7,7 @@ ja:
       club: クラブ
       notice: きづき
       reply: 返信
+      tag: タグ
 
     attributes:
       user:
@@ -23,3 +24,5 @@ ja:
         published_at: 公開日時
         created_at: 作成日時
         updated_at: 更新日時
+      tag:
+        name: タグ名
