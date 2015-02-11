@@ -1,7 +1,7 @@
 <% if links.present? %>
   <ul class="nav nav-tabs">
     <% links.each do |link| %>
-      <li role="presentation" class="<%= link[2] %>">
+      <li role="presentation" class="<%= :active if link[1] == request.path_info %>">
       <%= link_to link[0], link[1] %>
       </li>
     <% end %>

@@ -1,16 +1,4 @@
-<%
-    action_name = controller.action_name
-    nav_links = [
-      ["サマリー", "/", :active],
-      ["今日", todays_notices_path, nil],
-      ["まだ読んでない", unread_notices_path,  action_name == "unread" ? :active : nil],
-      ["下書き", draft_notices_path,  action_name == "draft" ? :active : nil],
-      ["注目", watched_notices_path,  action_name == "watched" ? :active : nil],
-      ["すべて", notices_path,  nil]
-    ]
-%>
-
-<%= render "shared/tabs", links: nav_links %>
+<%= render "notices/tabs" %>
 <br>
 
 <div class="row">

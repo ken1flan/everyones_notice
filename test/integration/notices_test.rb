@@ -237,40 +237,6 @@ describe "きづき Integration" do
     end
   end
 
-  describe "既読" do
-    before do
-      @notice = create(:notice)
-      @user = create_user_and_identity("twitter")
-      login @user
-    end
-
-    context "一覧ページを訪れたとき" do
-      before { visit notices_path }
-
-      context "「既読」を押したとき" do
-        before do
-          click_button "opened_notice_#{@notice.id}"
-          sleep 1
-        end
-
-        it "ボタンがOKになること" do
-          find(:css, "#opened_notice_#{@notice.id}").has_css?(".glyphicon-ok").must_equal true
-        end
-
-        context "「既読」を解除したとき" do
-          before do
-            click_button "opened_notice_#{@notice.id}"
-            sleep 1
-          end
-
-          it "ボタンがminusになること" do
-            find(:css, "#opened_notice_#{@notice.id}").has_css?(".glyphicon-minus").must_equal true
-          end
-        end
-      end
-    end
-  end
-
   describe "今日のきづき" do
     before do
       login
