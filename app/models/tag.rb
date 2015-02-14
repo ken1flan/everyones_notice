@@ -11,4 +11,9 @@
 class Tag < ActiveRecord::Base
   has_many :notice_tags
   has_many :notices, through: :notice_tags
+
+   validates :name,
+    presence: true,
+    length: { maximum: 32 },
+    format: { with: /\A[^,]+$\Z/ }
 end

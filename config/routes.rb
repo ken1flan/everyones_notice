@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     member do
       get "opened"
       get "not_opened"
+      post "add_tag"
     end
     collection do
       get "todays"
