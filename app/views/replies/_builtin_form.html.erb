@@ -13,10 +13,10 @@
           <br>
           <span class="pull-right">
             <% if reply.id? %>
-              <%= f.submit "更新する", class: "btn btn-primary" %>
+              <%= f.submit "更新する", class: "btn btn-primary", data: { disable_with: "送信中" } %>
               <a class="btn btn-default" onClick="$('#reply_detail_<%= base_id %>').show(); $('#reply_notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
             <% else %>
-              <%= f.submit "返信する", class: "btn btn-primary" %>
+              <%= f.submit "返信する", class: "btn btn-primary", data: { disable_with: "送信中" } %>
             <% end %>
           </span>
         <% end %>

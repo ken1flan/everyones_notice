@@ -33,13 +33,13 @@
           <br>
           <span class="pull-right">
             <% if notice.draft? %>
-              <%= f.submit "公開", class: "btn btn-primary", name: "publish" %>
-              <%= f.submit "下書き", class: "btn btn-default" %>
+              <%= f.submit "公開", class: "btn btn-primary", name: "publish", data: { disable_with: "送信中" } %>
+              <%= f.submit "下書き", class: "btn btn-default", data: { disable_with: "送信中" } %>
               <% if builtin %>
                 <a class="btn btn-default" onClick="$('#notice_detail_<%= base_id %>').show(); $('#notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
               <% end %>
             <% else %>
-              <%= f.submit "更新する", class: "btn btn-primary" %>
+              <%= f.submit "更新する", class: "btn btn-primary", data: { disable_with: "送信中" } %>
               <% if builtin %>
                 <a class="btn btn-default" onClick="$('#notice_detail_<%= base_id %>').show(); $('#notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
               <% end %>
