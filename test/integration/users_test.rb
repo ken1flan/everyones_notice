@@ -184,6 +184,36 @@ describe "ユーザ管理 Integration" do
     end
   end
 
+  describe "ユーザのアクティビティ" do
+    before { login }
+
+    context "ユーザがおり、アクティビティがあるとき" do
+      before do
+        @user = create(:user)
+        @notice = create(:notice, user: @user)
+      end
+
+      context "もうひとりユーザがおり、アクティビティがあるとき" do
+        before do
+          @another_user = create(:user)
+          @another_notice = create(:notice, user: @another_user)
+        end
+
+        context "ユーザのアクティビティページを訪れたとき" do
+          before { visit activities_user_path(@user) }
+
+          it "ユーザのアクティビティが表示されていること" do
+            page.text.must_include @notice.title
+          end
+
+          it "もうひとりのユーザのアクティビティが表示されていないこと" do
+            page.text.wont_include @another_notice.title
+          end
+        end
+      end
+    end
+  end
+
   describe "ユーザの削除" do
     before { @user = create(:user) }
 

@@ -88,7 +88,14 @@ class UsersController < ApplicationController
   end
 
   def activities
-    render json: @user.activities_for_heatmap
+    respond_to do |format|
+      format.html do
+        @activities = Activity.related_user(@user).
+          default_order.
+          page(params[:page]).per(PAR_PAGE)
+      end
+      format.json { render json: @user.activities_for_heatmap }
+    end
   end
 
   private

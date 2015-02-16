@@ -11,7 +11,7 @@
       var cal = new CalHeatMap();
       cal.init({
         itemSelector: "#user_activity_map",
-        data: "<%= activities_user_path(user) %>",
+        data: "<%= activities_user_path(user, format: :json) %>",
         domain: "month",
         subDomain: "day",
         range: 6,
