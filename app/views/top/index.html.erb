@@ -31,7 +31,61 @@
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-12">
     <%= render "activities/list", activities: @activities %>
+  </div>
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= link_to "https://github.com/ken1flan/everyones_notice/pulls?q=is%3Apr+is%3Aclosed" do %>
+        新機能
+        <% end %>
+      </div>
+      <div class="pull_list panel-body">
+        取得中です…
+      </div>
+      <script  type="text/javascript">
+        $.getJSON("https://api.github.com/repos/ken1flan/everyones_notice/pulls?state=closed", function (pulls) {
+         var pull_count = pulls.length;
+         var html = "ありませんでした。";
+
+         if(pull_count > 0){
+           for(i = 0, html = ""; i < 5 && i < pull_count; i++){
+             var pull = pulls[i];
+             var marged_at = new Date(Date.parse(pull.merged_at));
+             html += "<div class='row'><div class='col-md-2'>" + marged_at.toLocaleDateString() + "</div>" + pull.title + "</div>";
+           }
+           $(".pull_list").html(html);
+         }
+        });
+      </script>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <%= link_to "https://github.com/ken1flan/everyones_notice/issues" do %>
+        これから
+        <% end %>
+      </div>
+      <div class="issue_list panel-body">
+        取得中です…
+      </div>
+      <script  type="text/javascript">
+        $.getJSON("https://api.github.com/repos/ken1flan/everyones_notice/issues", function (issues) {
+         var issue_count = issues.length;
+         var html = "ありませんでした。";
+
+         if(issue_count > 0){
+           for(i = 0, html = ""; i < 5 && i < issue_count; i++){
+             html += issues[i].title + "<br>";
+           }
+           $(".issue_list").html(html);
+         }
+        });
+      </script>
+    </div>
   </div>
 </div>

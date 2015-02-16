@@ -8,11 +8,11 @@ module ActivityDecorator
       if notice?
         "を書きました。"
       elsif reply?
-        "に返信しました"
+        "に返信しました。"
       elsif thumbup_notice?
-        "にいいねしました"
+        "にいいねしました。"
       elsif thumbup_reply?
-        "の返信にいいねしました"
+        "の返信にいいねしました。"
       else
         "?"
       end
