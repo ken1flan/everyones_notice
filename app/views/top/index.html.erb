@@ -46,7 +46,7 @@
         取得中です…
       </div>
       <script  type="text/javascript">
-        $.getJSON("https://api.github.com/repos/ken1flan/everyones_notice/pulls?state=closed", function (pulls) {
+        $.getJSON("https://api.github.com/repos/ken1flan/everyones_notice/pulls?state=closed&page=1&per_page=5", function (pulls) {
          var pull_count = pulls.length;
          var html = "ありませんでした。";
 
@@ -74,7 +74,7 @@
         取得中です…
       </div>
       <script  type="text/javascript">
-        $.getJSON("https://api.github.com/repos/ken1flan/everyones_notice/issues", function (issues) {
+        $.getJSON("https://api.github.com/repos/ken1flan/everyones_notice/issues?page=1&per_page=5", function (issues) {
          var issue_count = issues.length;
          var html = "ありませんでした。";
 
