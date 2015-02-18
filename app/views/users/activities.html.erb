@@ -1,0 +1,10 @@
+<%= render "users/tabs" %>
+<br>
+
+<% @activities.each do |activity| %>
+  <div class="row">
+    <%= render"activities/summary", activity: activity %>
+  </div>
+<% end %>
+
+<%= paginate @activities %>
