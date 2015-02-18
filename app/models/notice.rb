@@ -31,7 +31,10 @@ class Notice < ActiveRecord::Base
   has_many :tags, through: :notice_tags
   has_many :activities
 
-  has_reputation :likes, source: :user, aggregated_by: :sum
+  has_reputation :likes,
+    source: :user,
+    aggregated_by: :sum,
+    source_of: { reputation: :total_notice_likes, of: :user }
   include Liked
 
   scope :displayable, -> { where.not(published_at: nil) }

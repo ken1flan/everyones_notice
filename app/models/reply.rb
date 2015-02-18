@@ -20,7 +20,12 @@ class Reply < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :notice
-  has_reputation :likes, source: :user, aggregated_by: :sum
+
+  has_reputation :likes,
+    source: :user,
+    aggregated_by: :sum,
+    source_of: { reputation: :total_reply_likes, of: :user }
+
   include Liked
 
   validates :notice_id,

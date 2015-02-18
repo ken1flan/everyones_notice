@@ -18,8 +18,16 @@
       <% end %>
       <div class="media-body">
         <h4 class="media-heading"><%= link_to user.nickname, user %></h4>
-          <strong>Club:</strong>
-          <%= user.club.name %>
+        <strong>Club:</strong>
+        <%= user.club.name %>
+        <br>
+        <br>
+
+        <p class="text-muted small">
+        <span class="glyphicon glyphicon-flash"></span> きづき: <%= user.notices_count %> /
+        <span class="glyphicon glyphicon-envelope"></span> 返信: <%= user.replies_count %> /
+        <span class="glyphicon glyphicon-star"></span> いいね: <%= user.liked_count %>
+        </p>
       </div>
     </div>
   </div>

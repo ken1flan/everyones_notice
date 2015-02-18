@@ -18,6 +18,192 @@
 require 'test_helper'
 
 describe User do
+  describe "#notices_count" do
+    before { @user = create(:user) }
+
+    context "noticeがないとき" do
+      it "0であること" do
+        @user.notices_count.must_equal 0
+      end
+    end
+
+    context "ほかのひとのnoticeがあるとき" do
+      before{ create(:notice) }
+
+      it "0であること" do
+        @user.notices_count.must_equal 0
+      end
+    end
+
+    context "下書きのnoticeがあるとき" do
+      before{ create(:notice, :draft, user: @user) }
+
+      it "0であること" do
+        @user.notices_count.must_equal 0
+      end
+    end
+
+    context "noticeがあるとき" do
+      before{ create(:notice, user: @user) }
+
+      it "1であること" do
+        @user.notices_count.must_equal 1
+      end
+    end
+
+    context "noticeが2つあるとき" do
+      before{ create_list(:notice, 2, user: @user) }
+
+      it "2であること" do
+        @user.notices_count.must_equal 2
+      end
+    end
+  end
+
+  describe "#replies_count" do
+    before { @user = create(:user) }
+
+    context "replyがないとき" do
+      it "0であること" do
+        @user.replies_count.must_equal 0
+      end
+    end
+
+    context "ほかのひとのreplyがあるとき" do
+      before{ create(:reply) }
+
+      it "0であること" do
+        @user.replies_count.must_equal 0
+      end
+    end
+
+    context "replyがあるとき" do
+      before{ create(:reply, user: @user) }
+
+      it "1であること" do
+        @user.replies_count.must_equal 1
+      end
+    end
+
+    context "replyが2つあるとき" do
+      before{ create_list(:reply, 2, user: @user) }
+
+      it "2であること" do
+        @user.replies_count.must_equal 2
+      end
+    end
+  end
+
+  describe "#liked_count" do
+    before { @user = create(:user) }
+
+    context "likeされていないnoticeがひとつあるとき" do
+      before { create(:notice, user: @user) }
+
+      it "0であること" do
+        @user.reload.liked_count.must_equal 0
+      end
+    end
+
+    context "likeされたほかのuserのnoticeがひとつあるとき" do
+      before do
+        notice = create(:notice)
+        another_user = create(:user)
+        notice.add_or_update_evaluation(:likes, 1, another_user)
+      end
+
+      it "0であること" do
+        @user.reload.liked_count.must_equal 0
+      end
+    end
+
+    context "likeされたnoticeがひとつあるとき" do
+      before do
+        notice = create(:notice, user: @user)
+        another_user = create(:user)
+        notice.add_or_update_evaluation(:likes, 1, another_user)
+      end
+
+      it "1であること" do
+        @user.reload.liked_count.must_equal 1
+      end
+    end
+
+    context "likeされたnoticeがふたつあるとき" do
+      before do
+        2.times.each do
+          notice = create(:notice, user: @user)
+          another_user = create(:user)
+          notice.add_or_update_evaluation(:likes, 1, another_user)
+        end
+      end
+
+      it "2であること" do
+        @user.reload.liked_count.must_equal 2
+      end
+    end
+
+    context "likeされていないreplyがひとつあるとき" do
+      before { create(:reply, user: @user) }
+
+      it "0であること" do
+        @user.reload.liked_count.must_equal 0
+      end
+    end
+
+    context "likeされたほかのuserのreplyがひとつあるとき" do
+      before do
+        reply = create(:reply)
+        another_user = create(:user)
+        reply.add_or_update_evaluation(:likes, 1, another_user)
+      end
+
+      it "0であること" do
+        @user.reload.liked_count.must_equal 0
+      end
+    end
+
+    context "likeされたreplyがひとつあるとき" do
+      before do
+        reply = create(:reply, user: @user)
+        another_user = create(:user)
+        reply.add_or_update_evaluation(:likes, 1, another_user)
+      end
+
+      it "1であること" do
+        @user.reload.liked_count.must_equal 1
+      end
+    end
+
+    context "likeされたreplyがふたつあるとき" do
+      before do
+        2.times.each do
+          reply = create(:reply, user: @user)
+          another_user = create(:user)
+          reply.add_or_update_evaluation(:likes, 1, another_user)
+        end
+      end
+
+      it "2であること" do
+        @user.reload.liked_count.must_equal 2
+      end
+    end
+
+    context "likeされたnotice、replyがひとつずつあるとき" do
+      before do
+        notice = create(:notice, user: @user)
+        reply = create(:reply, user: @user)
+        another_user = create(:user)
+        notice.add_or_update_evaluation(:likes, 1, another_user)
+        reply.add_or_update_evaluation(:likes, 1, another_user)
+      end
+
+      it "2であること" do
+        @user.reload.liked_count.must_equal 2
+      end
+    end
+  end
+
   describe ".create_with_identity" do
     before do
       @auth = {
