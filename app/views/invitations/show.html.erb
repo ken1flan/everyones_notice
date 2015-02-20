@@ -1,28 +1,51 @@
-<p id="notice"><%= notice %></p>
-
-<p>
-  <strong>メールアドレス:</strong>
-  <%= @invitation.mail_address %>
-</p>
-
-<p>
-  <strong>メッセージ:</strong>
-  <%= @invitation.message %>
-</p>
-
-<p>
-  <strong>ユーザ:</strong>
-  <%= @invitation.user_id %>
-</p>
-
-<p>
-  <strong>トークン:</strong>
-  <%= @invitation.token %>
-</p>
-
-<p>
-  <strong>期限:</strong>
-  <%= @invitation.expired_at %>
-</p>
+<% if @invitation.user.blank? %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <strong>SUBJECT: </strong> みんなのきづきへの招待状<br>
+      <strong>TO: </strong> <%= @invitation.mail_address %>
+    </div>
+    <div class="panel-body">
+      <p>
+        <%= @invitation.message %>
+      </p>
+      <p>
+        下のURLをクリックしてください。<br>
+        「みんなのきづき」のユーザ登録画面に飛びます。<br>
+      </p>
+      <p>
+        <%= link_to new_user_url(token: @invitation.token) %>
+      </p>
+      <p>
+        セキュリティの観点から、<%= @invitation.expired_at_string %>までしか有効じゃありません。<br>
+        もし切れていたらお声がけください。
+      </p>
+    </div>
+  </div>
+<% else %>
+  <p>
+    <strong>メールアドレス:</strong>
+    <%= @invitation.mail_address %>
+  </p>
+  
+  <p>
+    <strong>メッセージ:</strong>
+    <%= @invitation.message %>
+  </p>
+  
+  <p>
+    <strong>ユーザ:</strong>
+    <%= @invitation.user_id %>
+  </p>
+  
+  <p>
+    <strong>トークン:</strong>
+    <%= @invitation.token %>
+  </p>
+  
+  <p>
+    <strong>期限:</strong>
+    <%= @invitation.expired_at %>
+  </p>
+<% end %>
 
 <%= link_to '一覧', invitations_path %>
