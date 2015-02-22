@@ -25,12 +25,40 @@ class User < ActiveRecord::Base
   has_many :activities
   has_one :invitation
 
+  has_reputation :total_likes,
+    source: [
+      { reputation: :total_notice_likes },
+      { reputation: :total_reply_likes }
+    ]
+
+  has_reputation :total_notice_likes,
+    source: { reputation: :likes, of: :notices }
+
+  has_reputation :total_reply_likes,
+    source: { reputation: :likes, of: :replies }
+
   def unread_notices
     Notice.where.not(id: read_notices.pluck(:id))
   end
 
   def draft_notices
     Notice.where(user_id: id, published_at: nil)
+  end
+
+  def notices_count
+    notices.displayable.count
+  end
+
+  def replies_count
+    replies.count
+  end
+
+  def liked_count
+    reputation_for(:total_likes).to_i
+  end
+
+  def thumbup_count
+    300
   end
 
   def activities_for_heatmap(
