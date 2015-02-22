@@ -14,6 +14,7 @@ gem "sdoc", "~> 0.4.0", group: :doc
 gem "zurui-sass-rails"                    # ズルいデザイン
 gem "kaminari"                            # ページング
 gem "redcarpet"                           # マークダウン
+gem "pygments.rb"                         # シンタックスハイライト
 gem "active_decorator"                    # デコレータ
 gem "activerecord-reputation-system"      # いいね
 gem "omniauth"                            # OAuth
