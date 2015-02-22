@@ -25,11 +25,25 @@ class ApplicationController < ActionController::Base
     redirect_to login_path unless current_user
   end
 
+  class HTMLwithPygments < Redcarpet::Render::HTML
+    def block_code(code, language)
+      sha = Digest::SHA1.hexdigest(code)
+      Rails.cache.fetch ["code", language, sha].join('-') do
+        Pygments.highlight(code, lexer:language)
+      end
+    end
+  end
+
   def markdown_to_html(markdown_text)
-    @markdown ||= Redcarpet::Markdown.new(
-      Redcarpet::Render::HTML.new(hard_wrap: true),
-      autolink: true
-    )
-    @markdown.render markdown_text
+    renderer = HTMLwithPygments.new(hard_wrap: true, filter_html: true)
+    options = {
+      autolink: true,
+      no_intra_emphasis: true,
+      fenced_code_blocks: true,
+      lax_html_blocks: true,
+      strikethrough: true,
+      superscript: true
+    }
+    Redcarpet::Markdown.new(renderer, options).render(markdown_text).html_safe
   end
 end
