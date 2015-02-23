@@ -25,6 +25,13 @@
             subDomain: "day",
             range: 6,
             start: startDate,
+            onClick: function(date, nb) {
+              url = "<%= all_activities_path %>" +
+                "?year=" + date.getFullYear() +
+                "&month=" + (date.getMonth() + 1) +
+                "&day=" + date.getDate();
+              document.location.href = url;
+            },
            });
         </script>
       </div>
