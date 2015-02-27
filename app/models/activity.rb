@@ -28,6 +28,11 @@ class Activity < ActiveRecord::Base
   enum type_id: { notice: 1, reply: 2, thumbup_notice: 3, thumbup_reply: 4 }
 
   scope :default_order, -> { order("created_at DESC") }
+  scope :between_beginning_and_end_of_day, -> (target_date) {
+    if target_date.present?
+      where(created_at: target_date.beginning_of_day..target_date.end_of_day)
+    end
+  }
 
   def self.related_user (user)
     Activity.
