@@ -41,13 +41,13 @@ ActiveRecord::Schema.define(version: 20150228093555) do
     t.string   "title",                  null: false
     t.text     "body",                   null: false
     t.integer  "user_id",                null: false
-    t.integer  "type",       default: 0, null: false
     t.string   "url"
     t.integer  "status",     default: 0, null: false
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
+  add_index "feedbacks", ["status"], name: "index_feedbacks_on_status"
   add_index "feedbacks", ["updated_at"], name: "index_feedbacks_on_updated_at"
   add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
 

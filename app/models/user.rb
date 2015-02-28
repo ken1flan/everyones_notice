@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :read_notices, through: :notice_read_users, source: :notice
   has_many :replies
   has_many :activities
+  has_many :feedbacks
   has_one :invitation
 
   has_reputation :total_likes,

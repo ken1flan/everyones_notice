@@ -4,7 +4,6 @@ class CreateFeedbacks < ActiveRecord::Migration
       t.string :title, null: false
       t.text :body, null: false
       t.integer :user_id, null: false
-      t.integer :type, null: false, default: 0
       t.string :url
       t.integer :status, null: false, default: 0
 
@@ -12,6 +11,7 @@ class CreateFeedbacks < ActiveRecord::Migration
 
       t.index :updated_at
       t.index :user_id
+      t.index :status
     end
   end
 end
