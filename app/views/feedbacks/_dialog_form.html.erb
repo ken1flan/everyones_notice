@@ -4,11 +4,11 @@
       <%= form_for feedback, remote: true, id: "feedback_dialog_form" do |f| %>
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">きかせてください</h4>
+          <h4 class="modal-title" id="myModalLabel">運営にFeedback</h4>
         </div>
         <div class="modal-body">
-          <div class="alert alert-warning feedback_errors" style="display: none;"></div>
-          <%= f.text_area :body, id: "feedback_body", class: "form-control", rows: 10, placeholder: "「みんなのきづき」に対して思ったこと、感じたことなどをきかせてください。" %>
+          <div id="feedback_errors" class="alert alert-warning" style="display: none;"></div>
+          <%= f.text_area :body, id: "feedback_body", class: "form-control", rows: 10, placeholder: "「みんなのきづき」に対して思ったこと、感じたことなどをおきかせください。" %>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

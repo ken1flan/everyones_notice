@@ -14,12 +14,7 @@ class FeedbacksController < ApplicationController
     @feedback = Feedback.new(feedback_params)
     @feedback.user = current_user
 
-    respond_to do |format|
-      if @feedback.save
-
-      else
-      end
-    end
+    @feedback.save
   end
 
   private
@@ -28,6 +23,6 @@ class FeedbacksController < ApplicationController
     end
 
     def feedback_params
-      params.require(:feedback).permit(:title, :body)
+      params.require(:feedback).permit(:body)
     end
 end

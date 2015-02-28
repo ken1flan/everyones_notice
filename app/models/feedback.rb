@@ -22,9 +22,6 @@ class Feedback < ActiveRecord::Base
 
   enum status: { unclassified: 0, opened: 1, closed: 2 }
 
-  validates :title,
-    presence: true,
-    length: { maximum: 64 }
   validates :body,
     presence: true
   validates :user_id,
