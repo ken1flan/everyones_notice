@@ -38,7 +38,6 @@ ActiveRecord::Schema.define(version: 20150228093555) do
   end
 
   create_table "feedbacks", force: :cascade do |t|
-    t.string   "title",                  null: false
     t.text     "body",                   null: false
     t.integer  "user_id",                null: false
     t.string   "url"

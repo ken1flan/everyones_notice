@@ -3,7 +3,6 @@
 # Table name: feedbacks
 #
 #  id         :integer          not null, primary key
-#  title      :string           not null
 #  body       :text             not null
 #  user_id    :integer          not null
 #  url        :string
@@ -23,30 +22,6 @@ require "test_helper"
 describe Feedback do
   describe "バリデーション" do
     before { @feedback = build(:feedback) }
-
-    describe "title" do
-      valid_data = [1, 2, "a", "aaa", "あああ", "あ"*64]
-      valid_data.each do |vd|
-        context "title = #{vd}のとき" do
-          before { @feedback.title = vd }
-
-          it "validであること" do
-            @feedback.valid?.must_equal true
-          end
-        end
-      end
-
-      invalid_data = [nil, "", "あ"*65]
-      invalid_data.each do |ivd|
-        context "title = #{ivd}のとき" do
-          before { @feedback.title = ivd }
-
-          it "invalidであること" do
-            @feedback.invalid?.must_equal true
-          end
-        end
-      end
-    end
 
     describe "body" do
       valid_data = [1, 2, "a", "aaa", "あああ"]

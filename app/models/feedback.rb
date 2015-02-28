@@ -3,7 +3,6 @@
 # Table name: feedbacks
 #
 #  id         :integer          not null, primary key
-#  title      :string           not null
 #  body       :text             not null
 #  user_id    :integer          not null
 #  url        :string

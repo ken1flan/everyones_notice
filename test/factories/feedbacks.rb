@@ -3,7 +3,6 @@
 # Table name: feedbacks
 #
 #  id         :integer          not null, primary key
-#  title      :string           not null
 #  body       :text             not null
 #  user_id    :integer          not null
 #  url        :string
@@ -20,12 +19,11 @@
 
 FactoryGirl.define do
   factory :feedback do
-    title "MyString"
-body "MyText"
-user_id 1
-type 1
-url "MyString"
-status 1
+    body "MyText"
+    user_id 1
+    type 1
+    url "MyString"
+    status 1
   end
 
 end
