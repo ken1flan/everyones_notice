@@ -1,5 +1,6 @@
 class FeedbacksController < ApplicationController
   before_action :set_feedback, only: [:show]
+  before_action :redirect_no_user_manager, only: [:index, :show]
 
   PAR_PAGE = 10
 
@@ -26,5 +27,9 @@ class FeedbacksController < ApplicationController
 
     def feedback_params
       params.require(:feedback).permit(:body)
+    end
+
+    def redirect_no_user_manager
+      not_found unless can_manage_users?
     end
 end

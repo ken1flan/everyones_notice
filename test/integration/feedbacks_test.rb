@@ -56,4 +56,29 @@ describe "フィードバック Integration" do
       end
     end
   end
+
+  describe "権限" do
+    context "一般ユーザでフィードバック一覧を訪れたとき" do
+      before do
+        login
+        visit feedbacks_path
+      end
+
+      it "表示されないこと" do
+        page.status_code.must_equal 404
+      end
+    end
+
+    context "一般ユーザでフィードバック詳細を訪れたとき" do
+      before do
+        @feedback = create(:feedback)
+        login
+        visit feedback_path(@feedback)
+      end
+
+      it "表示されないこと" do
+        page.status_code.must_equal 404
+      end
+    end
+  end
 end
