@@ -1,0 +1,18 @@
+<div class="media">
+  <div class="col-md-1 pull-left">
+    <%= link_to user_path(feedback.user) do %>
+      <%= image_tag feedback.user.icon_url, alt: feedback.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= feedback.user.nickname %></small>
+    <% end %>
+  </div>
+  <div class="media-body col-md-11">
+    <%= link_to feedback_path(feedback) do %>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <%= truncate(feedback.body, length: 40) %><br>
+          <span class="pull-right"><%= feedback.created_at_string %></span>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

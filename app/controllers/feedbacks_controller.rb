@@ -4,7 +4,9 @@ class FeedbacksController < ApplicationController
   PAR_PAGE = 10
 
   def index
-    @feedbacks = Feedback.page(params[:page]).per(PAR_PAGE)
+    @feedbacks = Feedback.
+      order("created_at DESC").
+      page(params[:page]).per(PAR_PAGE)
   end
 
   def show

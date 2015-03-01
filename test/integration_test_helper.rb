@@ -15,3 +15,7 @@ def login(user = nil)
   visit "/auth/twitter"
   user
 end
+
+def logout
+  visit signout_path
+end
