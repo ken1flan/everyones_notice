@@ -1,0 +1,18 @@
+<legend><%= @feedback.user.nickname %>さんからのフィードバック</legend>
+
+<div class="media">
+  <div class="col-md-1 pull-left">
+    <%= link_to user_path(@feedback.user) do %>
+      <%= image_tag @feedback.user.icon_url, alt: @feedback.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= @feedback.user.nickname %></small>
+    <% end %>
+  </div>
+  <div class="media-body col-md-11">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= simple_format @feedback.body %><br>
+        <span class="pull-right"><%= @feedback.created_at_string %></span>
+      </div>
+    </div>
+  </div>
+</div>

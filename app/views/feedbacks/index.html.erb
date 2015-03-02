@@ -1,0 +1,14 @@
+<%
+    nav_links = [
+      ["フィードバック一覧", feedbacks_path],
+    ]
+%>
+
+<%= render "shared/tabs", links: nav_links %>
+<br>
+
+<% @feedbacks.each do |feedback| %>
+  <%= render "summary", feedback: feedback %>
+<% end %>
+
+<%= paginate @feedbacks %>

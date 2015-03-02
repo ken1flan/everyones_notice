@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150128001340) do
+ActiveRecord::Schema.define(version: 20150228093555) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -36,6 +36,19 @@ ActiveRecord::Schema.define(version: 20150128001340) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "feedbacks", force: :cascade do |t|
+    t.text     "body",                   null: false
+    t.integer  "user_id",                null: false
+    t.string   "url"
+    t.integer  "status",     default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "feedbacks", ["status"], name: "index_feedbacks_on_status"
+  add_index "feedbacks", ["updated_at"], name: "index_feedbacks_on_updated_at"
+  add_index "feedbacks", ["user_id"], name: "index_feedbacks_on_user_id"
 
   create_table "identities", force: :cascade do |t|
     t.integer  "user_id"

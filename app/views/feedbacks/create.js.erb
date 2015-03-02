@@ -1,0 +1,18 @@
+<% if @feedback.errors.any? %>
+  <%
+      error_html = "<ul>"
+      @feedback.errors.full_messages.each do |message|
+        error_html += "<li>#{message}</li>"  
+      end
+      error_html += "</ul>"
+  %>
+  $("#feedback_errors").html('<%= error_html.html_safe %>');
+  $("#feedback_errors").show();
+<% else %>
+  $("#feedback_errors").hide();
+  $("#feedback_body").val("");
+  $("#newFeedbackDialog").modal("hide");
+  $("#message_title").html("運営にFeedback");
+  $("#message_body").html("参考にさせていただきます！<br>ありがとうございました。");
+  $("#messageDialog").modal("show");
+<% end %>
