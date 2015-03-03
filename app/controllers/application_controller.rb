@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def can_manage_users?
-    !!current_user.admin
+    current_user.present? && current_user.admin
   end
 
   def current_user
