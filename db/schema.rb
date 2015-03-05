@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150228093555) do
+ActiveRecord::Schema.define(version: 20150304070236) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -105,6 +105,16 @@ ActiveRecord::Schema.define(version: 20150228093555) do
 
   add_index "notices", ["published_at"], name: "index_notices_on_published_at"
   add_index "notices", ["user_id"], name: "index_notices_on_user_id"
+
+  create_table "post_images", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "image"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "post_images", ["created_at"], name: "index_post_images_on_created_at"
+  add_index "post_images", ["user_id"], name: "index_post_images_on_user_id"
 
   create_table "read_notices_by_users", force: :cascade do |t|
     t.integer "user_id"
