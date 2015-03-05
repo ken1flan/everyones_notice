@@ -28,6 +28,8 @@ Rails.application.routes.draw do
     get 'reply/:id/:up_down' => 'reputation#reply'
   end
 
+  resources :post_images, except: [:edit, :update]
+
   root "top#index"
   get "current_user_activities", to: "top#current_user_activities"
   get "current_club_activities", to: "top#current_club_activities"
