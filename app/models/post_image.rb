@@ -3,8 +3,9 @@
 # Table name: post_images
 #
 #  id         :integer          not null, primary key
-#  user_id    :integer
-#  image      :string
+#  user_id    :integer          not null
+#  title      :string           not null
+#  image      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -18,4 +19,11 @@ class PostImage < ActiveRecord::Base
   belongs_to :user
 
   mount_uploader :image, ImageUploader
+
+  validates :title,
+    presence: true,
+    length: { maximum: 64 }
+
+  validates :image,
+    presence: true
 end

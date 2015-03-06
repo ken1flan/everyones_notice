@@ -3,8 +3,9 @@
 # Table name: post_images
 #
 #  id         :integer          not null, primary key
-#  user_id    :integer
-#  image      :string
+#  user_id    :integer          not null
+#  title      :string           not null
+#  image      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -17,7 +18,8 @@
 FactoryGirl.define do
   factory :post_image do
     user_id 1
-image "MyString"
+    title "MyString"
+    image "MyString"
   end
 
 end

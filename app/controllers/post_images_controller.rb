@@ -16,6 +16,7 @@ class PostImagesController < ApplicationController
 
   def create
     @post_image = PostImage.new(post_image_params)
+    @post_image.user = current_user
     if @post_image.save
       redirect_to @post_image, notice: 'Image was successfully created.'
     else
@@ -29,6 +30,6 @@ class PostImagesController < ApplicationController
     end
 
     def post_image_params
-      params.require(:post_image).permit(:image, :user_id)
+      params.require(:post_image).permit(:title, :image)
     end
 end

@@ -107,8 +107,9 @@ ActiveRecord::Schema.define(version: 20150304070236) do
   add_index "notices", ["user_id"], name: "index_notices_on_user_id"
 
   create_table "post_images", force: :cascade do |t|
-    t.integer  "user_id"
-    t.string   "image"
+    t.integer  "user_id",    null: false
+    t.string   "title",      null: false
+    t.string   "image",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
