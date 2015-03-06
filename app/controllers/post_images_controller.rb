@@ -15,7 +15,12 @@ class PostImagesController < ApplicationController
   end
 
   def create
-    @post_image = PostImage.new
+    @post_image = PostImage.new(post_image_params)
+    if @post_image.save
+      redirect_to @post_image, notice: 'Image was successfully created.'
+    else
+      render :new
+    end
   end
 
   private
