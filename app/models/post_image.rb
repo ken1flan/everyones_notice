@@ -35,7 +35,7 @@ class PostImage < ActiveRecord::Base
     return if image.blank?
 
     unless VALID_IMAGE_TYPES.include? image.file.content_type 
-      errors.add :image, I18n.t("errors.messages.invalid_image")
+      errors.add :image, I18n.t("errors.messages.invalid_image_type")
     end
   end
 end

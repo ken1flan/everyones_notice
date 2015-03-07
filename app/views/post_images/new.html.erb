@@ -1,5 +1,11 @@
-<%= form_for @post_image do |f| %>
+<ul>
+  <% @post_image.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+  <% end %>
+</ul>
+<%= form_for @post_image, html: { mustipart: true } do |f| %>
   <%= f.text_field :title %>
   <%= f.file_field :image %>
+  <%= f.hidden_field :image_cache %>
   <%= f.submit %>
 <% end %>
