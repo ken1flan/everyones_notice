@@ -8,6 +8,7 @@ ja:
       notice: きづき
       reply: 返信
       tag: タグ
+      post_image: 投稿画像
 
     attributes:
       user:
@@ -26,3 +27,8 @@ ja:
         updated_at: 更新日時
       tag:
         name: タグ名
+      post_image:
+        title: タイトル
+        image: 画像
+        user: 投稿者
+        user_id: 投稿者

@@ -44,5 +44,54 @@ describe PostImage do
         end
       end
     end
+
+    describe "image" do
+      context "nilのとき" do
+        before { @post_image = build(:post_image, title:"タイトル", image: nil) }
+
+        it "invalidであること" do
+          @post_image.valid?.must_equal false
+        end
+      end
+
+      valid_ext = %w(jpg jpeg JPG png PNG)
+      valid_ext.each do |ext|
+        context "jpgが指定されているとき" do
+          before do
+            image = open Rails.root.join("test", "fixtures", "images", "テスト画像.#{ext}")
+            @post_image = build(:post_image, title:"タイトル", image: image)
+          end
+
+          it "validであること" do
+            @post_image.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_ext = %w(bmp txt zip)
+      invalid_ext.each do |ext|
+        context "bmpが指定されているとき" do
+          before do
+            image = open Rails.root.join("test", "fixtures", "images", "テスト画像.#{ext}")
+            @post_image = build(:post_image, title:"タイトル", image: image)
+          end
+
+          it "invalidであること" do
+            @post_image.valid?.must_equal false
+          end
+        end
+      end
+
+      context "3MB以上の画像データを指定したとき" do
+        before do
+          image = open Rails.root.join("test", "fixtures", "images", "3MBテスト画像.jpg")
+          @post_image = build(:post_image, title:"タイトル", image: image)
+        end
+
+        it "invalidであること" do
+          @post_image.valid?.must_equal false
+        end
+      end
+    end
   end
 end

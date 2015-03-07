@@ -14,12 +14,15 @@
 #  index_post_images_on_created_at  (created_at)
 #  index_post_images_on_user_id     (user_id)
 #
+include  ActionDispatch::TestProcess
 
 FactoryGirl.define do
   factory :post_image do
     user_id 1
     title "MyString"
-    image "MyString"
+    image {
+      fixture_file_upload Rails.root.join("test", "fixtures", "images", "テスト画像.jpg")
+    }
   end
 
 end

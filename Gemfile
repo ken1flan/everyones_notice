@@ -23,6 +23,8 @@ gem "omniauth-twitter"                    # OAuth for twitter
 gem "omniauth-google-oauth2"              # OAuth for google
 gem "sunspot_rails"                       # 全文検索
 gem "carrierwave"                         # ファイルアップローダ
+gem "mini_magick"                         # 画像処理
+gem "carrierwave-magic"                   # ファイル内容でファイル形式を判断
 
 gem "rails-assets-bootstrap"              # 楽ちん部品
 gem "rails-assets-cal-heatmap"            # カレンダー型ヒートマップ
