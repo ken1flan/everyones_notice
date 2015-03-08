@@ -1,0 +1,12 @@
+<div class="media">
+  <div class="media-left">
+    <%= image_tag post_image.image_url, size: "64x64" %>
+  </div>
+  <div class="media-body form-horizontal">
+    <div class="media-heading">
+      <strong><%= post_image.title %></strong>
+    </div>
+      Markdown<input type="text" class="form-control" value="<%= post_image.markdown_string %>" readonly>
+      <small><%= post_image.created_at_string %></small>
+  </div>
+</div>

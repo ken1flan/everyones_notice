@@ -4,7 +4,7 @@ class PostImagesController < ApplicationController
   PAR_PAGE = 10
 
   def index
-    @post_images = PostImage.page(params[:page]).per(PAR_PAGE)
+    @post_images = PostImage.default_order.page(params[:page]).per(PAR_PAGE)
   end
 
   def show

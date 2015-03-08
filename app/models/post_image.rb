@@ -22,6 +22,8 @@ class PostImage < ActiveRecord::Base
 
   mount_uploader :image, ImageUploader
 
+  scope :default_order, -> { order(created_at: :desc) }
+
   validates :title,
     presence: true,
     length: { maximum: 64 }

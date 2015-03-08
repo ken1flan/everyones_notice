@@ -1,5 +1,7 @@
-index<br>
+<legend>画像一覧</legend>
 
 <% @post_images.each do |post_image| %>
-  <%= post_image.image %>
+  <%= render "post_images/summary", post_image: post_image %>
 <% end %>
+
+<%= paginate @post_images %>
