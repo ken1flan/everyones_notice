@@ -1,1 +1,21 @@
-<%= image_tag @post_image.image_url %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <%= @post_image.title %>
+  </div>
+  <div class="panel-body">
+    <p>
+      <%= image_tag @post_image.image_url %>
+    </p>
+    <p>
+      Markdown<input type="text" class="form-control" value="<%= @post_image.markdown_string %>" readonly>
+    </p>
+    <p>
+      URL<input type="text" class="form-control" value="<%= @post_image.image_url %>" readonly>
+    </p>
+    <p>
+    ユーザ<br>
+    <%= link_to @post_image.user.nickname, user_path(@post_image.user) %>
+    </p>
+    <span class="pull-right"><%= @post_image.created_at_string %></span>
+  </div>
+</div>

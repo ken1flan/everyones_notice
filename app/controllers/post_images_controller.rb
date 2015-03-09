@@ -4,7 +4,18 @@ class PostImagesController < ApplicationController
   PAR_PAGE = 10
 
   def index
-    @post_images = PostImage.default_order.page(params[:page]).per(PAR_PAGE)
+    @post_images = PostImage.
+      where(user: current_user).
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
+  end
+
+  def all
+    @post_images = PostImage.
+      default_order.
+      page(params[:page]).per(PAR_PAGE)
+
+    render "post_images/index"
   end
 
   def show
