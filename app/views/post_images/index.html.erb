@@ -1,0 +1,18 @@
+<legend>画像一覧</legend>
+<%= link_to "新規作成", new_post_image_path, class: "btn btn-primary" %>
+<br>
+<br>
+
+<%
+    nav_links = [
+      ["自分のもの", post_images_path],
+      ["すべて", all_post_images_path],
+    ]
+%>
+<%= render "shared/tabs", links: nav_links %>
+<br>
+<% @post_images.each do |post_image| %>
+  <%= render "post_images/summary", post_image: post_image %>
+<% end %>
+
+<%= paginate @post_images %>

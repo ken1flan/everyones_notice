@@ -25,6 +25,7 @@ class User < ActiveRecord::Base
   has_many :activities
   has_many :feedbacks
   has_one :invitation
+  has_many :post_images
 
   has_reputation :total_likes,
     source: [

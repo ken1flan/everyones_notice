@@ -1,0 +1,27 @@
+<legend>画像登録</legend>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="alert alert-warning">
+      <ul>
+        <% @post_image.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+    <%= form_for @post_image, html: { mustipart: true } do |f| %>
+      <%= f.text_field :title, placeholder: "画像のタイトルを入れてください", class: "form-control" %>
+      <% if @post_image.image? %>
+        <br>
+        <div class="markdown_body">
+          <%= image_tag @post_image.image_url %>
+        </div>
+        <br>
+      <% end %>
+      <br>
+      <%= f.file_field :image %>
+      <%= f.hidden_field :image_cache %>
+
+      <span class="pull-right"><%= f.submit class: "btn btn-primary" %></span>
+    <% end %>
+  </div>
+</div>

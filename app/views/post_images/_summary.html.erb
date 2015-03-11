@@ -1,0 +1,18 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="media">
+      <div class="media-left">
+        <%= link_to post_image_path(post_image) do %>
+          <%= image_tag post_image.image_url, size: "64x64" %>
+        <% end %>
+      </div>
+      <div class="media-body form-horizontal">
+        <div class="media-heading">
+          <strong><%= link_to post_image.title, post_image_path(post_image) %></strong>
+        </div>
+          Markdown<input type="text" class="form-control" value="<%= post_image.markdown_string %>" readonly>
+          <small><%= post_image.created_at_string %></small>
+      </div>
+    </div>
+  </div>
+</div>

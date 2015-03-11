@@ -21,6 +21,8 @@
             <li><%= link_to "下書き", draft_notices_path %></li>
             <li><%= link_to "注目", watched_notices_path %></li>
             <li><%= link_to "すべて", notices_path %></li>
+            <li class="divider"></li>
+            <li><%= link_to "画像", post_images_path %></li>
           </ul>
         </li>
         <li <% if controller_name == "tags" %>class="active"<% end %>><%= link_to tags_path do %><span class="glyphicon glyphicon-tags"></span> タグ<% end %></li>
