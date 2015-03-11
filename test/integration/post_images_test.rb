@@ -51,11 +51,23 @@ describe "画像の投稿 Integration" do
   end
 
   describe "アクセス制御" do
+    before { @post_image = create(:post_image) }
+
     context "ログインしていないとき" do
-      context "画像一覧が見れないこと" do
+      context "画像一覧を訪れたとき" do
+        before { visit post_images_path }
+
+        it "ログインページであること" do
+          current_path.must_equal login_path
+        end
       end
 
       context "画像詳細が見れないこと" do
+        before { visit post_image_path(@post_image) }
+
+        it "ログインページであること" do
+          current_path.must_equal login_path
+        end
       end
     end
   end
