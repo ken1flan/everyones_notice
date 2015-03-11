@@ -48,6 +48,33 @@ describe "画像の投稿 Integration" do
         end
       end
     end
+
+    describe "自分の投稿した画像一覧" do
+      before do
+        @user = login
+        @users_image = create(:post_image, title: "自分の投稿したもの", user: @user)
+        @another_user = create(:user)
+        @another_users_image = create(:post_image, title: "ほかのひとが投稿したもの", user: @another_user)
+      end
+
+      context "自分の画像一覧を訪れたとき" do
+        before { visit post_images_path }
+
+        it "ほかのユーザの投稿した画像が表示されていないこと" do
+          page.text.must_include @users_image.title
+          page.text.wont_include @another_users_image.title
+        end
+      end
+
+      context "すべての画像一覧を訪れたとき" do
+        before { visit all_post_images_path }
+
+        it "ほかのユーザの投稿した画像が表示されていないこと" do
+          page.text.must_include @users_image.title
+          page.text.must_include @another_users_image.title
+        end
+      end
+    end
   end
 
   describe "アクセス制御" do
