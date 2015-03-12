@@ -1,0 +1,19 @@
+machine:
+  timezone:
+    Asia/Tokyo
+
+  environment:
+    EVERYONES_NOTICE_FACEBOOK_APP_ID: facebook_app_id
+    EVERYONES_NOTICE_FACEBOOK_APP_SECRET: facebook_app_secret
+    EVERYONES_NOTICE_GOOGLE_CLIENT_ID: google_client_id
+    EVERYONES_NOTICE_GOOGLE_CLIENT_SECRET: google_client_secret
+    EVERYONES_NOTICE_TWITTER_CONSUMER_KEY: twitter_consumer_key
+    EVERYONES_NOTICE_TWITTER_CONSUMER_SECRET: twitter_consumer_secret
+
+database:
+  override:
+    # replace CircleCI's generated database.yml
+    # - cp config/database.yml.ci config/database.yml
+    - bundle exec rake db:create db:schema:load
+  post:
+    - bundle exec rake sunspot:solr:start
