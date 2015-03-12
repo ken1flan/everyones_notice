@@ -5,7 +5,7 @@ require 'capybara/rails'
 require 'capybara/email'
 require 'capybara/poltergeist'
 require 'minitest/reporters'
-Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter.new]
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
 require 'database_cleaner'
 
 class ActiveSupport::TestCase
