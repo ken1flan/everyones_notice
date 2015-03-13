@@ -2,6 +2,7 @@
 [![Code Climate](https://codeclimate.com/github/ken1flan/everyones_notice/badges/gpa.svg)](https://codeclimate.com/github/ken1flan/everyones_notice)
 [![Test Coverage](https://codeclimate.com/github/ken1flan/everyones_notice/badges/coverage.svg)](https://codeclimate.com/github/ken1flan/everyones_notice)
 [![Dependency Status](https://gemnasium.com/ken1flan/everyones_notice.svg)](https://gemnasium.com/ken1flan/everyones_notice)
+[![Circle CI](https://circleci.com/gh/ken1flan/everyones_notice.svg?style=svg)](https://circleci.com/gh/ken1flan/everyones_notice)
 
 ## はじめに
 
