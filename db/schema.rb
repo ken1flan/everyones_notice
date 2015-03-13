@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304070236) do
+ActiveRecord::Schema.define(version: 20150313000114) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -60,6 +60,20 @@ ActiveRecord::Schema.define(version: 20150304070236) do
 
   add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", unique: true
+
+  create_table "information", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.text     "body"
+    t.string   "image"
+    t.integer  "user_id"
+    t.date     "started_on"
+    t.date     "ended_on"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "information", ["started_on", "ended_on"], name: "index_information_on_started_on_and_ended_on"
 
   create_table "invitations", force: :cascade do |t|
     t.string   "mail_address", limit: 255,                 null: false
