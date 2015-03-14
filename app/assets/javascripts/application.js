@@ -11,9 +11,16 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
+//= require jquery-ui/datepicker
+//= require jquery-ui/datepicker-ja
 //= require jquery_ujs
 //= require turbolinks
 //= require bootstrap
 //= require d3
 //= require cal-heatmap
 //= require_tree .
+
+$(function() {
+  $('.datepicker').datepicker();
+});

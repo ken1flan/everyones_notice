@@ -1,13 +1,13 @@
 <% unless notices.present? %>
   <div class="row" id="notice_list">
-    <div class="col-md-12" id="notice_row_#{notice.id}">
+    <div id="notice_row_#{notice.id}">
       きづきはまだありません。
     </div>
   </div>
 <% else %>
   <div class="row" id="notice_list">
     <% notices.each do |notice| %>
-      <div class="col-md-12" id="notice_row_#{notice.id}">
+      <div id="notice_row_#{notice.id}">
         <%= render "notices/detail", notice: notice %>
       </div>
     <% end %>

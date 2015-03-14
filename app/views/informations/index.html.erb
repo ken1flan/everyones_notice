@@ -1,0 +1,7 @@
+<legend>おしらせ一覧</legend>
+
+<%= link_to "新規作成", new_information_path, class: "btn btn-primary" %>
+
+<% @infomations.each do |information| %>
+  <%= link_to information.title, information_path(information) %><br>
+<% end %>

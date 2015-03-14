@@ -1,0 +1,29 @@
+<%= form_for advertisement, html: { class: "form-horizontal" } do |f| %>
+  <% if advertisement.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% advertisement.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <%= f.text_field :title, class: "form-control", placeholder: "タイトルをつけてください" %>
+    </div>
+    <div class="panel-body">
+      <%= f.text_field :summary, class: "form-control", placeholder: "概要を書いてください" %><br>
+      <%= f.text_area :body, class: "form-control", placeholder: "内容を書いてください。markdownで書けます。", rows: "5" %><br>
+
+      <span class="col-md-2">
+        <%= f.text_field :started_on, class: "form-control datepicker", placeholder: "掲載開始日" %>
+      </span>
+      <span class="col-md-2">
+        <%= f.text_field :ended_on, class: "form-control datepicker", placeholder: "掲載終了日" %>
+      </span>
+      <span class="pull-right"><%= f.submit class: "btn btn-primary" %></span>
+    </div>
+  </div>
+<% end %>
