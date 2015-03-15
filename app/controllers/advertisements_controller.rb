@@ -19,7 +19,8 @@ class AdvertisementsController < ApplicationController
     @advertisement = Advertisement.new(advertisement_params)
 
     if @advertisement.save
-      redirect_to @advertisement, notice: 'Advertisement was successfully created.'
+      redirect_to advertisement_path(@advertisement, management: true),
+        notice: 'Advertisement was successfully created.'
     else
       render :new
     end
@@ -27,7 +28,9 @@ class AdvertisementsController < ApplicationController
 
   def update
     if @advertisement.update(advertisement_params)
-      redirect_to @advertisement, notice: 'Advertisement was successfully updated.'
+      redirect_to advertisement_path(management: true),
+        management: true,
+        notice: 'Advertisement was successfully updated.'
     else
       render :edit
     end

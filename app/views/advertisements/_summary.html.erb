@@ -1,17 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-heading">
+    <% if defined? management %>
+    <%= link_to advertisement.title, advertisement_path(advertisement, management: true) %><br>
+  <% else %>
     <%= link_to advertisement.title, advertisement_path(advertisement) %><br>
+  <% end %>
   </div>
   <div class="panel-body">
-    <p>
-      <strong>掲載期間: </strong>
-      <%= advertisement.started_on %>〜<%= advertisement.ended_on %>
-    </p>
-    <p>
-      <%= advertisement.summary %>
-    </p>
-    <span class="pull-right">
-      <%= link_to "編集", edit_advertisement_path(advertisement), class: "btn btn-primary" %>
-    </span>
+    <%= advertisement.summary %>
   </div>
 </div>

@@ -3,5 +3,5 @@
 <%= link_to "新規作成", new_advertisement_path, class: "btn btn-primary" %><br>
 <br>
 <% @advertisements.each do |advertisement| %>
-  <%= render "advertisements/summary", advertisement: advertisement %>
+  <%= render "advertisements/summary", advertisement: advertisement, management: true %>
 <% end %>
