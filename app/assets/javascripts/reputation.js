@@ -32,11 +32,13 @@ $(document).on('click', '.openedNotice', function () {
   $.getJSON('/notices/' + id + '/' + opened_or_not + '.json', function (json) {
     var button = $("#opened_notice_" + json.id);
     if(json.opened_or_not == "not_opened"){
-      button.children(".opened").removeClass("glyphicon-ok");
-      button.children(".opened").addClass("glyphicon-minus");
+      button.html('読んでない <span class="opened glyphicon glyphicon-minus"></span>');
+      //button.children(".opened").removeClass("glyphicon-ok");
+      //button.children(".opened").addClass("glyphicon-minus");
     } else {
-      button.children(".opened").removeClass("glyphicon-minus");
-      button.children(".opened").addClass("glyphicon-ok");
+      button.html('読んだ <span class="opened glyphicon glyphicon-ok"></span>');
+      // button.children(".opened").removeClass("glyphicon-minus");
+      // button.children(".opened").addClass("glyphicon-ok");
     }
   });
 });
