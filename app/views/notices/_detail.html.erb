@@ -52,18 +52,18 @@
       <div class="panel-footer">
         <button id="like_notice_<%= notice.id %>" type="button" class="likeNotice btn btn-default">
           <% if user_signed_in? && notice.liked_by?(current_user) %>
-            <span class="star glyphicon glyphicon-star"></span>
+            いいね <span class="star glyphicon glyphicon-star"></span>
           <% else %>
-            <span class="star glyphicon glyphicon-star-empty"></span> 
+            いいね <span class="star glyphicon glyphicon-star-empty"></span> 
           <% end %>
           <span class="value"><%= notice.like_number %><span>
         </button>
     
         <button id="opened_notice_<%= notice.id %>" type="button" class="openedNotice btn btn-default">
           <% if user_signed_in? && notice.read_by?(current_user) %>
-            <span class="opened glyphicon glyphicon-ok"></span>
+            読んだ <span class="opened glyphicon glyphicon-ok"></span>
           <% else %>
-            <span class="opened glyphicon glyphicon-minus"></span> 
+            読んでない <span class="opened glyphicon glyphicon-minus"></span> 
           <% end %>
         </button>
     
