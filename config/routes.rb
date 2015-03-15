@@ -34,6 +34,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :advertisements
+
   root "top#index"
   get "current_user_activities", to: "top#current_user_activities"
   get "current_club_activities", to: "top#current_club_activities"
