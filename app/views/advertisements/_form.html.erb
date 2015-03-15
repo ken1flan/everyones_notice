@@ -1,6 +1,6 @@
 <%= form_for advertisement, html: { class: "form-horizontal" } do |f| %>
   <% if advertisement.errors.any? %>
-    <div class="alert alert-error">
+    <div class="alert alert-warning">
       <ul>
         <% advertisement.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -23,6 +23,20 @@
       <span class="col-md-2">
         <%= f.text_field :ended_on, class: "form-control datepicker", placeholder: "掲載終了日" %>
       </span>
+      <br>
+      <br>
+
+      <% if advertisement.image? %>
+        <br>
+        <div class="markdown_body">
+          <%= image_tag advertisement.image_url %>
+        </div>
+        <br>
+      <% end %>
+      <br>
+      <%= f.file_field :image %>
+      <%= f.hidden_field :image_cache %>
+
       <span class="pull-right"><%= f.submit class: "btn btn-primary" %></span>
     </div>
   </div>

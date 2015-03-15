@@ -7,6 +7,7 @@ class CreateAdvertisements < ActiveRecord::Migration
       t.string :image
       t.date :started_on, null: false
       t.date :ended_on, null: false
+      t.integer :user_id, null: false
 
       t.timestamps null: false
 

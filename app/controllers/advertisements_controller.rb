@@ -17,6 +17,7 @@ class AdvertisementsController < ApplicationController
 
   def create
     @advertisement = Advertisement.new(advertisement_params)
+    @advertisement.user = current_user
 
     if @advertisement.save
       redirect_to advertisement_path(@advertisement, management: true),

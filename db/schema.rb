@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20150314100528) do
     t.string   "image"
     t.date     "started_on", null: false
     t.date     "ended_on",   null: false
+    t.integer  "user_id",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

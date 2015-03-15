@@ -9,6 +9,7 @@
 #  image      :string
 #  started_on :date             not null
 #  ended_on   :date             not null
+#  user_id    :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
