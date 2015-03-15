@@ -19,4 +19,22 @@
 #
 
 class Advertisement < ActiveRecord::Base
+  mount_uploader :image, ImageUploader
+
+  validates :title,
+    presence: true,
+    length: { maximum: 64 }
+
+  validates :summary,
+    presence: true,
+    length: { maximum: 255 }
+
+  validates :body, presence: true
+
+  validates :started_on, presence: true
+  validates :ended_on, presence: true
+    
+  validates :image,
+    file_size: { maximum: 3.megabytes.to_i }
+
 end
