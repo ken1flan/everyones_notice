@@ -1,11 +1,16 @@
-<%= render "notices/tabs" %>
-<br>
-
-<% if params[:search] %>
-  <legend>「<%= params[:search] %>」の検索結果</legend>
+<div class="container col-md-9">
+  <%= render "notices/tabs" %>
   <br>
-<% end %>
-
-<%= render "notices/notice_list", notices: @notices %>
-
-<%= paginate @notices %>
+  
+  <% if params[:search] %>
+    <legend>「<%= params[:search] %>」の検索結果</legend>
+    <br>
+  <% end %>
+  
+  <%= render "notices/notice_list", notices: @notices %>
+  
+  <%= paginate @notices %>
+</div>
+<div class="container col-md-3">
+  <%= render "informations/list" %>
+</div>

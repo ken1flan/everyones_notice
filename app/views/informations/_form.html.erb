@@ -1,0 +1,23 @@
+<%= form_for information do |f| %>
+  <% if information.errors.any? %>
+    <div class="alert alert-error">
+      <ul>
+        <% information.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <%= f.text_field :title, class: "form-control", placeholder: "おしらせにタイトルをつけてください" %>
+    </div>
+    <div class="panel-body">
+      <%= f.text_field :describe, class: "form-control", placeholder: "おしらせの概要を書いてください" %>
+      <%= f.text_area :body, class: "form-control", placeholder: "おしらせの内容を書いてください。markdown使えます。" %>
+      <%= f.text_field :started_on, class: "form-control", placeholder: "掲載開始日" %>
+      <%= f.text_field :ended_on, class: "form-control", placeholder: "掲載終了日" %>
+    </div>
+  </div>
+<% end %>

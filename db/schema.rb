@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304070236) do
+ActiveRecord::Schema.define(version: 20150314100528) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -28,6 +28,21 @@ ActiveRecord::Schema.define(version: 20150304070236) do
   add_index "activities", ["type_id", "user_id", "notice_id", "reply_id"], name: "index_activities_unique_key", unique: true
   add_index "activities", ["type_id"], name: "index_activities_on_type_id"
   add_index "activities", ["user_id"], name: "index_activities_on_user_id"
+
+  create_table "advertisements", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.string   "summary",    null: false
+    t.text     "body",       null: false
+    t.string   "image"
+    t.date     "started_on", null: false
+    t.date     "ended_on",   null: false
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "advertisements", ["started_on", "ended_on"], name: "index_advertisements_on_started_on_and_ended_on"
+  add_index "advertisements", ["updated_at"], name: "index_advertisements_on_updated_at"
 
   create_table "clubs", force: :cascade do |t|
     t.string   "name",        limit: 128, null: false
@@ -60,6 +75,20 @@ ActiveRecord::Schema.define(version: 20150304070236) do
 
   add_index "identities", ["provider", "uid"], name: "index_identities_on_provider_and_uid", unique: true
   add_index "identities", ["user_id"], name: "index_identities_on_user_id", unique: true
+
+  create_table "information", force: :cascade do |t|
+    t.string   "title"
+    t.string   "description"
+    t.text     "body"
+    t.string   "image"
+    t.integer  "user_id"
+    t.date     "started_on"
+    t.date     "ended_on"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "information", ["started_on", "ended_on"], name: "index_information_on_started_on_and_ended_on"
 
   create_table "invitations", force: :cascade do |t|
     t.string   "mail_address", limit: 255,                 null: false

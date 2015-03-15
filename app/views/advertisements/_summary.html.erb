@@ -1,0 +1,27 @@
+<%
+  if defined? management
+    advertisement_path = advertisement_path(advertisement, management: true)
+  else
+    advertisement_path = advertisement_path(advertisement)
+  end
+%>
+
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="media">
+      <div class="media-left">
+        <% if advertisement.image %>
+          <%= image_tag advertisement.image_url, class: "img-rounded", width: 64, height: 64, align: "left" %>
+        <% else %>
+          <%= image_tag "no_image.jpg", class: "img-rounded", width: 64, height: 64, align: "left" %>
+        <% end %>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <%= link_to advertisement.title, advertisement_path %><br>
+        </h4>
+        <%= advertisement.summary %>
+      </div>
+    </div>
+  </div>
+</div>

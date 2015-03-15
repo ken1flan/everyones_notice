@@ -1,0 +1,39 @@
+<legend>おしらせ詳細</legend>
+<% if params[:management] %>
+  <%= link_to "編集", edit_advertisement_path(@advertisement), class: "btn btn-primary" %>
+  <br>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      管理情報
+    </div>
+    <div class="panel-body">
+      <p>
+        <strong>掲載期間: </strong>
+        <%= @advertisement.started_on %>〜<%= @advertisement.ended_on %>
+      </p>
+    </div>
+  </div>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      概要表示
+    </div>
+    <div class="panel-body">
+      <%= render "advertisements/summary", advertisement: @advertisement, management: true %>
+    </div>
+  </div>
+  <br>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      詳細表示
+    </div>
+    <div class="panel-body">
+      <%= render "advertisements/detail", advertisement: @advertisement %>
+    </div>
+  </div>
+  
+  <%= link_to '一覧', advertisements_path, class: "btn btn-default" %>
+<% else %>
+  <%= render "advertisements/detail", advertisement: @advertisement %>
+<% end %>
