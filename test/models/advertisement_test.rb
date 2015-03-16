@@ -96,5 +96,31 @@ describe Advertisement do
       end
     end
 
+    describe "started_on" do
+      valid_data = ["2014/01/01", "2015-12-31", "2016/2/29"]
+      valid_data.each do |vd|
+        context "started_on = #{vd}のとき" do
+          before { @advertisement.started_on = vd }
+
+          it "validであること" do
+            @advertisement.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "aaa", "あああ", "2015/2/29"]
+      invalid_data.each do |ivd|
+        context "started_on = #{ivd}のとき" do
+          before { @advertisement.started_on = ivd }
+
+          it "invalidであること" do
+            @advertisement.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+
+
   end
 end

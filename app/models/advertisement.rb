@@ -33,6 +33,6 @@ class Advertisement < ActiveRecord::Base
 
   validates :body, presence: true
 
-  validates :started_on, presence: true
-  validates :ended_on, presence: true
+  # validates :started_on, presence: true, date: true
+  # validates :ended_on, presence: true, date: true
 end
