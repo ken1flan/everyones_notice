@@ -18,8 +18,6 @@
 #  index_advertisements_on_updated_at               (updated_at)
 #
 
-require "file_size_validator"
-
 class Advertisement < ActiveRecord::Base
   belongs_to :user
 
@@ -33,6 +31,6 @@ class Advertisement < ActiveRecord::Base
 
   validates :body, presence: true
 
-  # validates :started_on, presence: true, date: true
-  # validates :ended_on, presence: true, date: true
+  validates :started_on, presence: true, date: true
+  validates :ended_on, presence: true, date: true
 end
