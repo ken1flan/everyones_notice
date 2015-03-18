@@ -103,6 +103,15 @@ describe "おしらせの投稿 Integration" do
               end
             end
           end
+
+          context "タイトルをクリックしたとき" do
+            before { click_link @advertisement_data.title }
+
+            it "タイトルと本文が表示されていること" do
+              page.text.must_include @advertisement_data.title
+              page.text.must_include @advertisement_data.body
+            end
+          end
         end
       end
     end
