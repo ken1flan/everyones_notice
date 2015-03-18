@@ -8,8 +8,11 @@
         <h4 class="media-heading">
           <%= link_to advertisement.title, advertisement %><br>
         </h4>
-        <%= advertisement.summary %>
+        <p>
+          <%= advertisement.summary %>
+        </p>
       </div>
     </div>
+    <span class="pull-right"><%= link_to "編集", edit_advertisement_path(advertisement), class: "btn btn-primary" %></span>
   </div>
 </div>
