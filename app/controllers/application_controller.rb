@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
     options = {
       autolink: true,
       no_intra_emphasis: true,
+      tables: true,
       fenced_code_blocks: true,
       lax_html_blocks: true,
       strikethrough: true,
