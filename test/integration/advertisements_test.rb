@@ -116,4 +116,28 @@ describe "おしらせの投稿 Integration" do
       end
     end
   end
+
+  describe "他人による編集をさせない" do
+    before { @user = login }
+
+    context "ほかのひとの書いたおしらせがあるとき" do
+      before { @advertisement = create(:advertisement) }
+
+      context "一覧画面を訪れたとき" do
+        before { visit advertisements_path }
+
+        it "編集ボタンがないこと" do
+          page.text.wont_include "編集"
+        end
+      end
+
+      context "編集画面を直リンクでおとづれたとき" do
+        before { visit edit_advertisement_path(@advertisement) }
+
+        it "404 not foundであること" do
+          page.status_code.must_equal 404
+        end
+      end
+    end
+  end
 end

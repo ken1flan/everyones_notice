@@ -1,5 +1,6 @@
 class AdvertisementsController < ApplicationController
   before_action :set_advertisement, only: [:show, :edit, :update, :destroy]
+  before_action :not_found_unless_author, only: [:edit, :update, :destroy]
   PER_PAGE=10
 
   def index
@@ -53,5 +54,9 @@ class AdvertisementsController < ApplicationController
       params.
         require(:advertisement).
         permit(:title, :summary, :body, :started_on, :ended_on)
+    end
+
+    def not_found_unless_author
+      not_found unless @advertisement.user == current_user
     end
 end
