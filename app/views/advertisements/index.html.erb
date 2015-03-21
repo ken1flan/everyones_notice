@@ -1,0 +1,27 @@
+<%
+    nav_links = [
+      ["おしらせ一覧", advertisements_path],
+      ["すべて", all_advertisements_path],
+    ]
+%>
+
+<%= render "shared/tabs", links: nav_links %>
+
+<br>
+<%= link_to "新規作成", new_advertisement_path, class: "btn btn-primary" %><br>
+<br>
+<% @advertisements.each do |advertisement| %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <%= render "advertisements/summary", advertisement: advertisement %>
+      <% if advertisement.user == current_user %>
+        <span class="pull-right">
+          <%= link_to "編集", edit_advertisement_path(advertisement), class: "btn btn-primary" %>
+          <%= link_to "削除", advertisement, id: "destroy_advertisement_button_#{advertisement.id}", method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<%= paginate @advertisements %>

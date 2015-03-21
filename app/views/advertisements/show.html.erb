@@ -1,0 +1,26 @@
+<% if @advertisement.user == current_user %>
+  <legend>おしらせ詳細</legend>
+  
+  <%= link_to "編集", edit_advertisement_path(@advertisement), class: "btn btn-primary" %><br>
+  <br>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      サマリー
+    </div>
+    <div class="panel-body">
+      <%= render "advertisements/summary", advertisement: @advertisement %>
+    </div>
+  </div>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      詳細
+    </div>
+    <div class="panel-body">
+      <%= render "advertisements/detail", advertisement: @advertisement %>
+    </div>
+  </div>
+<% else %>
+  <%= render "advertisements/detail", advertisement: @advertisement %>
+<% end %>

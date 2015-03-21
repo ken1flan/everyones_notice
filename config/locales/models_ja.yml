@@ -9,6 +9,7 @@ ja:
       reply: 返信
       tag: タグ
       post_image: 投稿画像
+      advertisement: おしらせ
 
     attributes:
       user:
@@ -32,3 +33,10 @@ ja:
         image: 画像
         user: 投稿者
         user_id: 投稿者
+      advertisement:
+        title: タイトル
+        summary: 概要
+        body: 本文
+        started_on: 開始日
+        ended_on: 終了日
+        user_id: ユーザ
