@@ -6,7 +6,7 @@ describe "おしらせの投稿 Integration" do
 
     context "おしらせ一覧で新規追加ボタンを押したとき" do
       before do
-        visit advertisements_path
+        visit all_advertisements_path
         click_link "新規作成"
       end
 
@@ -29,10 +29,10 @@ describe "おしらせの投稿 Integration" do
           end
 
           context "一覧画面を訪れたとき" do
-            before { visit advertisements_path }
+            before { visit all_advertisements_path }
 
             it "タイトルとサマリーが表示されていること" do
-              visit advertisements_path
+              visit all_advertisements_path
               page.text.must_include @advertisement_data.title
               page.text.must_include @advertisement_data.summary
             end
@@ -61,10 +61,10 @@ describe "おしらせの投稿 Integration" do
         end
 
         context "一覧画面を訪れたとき" do
-          before { visit advertisements_path }
+          before { visit all_advertisements_path }
 
           it "タイトルとサマリーが表示されていること" do
-            visit advertisements_path
+            visit all_advertisements_path
             page.text.must_include @advertisement_data.title
             page.text.must_include @advertisement_data.summary
           end
@@ -84,10 +84,10 @@ describe "おしらせの投稿 Integration" do
               end
 
               context "一覧画面を訪れたとき" do
-                before { visit advertisements_path }
+                before { visit all_advertisements_path }
       
                 it "タイトルとサマリーが表示されていること" do
-                  visit advertisements_path
+                  visit all_advertisements_path
                   page.text.must_include @advertisement_data_new.title
                   page.text.must_include @advertisement_data_new.summary
                 end
@@ -124,7 +124,7 @@ describe "おしらせの投稿 Integration" do
       before { @advertisement = create(:advertisement) }
 
       context "一覧画面を訪れたとき" do
-        before { visit advertisements_path }
+        before { visit all_advertisements_path }
 
         it "編集ボタンがないこと" do
           page.text.wont_include "編集"
@@ -137,6 +137,110 @@ describe "おしらせの投稿 Integration" do
         it "404 not foundであること" do
           page.status_code.must_equal 404
         end
+      end
+    end
+  end
+
+  describe "表示期間" do
+    before { login }
+
+    context "3日前〜昨日のおしらせがあるとき" do
+      before do
+        @advertisement = create(
+          :advertisement,
+          started_on: 3.days.ago.to_date,
+          ended_on: 1.day.ago.to_date
+        )
+      end
+
+      it "一覧を訪れたときに表示されないこと" do
+        visit advertisements_path
+        page.text.wont_include @advertisement.title
+      end
+
+      it "すべての一覧を訪れたときに表示されること" do
+        visit all_advertisements_path
+        page.text.must_include @advertisement.title
+      end
+    end
+    
+    context "3日前〜今日のおしらせがあるとき" do
+      before do
+        @advertisement = create(
+          :advertisement,
+          started_on: 3.days.ago.to_date,
+          ended_on: 0.days.ago.to_date
+        )
+      end
+
+      it "一覧を訪れたときに表示されること" do
+        visit advertisements_path
+        page.text.must_include @advertisement.title
+      end
+
+      it "すべての一覧を訪れたときに表示されること" do
+        visit all_advertisements_path
+        page.text.must_include @advertisement.title
+      end
+    end
+
+    context "今日〜今日のおしらせがあるとき" do
+      before do
+        @advertisement = create(
+          :advertisement,
+          started_on: 0.days.ago.to_date,
+          ended_on: 0.days.ago.to_date
+        )
+      end
+
+      it "一覧を訪れたときに表示されること" do
+        visit advertisements_path
+        page.text.must_include @advertisement.title
+      end
+
+      it "すべての一覧を訪れたときに表示されること" do
+        visit all_advertisements_path
+        page.text.must_include @advertisement.title
+      end
+    end
+
+    context "今日〜明日のおしらせがあるとき" do
+      before do
+        @advertisement = create(
+          :advertisement,
+          started_on: 0.days.ago.to_date,
+          ended_on: 1.day.since.to_date
+        )
+      end
+
+      it "一覧を訪れたときに表示されること" do
+        visit advertisements_path
+        page.text.must_include @advertisement.title
+      end
+
+      it "すべての一覧を訪れたときに表示されること" do
+        visit all_advertisements_path
+        page.text.must_include @advertisement.title
+      end
+    end
+
+    context "明日〜3日後のおしらせがあるとき" do
+      before do
+        @advertisement = create(
+          :advertisement,
+          started_on: 1.days.since.to_date,
+          ended_on: 3.days.since.to_date
+        )
+      end
+
+      it "一覧を訪れたときに表示されること" do
+        visit advertisements_path
+        page.text.wont_include @advertisement.title
+      end
+
+      it "すべての一覧を訪れたときに表示されること" do
+        visit all_advertisements_path
+        page.text.must_include @advertisement.title
       end
     end
   end

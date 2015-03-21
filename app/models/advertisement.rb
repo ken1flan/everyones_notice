@@ -21,6 +21,11 @@
 class Advertisement < ActiveRecord::Base
   belongs_to :user
 
+  scope :displayable, -> {
+    where(arel_table[:started_on].lteq Date.today).
+    where(arel_table[:ended_on].gteq Date.today)
+  }
+
   validates :title,
     presence: true,
     length: { maximum: 64 }

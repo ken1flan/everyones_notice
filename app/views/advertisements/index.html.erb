@@ -1,5 +1,13 @@
-<legend>おしらせ一覧</legend>
+<%
+    nav_links = [
+      ["おしらせ一覧", advertisements_path],
+      ["すべて", all_advertisements_path],
+    ]
+%>
 
+<%= render "shared/tabs", links: nav_links %>
+
+<br>
 <%= link_to "新規作成", new_advertisement_path, class: "btn btn-primary" %><br>
 <br>
 <% @advertisements.each do |advertisement| %>

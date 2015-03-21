@@ -34,7 +34,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :advertisements
+  resources :advertisements do
+    collection do
+      get "all"
+    end
+  end
 
   root "top#index"
   get "current_user_activities", to: "top#current_user_activities"

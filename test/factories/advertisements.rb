@@ -23,7 +23,7 @@ FactoryGirl.define do
     title { "title" + ('a'..'z').to_a.sample(26).join }
     summary { "summary" + ('a'..'z').to_a.sample(26).join }
     body { "body" + ('a'..'z').to_a.sample(26).join }
-    started_on { (rand(10) + 1).days.since.to_date.to_s }
+    started_on { (rand(10) + 1).days.ago.to_date.to_s }
     ended_on { (rand(10) + 10).days.since.to_date.to_s }
     user
   end
