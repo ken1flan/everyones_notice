@@ -3,7 +3,10 @@
 <%= render "shared/tabs", links: nav_links %>
 <br>
 
-<% notices = @tagged_notices.map {|t| t.notice } %>
-<%= render "notices/notice_list", notices: notices %>
+<% @tagged_notices.each do |tagged_notice| %>
+  <div class="row" id="notice_row_<%= tagged_notice.notice.id %>">
+    <%= render "notices/detail", notice: tagged_notice.notice %>
+  </div>
+<% end %>
 
 <%= paginate @tagged_notices %>
