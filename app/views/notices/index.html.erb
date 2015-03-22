@@ -6,6 +6,16 @@
   <br>
 <% end %>
 
-<%= render "notices/notice_list", notices: @notices %>
-
+<div class="container" id="notice_list">
+  <% unless @notices.present? %>
+    きづきはまだありません。
+  <% else %>
+    <% @notices.each do |notice| %>
+      <div class="row" id="notice_row_<%= notice.id %>">
+        <%= render "notices/detail", notice: notice %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+  
 <%= paginate @notices %>

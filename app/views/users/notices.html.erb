@@ -1,5 +1,15 @@
 <%= render "users/tabs" %>
 <br>
-<%= render "notices/notice_list", notices: @notices %>
+<% unless @notices.present? %>
+  <div class="row" id="notice_list">
+    きづきはまだありません。
+  </div>
+<% else %>
+  <% @notices.each do |notice| %>
+    <div class="row" id="notice_row_<%= notice.id %>">
+      <%= render "notices/detail", notice: notice %>
+    </div>
+  <% end %>
+<% end %>
 
 <%= paginate @notices %>
