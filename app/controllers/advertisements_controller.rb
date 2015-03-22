@@ -52,6 +52,10 @@ class AdvertisementsController < ApplicationController
     redirect_to all_advertisements_path, notice: 'Advertisement was successfully destroyed.'
   end
 
+  def random_list
+    @advertisements = Advertisement.displayable.limit(params[:num])
+  end
+
   private
     def set_advertisement
       @advertisement = Advertisement.find(params[:id])

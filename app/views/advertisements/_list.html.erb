@@ -1,0 +1,10 @@
+<% if advertisements.blank? %>
+  おしらせはありません。
+<% else %>
+  <% advertisements.each do |advertisement| %>
+    <p>
+      <%= link_to advertisement.title, advertisement_path(advertisement) %><br>
+      <%= advertisement.summary %><br>
+    </p>
+  <% end %>
+<% end %>
