@@ -37,27 +37,29 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col-md-6">
-      <%= render "activities/list", activities: @activities %>
-    </div>
-
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          おしらせ
-        </div>
-        <div class="panel-body advertisement_list">
-          取得中です…
-        </div>
-      </div>
-      <script type="text/javascript">
-        $.getScript("<%= random_list_advertisements_path(num: 10) %>");
-      </script>
-    </div>
+<div class="row">
+  <div class="col-md-6">
+    <%= render "activities/list", activities: @activities %>
   </div>
 
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        おしらせ
+      </div>
+      <div class="panel-body advertisement_list">
+        取得中です…
+      </div>
+    </div>
+    <script type="text/javascript">
+      $.getScript("<%= random_list_advertisements_path(num: 3) %>");
+    </script>
+  </div>
+</div>
+
+<div class="row">
   <div class="col-md-6">
     <div class="panel panel-default">
       <div class="panel-heading">

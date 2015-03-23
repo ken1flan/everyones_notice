@@ -2,9 +2,14 @@
   おしらせはありません。
 <% else %>
   <% advertisements.each do |advertisement| %>
-    <p>
-      <%= link_to advertisement.title, advertisement_path(advertisement) %><br>
-      <%= advertisement.summary %><br>
-    </p>
+    <div class="media">
+      <div class="media-left">
+        <%= image_tag advertisement.user.icon_url, size: "32x32" %>
+      </div>
+      <div class="media-body">
+        <%= link_to advertisement.title, advertisement_path(advertisement) %><br>
+        <small><%= advertisement.summary %></small>
+      </div>
+    </div>
   <% end %>
 <% end %>
