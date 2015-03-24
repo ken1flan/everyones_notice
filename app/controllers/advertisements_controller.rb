@@ -53,7 +53,7 @@ class AdvertisementsController < ApplicationController
   end
 
   def random_list
-    @advertisements = Advertisement.displayable.limit(params[:num])
+    @advertisements = Advertisement.displayable.sample(params[:num].to_i)
   end
 
   private
