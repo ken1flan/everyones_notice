@@ -1,2 +1,21 @@
 <legend><%= advertisement.title %></legend>
-<%= markdown_to_html advertisement.body %>
+<div class="media">
+  <div class="media-left">
+    <%= link_to user_path(advertisement.user) do %>
+      <%= image_tag advertisement.user.icon_url, alt: advertisement.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= advertisement.user.nickname %></small>
+    <% end %>
+  </div>
+  <div class="media-body" style="width:100%;">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <p>
+          <%= advertisement.summary %>
+        </p>
+        <div class="markdown_body">
+          <%= markdown_to_html advertisement.body %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
