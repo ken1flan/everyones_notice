@@ -1,11 +1,10 @@
 class TopController < ApplicationController
   PAGE_PAR = 10
-  ACTIVITY_COUNT = 10
 
   def index
     @notices = Notice.all
     @activities = Activity.joins(:notice, :user).
-      default_order.limit(ACTIVITY_COUNT)
+      default_order.limit(5)
   end
 
   def current_club_activities

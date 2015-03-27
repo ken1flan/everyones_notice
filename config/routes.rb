@@ -37,7 +37,6 @@ Rails.application.routes.draw do
   resources :advertisements do
     collection do
       get "all"
-      get "random_list"
     end
   end
 

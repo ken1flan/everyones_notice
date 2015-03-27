@@ -211,7 +211,7 @@ describe "きづき Integration" do
 
           it "アクティビティが表示されていること" do
             find(:css, ".activity_list").text.must_include @user.nickname
-            find(:css, ".activity_list").text.must_include @notice.title.truncate(15)
+            find(:css, ".activity_list").text.must_include @notice.title
           end
         end
 
