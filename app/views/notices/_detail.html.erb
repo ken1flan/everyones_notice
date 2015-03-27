@@ -1,11 +1,11 @@
 <div class="media" id="notice_detail_<%= notice.id %>">
-  <div class="media-left">
+  <div class="col-md-1 pull-left">
     <%= link_to user_path(notice.user) do %>
       <%= image_tag notice.user.icon_url, alt: notice.user.nickname, class: "img-rounded", size: "64x64" %>
       <br><small><%= notice.user.nickname %></small>
     <% end %>
   </div>
-  <div class="media-body">
+  <div class="media-body col-md-11">
     <div class="panel panel-default">
       <div class="panel-heading">
         <div class="panel-title">

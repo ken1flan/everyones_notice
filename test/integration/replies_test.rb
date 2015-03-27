@@ -129,7 +129,7 @@ describe "返信 Integration" do
 
               it "アクティビティが表示されていること" do
                 find(:css, ".activity_list").text.must_include @user.nickname
-                find(:css, ".activity_list").text.must_include @notice.title.truncate(15)
+                find(:css, ".activity_list").text.must_include @notice.title
               end
             end
           end
@@ -258,7 +258,7 @@ describe "返信 Integration" do
 
           it "アクティビティが表示されていること" do
             find(:css, ".activity_list").text.must_include @user.nickname
-            find(:css, ".activity_list").text.must_include @notice.title.truncate(15)
+            find(:css, ".activity_list").text.must_include @notice.title
           end
         end
 
