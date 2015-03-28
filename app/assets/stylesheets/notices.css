@@ -1,6 +1,9 @@
+.notice_unit .media-body {
+  width: 100%;
+}
+
 .markdown_body img {
-  max-width: 50%;
-  max-height: 50%;
+  max-width: 100%;
 }
 
 .markdown_body table {

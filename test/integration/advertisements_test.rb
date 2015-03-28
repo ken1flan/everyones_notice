@@ -162,6 +162,11 @@ describe "おしらせの投稿 Integration" do
         visit all_advertisements_path
         page.text.must_include @advertisement.title
       end
+
+      it "トップを訪れたときに表示されないこと" do
+        visit root_path
+        page.text.wont_include @advertisement.title
+      end
     end
     
     context "3日前〜今日のおしらせがあるとき" do
@@ -180,6 +185,11 @@ describe "おしらせの投稿 Integration" do
 
       it "すべての一覧を訪れたときに表示されること" do
         visit all_advertisements_path
+        page.text.must_include @advertisement.title
+      end
+
+      it "トップを訪れたときに表示されること" do
+        visit root_path
         page.text.must_include @advertisement.title
       end
     end
@@ -202,6 +212,11 @@ describe "おしらせの投稿 Integration" do
         visit all_advertisements_path
         page.text.must_include @advertisement.title
       end
+
+      it "トップを訪れたときに表示されること" do
+        visit root_path
+        page.text.must_include @advertisement.title
+      end
     end
 
     context "今日〜明日のおしらせがあるとき" do
@@ -222,6 +237,11 @@ describe "おしらせの投稿 Integration" do
         visit all_advertisements_path
         page.text.must_include @advertisement.title
       end
+
+      it "トップを訪れたときに表示されること" do
+        visit root_path
+        page.text.must_include @advertisement.title
+      end
     end
 
     context "明日〜3日後のおしらせがあるとき" do
@@ -233,7 +253,7 @@ describe "おしらせの投稿 Integration" do
         )
       end
 
-      it "一覧を訪れたときに表示されること" do
+      it "一覧を訪れたときに表示されないこと" do
         visit advertisements_path
         page.text.wont_include @advertisement.title
       end
@@ -241,6 +261,11 @@ describe "おしらせの投稿 Integration" do
       it "すべての一覧を訪れたときに表示されること" do
         visit all_advertisements_path
         page.text.must_include @advertisement.title
+      end
+
+      it "トップを訪れたときに表示されないこと" do
+        visit root_path
+        page.text.wont_include @advertisement.title
       end
     end
   end

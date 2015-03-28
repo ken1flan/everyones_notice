@@ -24,3 +24,9 @@
 <% else %>
   <%= render "advertisements/detail", advertisement: @advertisement %>
 <% end %>
+
+<% @breadcrumb = [
+  [@advertisement.title, advertisement_path(@advertisement)],
+  ["おしらせ一覧", advertisements_path]
+]
+%>
