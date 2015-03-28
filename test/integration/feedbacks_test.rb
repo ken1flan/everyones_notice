@@ -46,7 +46,9 @@ describe "フィードバック Integration" do
           end
 
           context "フィードバックをクリックしたとき" do
-            before { click_link @feedback_body }
+            before do
+              click_link @feedback_body
+            end
 
             it "フィードバックの内容が表示されていること" do
               page.text.must_include @feedback_body

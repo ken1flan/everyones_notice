@@ -6,13 +6,11 @@
     <% end %>
   </div>
   <div class="media-body">
-    <%= link_to feedback_path(feedback) do %>
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <%= truncate(feedback.body, length: 40) %><br>
-          <span class="pull-right"><%= feedback.created_at_string %></span>
-        </div>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= link_to truncate(feedback.body, length: 40), feedback_path(feedback) %><br>
+        <span class="pull-right"><%= feedback.created_at_string %></span>
       </div>
-    <% end %>
+    </div>
   </div>
 </div>
