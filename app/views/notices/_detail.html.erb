@@ -1,4 +1,4 @@
-<div class="media" id="notice_detail_<%= notice.id %>">
+<div class="media notice_unit" id="notice_detail_<%= notice.id %>">
   <div class="media-left">
     <%= link_to user_path(notice.user) do %>
       <%= image_tag notice.user.icon_url, alt: notice.user.nickname, class: "img-rounded", size: "64x64" %>

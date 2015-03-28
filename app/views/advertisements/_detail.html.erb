@@ -1,12 +1,12 @@
 <legend><%= advertisement.title %></legend>
-<div class="media">
+<div class="media notice_unit">
   <div class="media-left">
     <%= link_to user_path(advertisement.user) do %>
       <%= image_tag advertisement.user.icon_url, alt: advertisement.user.nickname, class: "img-rounded", size: "64x64" %>
       <br><small><%= advertisement.user.nickname %></small>
     <% end %>
   </div>
-  <div class="media-body" style="width:100%;">
+  <div class="media-body">
     <div class="panel panel-default">
       <div class="panel-body">
         <p>

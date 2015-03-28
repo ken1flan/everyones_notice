@@ -2,7 +2,7 @@
   おしらせはありません。
 <% else %>
   <% advertisements.each do |advertisement| %>
-    <div class="media">
+    <div class="media notice_unit">
       <div class="media-left">
         <%= image_tag advertisement.user.icon_url, size: "32x32" %>
       </div>

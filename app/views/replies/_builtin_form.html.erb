@@ -1,10 +1,10 @@
 <% base_id = "#{notice.id}"; base_id += "_#{reply.id}" if reply.id %>
-<div class="media" id="reply_notice_builtin_form_<%= base_id %>">
-  <div class="col-md-1 pull-left">
+<div class="media notice_unit" id="reply_notice_builtin_form_<%= base_id %>">
+  <div class="media-left">
     <%= image_tag user.icon_url, alt: user.nickname, class: "img-rounded", size: "64x64" %>
     <br><%= user.nickname %>
   </div>
-  <div class="media-body col-md-11">
+  <div class="media-body">
     <div class="panel panel-default">
       <div class="panel-body">
         <%= form_for [notice, reply], remote: true, html: { class: "easy_submit_form" } do |f| %>
