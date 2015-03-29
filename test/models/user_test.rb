@@ -19,6 +19,120 @@
 require 'test_helper'
 
 describe User do
+  describe "バリデーション" do
+    before { @user = build(:user) }
+
+    describe "#nickname" do
+      valid_data = [1, 2, "a", "aaa", "あああ", "あ"*64]
+      valid_data.each do |vd|
+        context "nickname = #{vd}" do
+          before { @user.nickname = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "あ"*65]
+      invalid_data.each do |ivd|
+        context "nickname = #{ivd}のとき" do
+          before { @user.nickname = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "#club_id" do
+      valid_data = [1, 2]
+      valid_data.each do |vd|
+        context "club_id = #{vd}" do
+          before { @user.club_id = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "a", "aaa", "あああ", 0]
+      invalid_data.each do |ivd|
+        context "club_id = #{ivd}のとき" do
+          before { @user.club_id = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "#admin" do
+      valid_data = [true, false, nil, "", "a", "aaa", "あああ"]
+      valid_data.each do |vd|
+        context "admin = #{vd}" do
+          before { @user.admin = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "#icon_url" do
+      valid_data = [nil, "", 1, 2, "a", "aaa", "あああ", "あ"*255]
+      valid_data.each do |vd|
+        context "icon_url = #{vd}" do
+          before { @user.icon_url = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = ["あ"*256]
+      invalid_data.each do |ivd|
+        context "icon_url = #{ivd}のとき" do
+          before { @user.icon_url = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+
+    describe "#belonging_to" do
+      valid_data = [nil, "", 1, 2, "a", "aaa", "あああ", "あ"*64]
+      valid_data.each do |vd|
+        context "belonging_to = #{vd}" do
+          before { @user.belonging_to = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = ["あ"*65]
+      invalid_data.each do |ivd|
+        context "belonging_to = #{ivd}のとき" do
+          before { @user.belonging_to = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+  end
+
   describe "#notices_count" do
     before { @user = create(:user) }
 

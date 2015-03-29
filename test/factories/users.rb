@@ -24,6 +24,7 @@ FactoryGirl.define do
       |n| "nickname#{n}"
     end
     club_id 1
+    admin false
   end
 
   trait :admin do
