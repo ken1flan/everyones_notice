@@ -53,7 +53,6 @@ describe "ユーザ管理 Integration" do
         end
 
         it "test" do
-          binding.pry
         end
       end
     end
