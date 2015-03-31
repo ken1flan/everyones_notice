@@ -12,7 +12,7 @@ describe "ユーザ管理 Integration" do
 
     context "期限の切れたトークンでユーザ作成ページへ訪れたとき" do
       before do
-        invitation = create( :invitation )
+        invitation = create(:invitation)
         invitation.update_attributes(expired_at: 1.day.ago)
         visit new_user_path( token: invitation.token )
       end
@@ -35,24 +35,46 @@ describe "ユーザ管理 Integration" do
 
     context "正しいトークンでユーザ作成ページを訪れたとき" do
       before do
-        invitation = create( :invitation )
-        visit new_user_path( token: invitation.token )
+        invitation = create(:invitation)
+        visit new_user_path(token: invitation.token)
       end
 
       it "200 OKであること" do
         page.status_code.must_equal 200
       end
 
-      context "ユーザ情報を入力して保存したとき" do
+      context "「twitterアカウントで登録する」ボタンを押したとき" do
         before do
           @user = build(:user)
           @identity = build(:identity)
           set_auth_mock("twitter", @identity.uid, @user.nickname)
           click_link "twitterアカウントで登録する"
-          click_button "更新する"
         end
 
-        it "test" do
+        context "「更新する」ボタンを押したとき" do
+          before do
+            click_button "更新する"
+          end
+
+          it "ユーザ情報が表示されていること" do
+            page.text.must_include @user.nickname
+            page.text.must_include @user.club.name
+          end
+        end
+
+        context "内容を変更して「更新する」ボタンを押したとき" do
+          before do
+            @new_user_data = build(:user)
+            fill_in :user_nickname, with: @new_user_data.nickname
+            fill_in :user_belonging_to, with: @new_user_data.belonging_to
+            click_button "更新する"
+          end
+
+          it "ユーザ情報が表示されていること" do
+            page.text.must_include @new_user_data.nickname
+            page.text.must_include @user.club.name
+            page.text.must_include @new_user_data.belonging_to
+          end
         end
       end
     end
