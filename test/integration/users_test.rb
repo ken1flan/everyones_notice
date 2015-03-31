@@ -42,6 +42,19 @@ describe "ユーザ管理 Integration" do
       it "200 OKであること" do
         page.status_code.must_equal 200
       end
+
+      context "ユーザ情報を入力して保存したとき" do
+        before do
+          @user = build(:user)
+          @identity = build(:identity)
+          set_auth_mock("twitter", @identity.uid, @user.nickname)
+          click_link "twitterアカウントで登録する"
+          click_button "更新する"
+        end
+
+        it "test" do
+        end
+      end
     end
   end
 
