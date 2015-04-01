@@ -23,7 +23,7 @@ FactoryGirl.define do
     end
     message "MyText"
     user_id nil
-    club_id 1
+    club
     token "MyString"
     expired_at { Invitation::EXPIRATION_PERIOD.since }
     

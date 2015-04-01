@@ -25,6 +25,7 @@ FactoryGirl.define do
     end
     club_id 1
     admin false
+    belonging_to { ('a'..'z').to_a.sample(15).join }
   end
 
   trait :admin do

@@ -17,6 +17,7 @@
 class Invitation < ActiveRecord::Base
   EXPIRATION_PERIOD = 3.days
 
+  belongs_to :club
   belongs_to :user
 
   before_create :generate_token
