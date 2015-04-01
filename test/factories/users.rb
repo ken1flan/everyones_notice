@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  nickname   :string(255)
-#  club_id    :integer          default("1"), not null
-#  admin      :boolean          default("f"), not null
-#  created_at :datetime
-#  updated_at :datetime
-#  icon_url   :string(255)
+#  id           :integer          not null, primary key
+#  nickname     :string(255)
+#  club_id      :integer          default("1"), not null
+#  admin        :boolean          default("f"), not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#  icon_url     :string(255)
+#  belonging_to :string
 #
 # Indexes
 #
@@ -23,6 +24,8 @@ FactoryGirl.define do
       |n| "nickname#{n}"
     end
     club_id 1
+    admin false
+    belonging_to { ('a'..'z').to_a.sample(15).join }
   end
 
   trait :admin do

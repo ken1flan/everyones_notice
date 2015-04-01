@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  nickname   :string(255)
-#  club_id    :integer          default("1"), not null
-#  admin      :boolean          default("f"), not null
-#  created_at :datetime
-#  updated_at :datetime
-#  icon_url   :string(255)
+#  id           :integer          not null, primary key
+#  nickname     :string(255)
+#  club_id      :integer          default("1"), not null
+#  admin        :boolean          default("f"), not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#  icon_url     :string(255)
+#  belonging_to :string
 #
 # Indexes
 #
@@ -38,6 +39,23 @@ class User < ActiveRecord::Base
 
   has_reputation :total_reply_likes,
     source: { reputation: :likes, of: :replies }
+
+  validates :nickname,
+    presence: true,
+    length: { maximum: 64 }
+
+  validates :club_id,
+    presence: true,
+    numericality: { allow_blank: true, greater_than: 0 }
+
+  validates :admin,
+    inclusion: { allow_blank: true, in: [true, false] }
+
+  validates :icon_url,
+    length: { maximum: 255 }
+
+  validates :belonging_to,
+    length: { maximum: 64 }
 
   def unread_notices
     Notice.where.not(id: read_notices.pluck(:id))

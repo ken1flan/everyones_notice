@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150314100528) do
+ActiveRecord::Schema.define(version: 20150329101249) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -203,12 +203,13 @@ ActiveRecord::Schema.define(version: 20150314100528) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "nickname",   limit: 255
-    t.integer  "club_id",                default: 1,     null: false
-    t.boolean  "admin",                  default: false, null: false
+    t.string   "nickname",     limit: 255
+    t.integer  "club_id",                  default: 1,     null: false
+    t.boolean  "admin",                    default: false, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "icon_url",   limit: 255
+    t.string   "icon_url",     limit: 255
+    t.string   "belonging_to"
   end
 
   add_index "users", ["club_id"], name: "index_users_on_club_id"
