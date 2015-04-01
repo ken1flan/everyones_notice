@@ -75,6 +75,14 @@ describe "ユーザ管理 Integration" do
             page.text.must_include @user.club.name
             page.text.must_include @new_user_data.belonging_to
           end
+
+          context "きづきの新規作成ページを訪れたとき" do
+            before { visit new_notice_path }
+
+            it "タグに所属などが表示されていること" do
+              page.html.must_include @new_user_data.belonging_to
+            end
+          end
         end
       end
     end

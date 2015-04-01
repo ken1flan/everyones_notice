@@ -15,7 +15,7 @@ class NoticesController < ApplicationController
   end
 
   def new
-    @notice = Notice.new
+    @notice = Notice.new(tags_string: current_user.belonging_to)
   end
 
   def edit
