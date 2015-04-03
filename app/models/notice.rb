@@ -7,7 +7,7 @@
 #  body         :text
 #  user_id      :integer          not null
 #  published_at :datetime
-#  status       :integer          default("0")
+#  status       :integer          default(0)
 #  created_at   :datetime
 #  updated_at   :datetime
 #

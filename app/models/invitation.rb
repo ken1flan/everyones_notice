@@ -7,7 +7,7 @@
 #  message      :text
 #  club_id      :integer          not null
 #  user_id      :integer
-#  admin        :boolean          default("f"), not null
+#  admin        :boolean          default(FALSE), not null
 #  token        :string(255)      not null
 #  expired_at   :datetime         not null
 #  created_at   :datetime

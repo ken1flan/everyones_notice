@@ -20,6 +20,9 @@
 
 class Advertisement < ActiveRecord::Base
   belongs_to :user
+  after_save :register_activity
+
+  include Liked
 
   scope :displayable, -> {
     where(arel_table[:started_on].lteq Date.today).
@@ -48,10 +51,11 @@ class Advertisement < ActiveRecord::Base
 
       begin
         activity = Activity.new
+        activity.type_id = Activity.type_ids[:advertisement]
         activity.user_id = user_id
-        activity.advertisement_id
-        activity.advertisement_id.save!
-      resque
+        activity.advertisement_id = id
+        activity.save!
+      rescue
         logger.warn("failed to register writing advertisement(id: #{self.id}")
       end
     end
