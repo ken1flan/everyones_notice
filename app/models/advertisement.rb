@@ -38,4 +38,21 @@ class Advertisement < ActiveRecord::Base
 
   validates :started_on, presence: true, date: true
   validates :ended_on, presence: true, date: true
+
+  private
+    def register_activity
+      return if Activity.find_by(
+        type_id: Activity.type_ids[:advertisement],
+        advertisement_id: id
+      ).present?
+
+      begin
+        activity = Activity.new
+        activity.user_id = user_id
+        activity.advertisement_id
+        activity.advertisement_id.save!
+      resque
+        logger.warn("failed to register writing advertisement(id: #{self.id}")
+      end
+    end
 end
