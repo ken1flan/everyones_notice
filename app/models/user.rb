@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :feedbacks
   has_one :invitation
   has_many :post_images
+  has_many :advertisements
 
   has_reputation :total_likes,
     source: [
@@ -39,6 +40,9 @@ class User < ActiveRecord::Base
 
   has_reputation :total_reply_likes,
     source: { reputation: :likes, of: :replies }
+
+  has_reputation :total_advertisement_likes,
+    source: { reputation: :likes, of: :advertisements }
 
   validates :nickname,
     presence: true,

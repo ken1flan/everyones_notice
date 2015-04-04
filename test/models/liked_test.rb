@@ -1,7 +1,7 @@
 require "test_helper"
 
 describe "Liked Concern" do
-  before { @target = [:notice, :reply].sample }
+  before { @target = [:notice, :reply, :advertisement].sample }
 
   describe "#liked_by?" do
     before do

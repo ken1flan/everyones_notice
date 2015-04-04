@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403001303) do
+ActiveRecord::Schema.define(version: 20150403163522) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -23,10 +23,10 @@ ActiveRecord::Schema.define(version: 20150403001303) do
     t.integer  "advertisement_id"
   end
 
-  add_index "activities", ["advertisement_id"], name: "index_activities_on_advertisement_id"
   add_index "activities", ["created_at"], name: "index_activities_on_created_at"
   add_index "activities", ["notice_id"], name: "index_activities_on_notice_id"
   add_index "activities", ["reply_id"], name: "index_activities_on_reply_id"
+  add_index "activities", ["type_id", "user_id", "notice_id", "reply_id"], name: "index_activities_unique_key", unique: true
   add_index "activities", ["type_id"], name: "index_activities_on_type_id"
   add_index "activities", ["user_id"], name: "index_activities_on_user_id"
 

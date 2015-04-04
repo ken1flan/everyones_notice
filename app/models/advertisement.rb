@@ -22,6 +22,10 @@ class Advertisement < ActiveRecord::Base
   belongs_to :user
   after_save :register_activity
 
+  has_reputation :likes,
+    source: :user,
+    aggregated_by: :sum,
+    source_of: { reputation: :total_advertisement_likes, of: :user }
   include Liked
 
   scope :displayable, -> {
