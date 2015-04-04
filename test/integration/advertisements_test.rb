@@ -269,4 +269,47 @@ describe "おしらせの投稿 Integration" do
       end
     end
   end
+
+  describe "いいね" do
+    before do
+      @advertisement = create(:advertisement)
+      @user = create_user_and_identity("twitter")
+      login @user
+    end
+
+    context "詳細ページを訪れたとき" do
+      before { visit advertisement_path(@advertisement) }
+
+      context "「いいね」を押したとき" do
+        before do
+          click_button "like_advertisement_#{@advertisement.id}"
+          sleep 1
+        end
+
+        it "ボタンの数値が1になること" do
+          find(:css, "#like_advertisement_#{@advertisement.id}").text.must_include "1"
+        end
+
+        context "「いいね」を解除したとき" do
+          before do
+            click_button "like_advertisement_#{@advertisement.id}"
+            sleep 1
+          end
+
+          it "ボタンの数値が0になること" do
+            find(:css, "#like_advertisement_#{@advertisement.id}").text.must_include "0"
+          end
+
+          context "詳細ページを訪れたとき" do
+            before { advertisement_path(@advertisement) }
+  
+            it "ボタンの数値が0であること" do
+              find(:css, "#like_advertisement_#{@advertisement.id}").text.must_include "0"
+            end
+          end
+        end
+      end
+    end
+  end
+
 end

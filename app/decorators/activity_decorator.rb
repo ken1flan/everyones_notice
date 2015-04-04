@@ -1,11 +1,19 @@
 module ActivityDecorator
   include CommonDecorator
 
-  def summary_html
+  def title
+    advertisement? ? advertisement.title : notice.title
+  end
+
+  def document_path
+    advertisement? ? advertisement_path(advertisement) : notice_path(notice)
+  end
+
+  def summary_html(title_langth = 15)
     summary =  "<small>#{ created_at_string } | " +
       "#{ link_to(user.nickname, user_path(user)) }さんは" +
-      "「#{ link_to(truncate(notice.title, length: 15), notice_path(notice)) }」" +
-      if notice?
+      "「#{ link_to(truncate(title, length: title_langth), document_path) }」" +
+      if notice? || advertisement?
         "を書きました。"
       elsif reply?
         "に返信しました。"

@@ -259,7 +259,6 @@ describe "アクティビティ Integration" do
         end
       end
     end
-
   end
 
   describe "表示アクティビティの日付" do

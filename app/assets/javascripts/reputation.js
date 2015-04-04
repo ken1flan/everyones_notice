@@ -63,3 +63,25 @@ $(document).on('click', '.likeReply', function () {
     button.children(".value").text(json.likes_count);
   });
 });
+
+// advertisementのいいねボタン処理
+$(document).on('click', '.likeAdvertisement', function () {
+  var id = $(this).attr("id").substring(19);
+  var up_down;
+  if($(this).children(".star").attr("class").indexOf("star-empty") > 0){
+    up_down = 'up';
+  } else {
+    up_down = 'down';
+  }
+  $.getJSON('/reputation/advertisement/' + id + '/' + up_down + '.json', function (json) {
+    var button = $("#like_advertisement_" + json.id);
+    if(json.evaluation_value == 0){
+      button.children(".star").removeClass("glyphicon-star");
+      button.children(".star").addClass("glyphicon-star-empty");
+    } else {
+      button.children(".star").removeClass("glyphicon-star-empty");
+      button.children(".star").addClass("glyphicon-star");
+    }
+    button.children(".value").text(json.likes_count);
+  });
+});

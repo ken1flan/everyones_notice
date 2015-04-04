@@ -14,7 +14,7 @@ class ActivitiesController < ApplicationController
 
   def all
     @activities = Activity.
-      joins(:notice, :user).
+      joins_related_models.
       between_beginning_and_end_of_day(@target_date).
       default_order.
       page(params[:page]).

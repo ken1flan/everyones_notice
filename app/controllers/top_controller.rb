@@ -4,7 +4,8 @@ class TopController < ApplicationController
 
   def index
     @notices = Notice.all
-    @activities = Activity.joins(:notice, :user).
+    @activities = Activity.
+      joins_related_models.
       default_order.limit(ACTIVITY_COUNT)
   end
 
