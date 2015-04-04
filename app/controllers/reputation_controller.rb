@@ -25,6 +25,18 @@ class ReputationController < ApplicationController
     register_thumbup_reply_activity if params[:up_down] == 'up'
   end
 
+  def advertisement
+    if user_signed_in?
+      @advertisement = Advertisement.find(params[:id])
+      @evaluation_value = params[:up_down] == 'down' ? 0 : 1
+      @advertisement.add_or_update_evaluation(:likes, @evaluation_value, current_user)
+    else
+      # TODO: ja.ymlを使うようにする
+      @error_message = 'ログインが必要です'
+    end
+  end
+
+
   private
     def register_thumbup_notice_activity
       return if Activity.find_by(

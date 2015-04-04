@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150329101249) do
+ActiveRecord::Schema.define(version: 20150403163522) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 20150329101249) do
     t.integer  "reply_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "advertisement_id"
   end
 
   add_index "activities", ["created_at"], name: "index_activities_on_created_at"

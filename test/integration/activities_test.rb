@@ -213,6 +213,52 @@ describe "アクティビティ Integration" do
         end
       end
     end
+
+    context "自分の書いたお知らせがあるとき" do
+      before { @advertisement = create(:advertisement, user: @user) }
+
+      context "自分に関連するアクティビティの一覧ページを訪れたとき" do
+        before { visit activities_path }
+
+        it "アクティビティが表示されていること" do
+          page.text.must_include @advertisement.title.slice(0, 10)
+        end
+      end
+
+      context "すべてのアクティビティの一覧ページを訪れたとき" do
+        before { visit all_activities_path }
+
+        it "アクティビティが表示されていること" do
+          page.text.must_include @advertisement.title.slice(0, 10)
+        end
+      end
+
+      context "ほかのひとがおしらせにいいねしてくれたとき" do
+        before do
+          @thumbup_advertisement_user = create(:user)
+          @advertisement.add_or_update_evaluation(:likes, 1, @thumbup_advertisement_user)
+          create(:activity, advertisement: @advertisement, type_id: Activity.type_ids["thumbup_advertisement"], user: @thumbup_advertisement_user)
+        end
+
+        context "自分に関連するアクティビティの一覧ページを訪れたとき" do
+          before { visit activities_path }
+    
+          it "アクティビティが表示されていること" do
+            page.text.must_include @advertisement.title.slice(0, 10)
+            page.text.must_include @thumbup_advertisement_user.nickname
+          end
+        end
+    
+        context "すべてのアクティビティの一覧ページを訪れたとき" do
+          before { visit all_activities_path }
+    
+          it "アクティビティが表示されていること" do
+            page.text.must_include @advertisement.title.slice(0, 10)
+            page.text.must_include @thumbup_advertisement_user.nickname
+          end
+        end
+      end
+    end
   end
 
   describe "表示アクティビティの日付" do

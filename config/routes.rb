@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resource :reputation, only: [] do
     get 'notice/:id/:up_down' => 'reputation#notice'
     get 'reply/:id/:up_down' => 'reputation#reply'
+    get 'advertisement/:id/:up_down' => 'reputation#advertisement'
   end
 
   resources :post_images, except: [:edit, :update] do

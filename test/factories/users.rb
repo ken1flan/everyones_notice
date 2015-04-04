@@ -4,8 +4,8 @@
 #
 #  id           :integer          not null, primary key
 #  nickname     :string(255)
-#  club_id      :integer          default("1"), not null
-#  admin        :boolean          default("f"), not null
+#  club_id      :integer          default(1), not null
+#  admin        :boolean          default(FALSE), not null
 #  created_at   :datetime
 #  updated_at   :datetime
 #  icon_url     :string(255)

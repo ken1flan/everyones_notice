@@ -6,18 +6,7 @@
   </div>
   <div class="media-body">
     <p>
-    <%= activity.created_at_string %> |
-    <%= link_to(activity.user.nickname, user_path(activity.user)) %>さんは
-    「<%= link_to(truncate(activity.notice.title, length: 32), notice_path(activity.notice)) %>」
-    <% if activity.notice? %>
-      を書きました。
-    <% elsif activity.reply? %>
-        に返信をしました。
-    <% elsif activity.thumbup_notice? %>
-        にいいねしました。
-    <% elsif activity.thumbup_reply? %>
-        の返信にいいねしました。
-    <% else %>なにかしました。<% end %>
+    <%= activity.summary_html(32) %>
     </p>
   </div>
 </div>

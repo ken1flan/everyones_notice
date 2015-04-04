@@ -6,7 +6,7 @@
 #  body       :text             not null
 #  user_id    :integer          not null
 #  url        :string
-#  status     :integer          default("0"), not null
+#  status     :integer          default(0), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

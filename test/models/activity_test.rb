@@ -2,13 +2,14 @@
 #
 # Table name: activities
 #
-#  id         :integer          not null, primary key
-#  type_id    :integer
-#  user_id    :integer
-#  notice_id  :integer
-#  reply_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  id               :integer          not null, primary key
+#  type_id          :integer
+#  user_id          :integer
+#  notice_id        :integer
+#  reply_id         :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  advertisement_id :integer
 #
 # Indexes
 #

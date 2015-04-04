@@ -4,8 +4,8 @@
 #
 #  id           :integer          not null, primary key
 #  nickname     :string(255)
-#  club_id      :integer          default("1"), not null
-#  admin        :boolean          default("f"), not null
+#  club_id      :integer          default(1), not null
+#  admin        :boolean          default(FALSE), not null
 #  created_at   :datetime
 #  updated_at   :datetime
 #  icon_url     :string(255)
@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :feedbacks
   has_one :invitation
   has_many :post_images
+  has_many :advertisements
 
   has_reputation :total_likes,
     source: [
@@ -39,6 +40,9 @@ class User < ActiveRecord::Base
 
   has_reputation :total_reply_likes,
     source: { reputation: :likes, of: :replies }
+
+  has_reputation :total_advertisement_likes,
+    source: { reputation: :likes, of: :advertisements }
 
   validates :nickname,
     presence: true,

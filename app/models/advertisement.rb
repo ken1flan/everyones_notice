@@ -20,6 +20,13 @@
 
 class Advertisement < ActiveRecord::Base
   belongs_to :user
+  after_save :register_activity
+
+  has_reputation :likes,
+    source: :user,
+    aggregated_by: :sum,
+    source_of: { reputation: :total_advertisement_likes, of: :user }
+  include Liked
 
   scope :displayable, -> {
     where(arel_table[:started_on].lteq Date.today).
@@ -38,4 +45,22 @@ class Advertisement < ActiveRecord::Base
 
   validates :started_on, presence: true, date: true
   validates :ended_on, presence: true, date: true
+
+  private
+    def register_activity
+      return if Activity.find_by(
+        type_id: Activity.type_ids[:advertisement],
+        advertisement_id: id
+      ).present?
+
+      begin
+        activity = Activity.new
+        activity.type_id = Activity.type_ids[:advertisement]
+        activity.user_id = user_id
+        activity.advertisement_id = id
+        activity.save!
+      rescue
+        logger.warn("failed to register writing advertisement(id: #{self.id}")
+      end
+    end
 end
