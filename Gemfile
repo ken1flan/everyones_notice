@@ -59,6 +59,7 @@ group :test do
   gem "poltergeist"                       # capybaraのjsdriver。phantomjsを使う。
   gem "database_cleaner"                  # テスト時にdbのクリーンアップする方法を選択しやすくする。
   gem "timecop"                           # 時間を止めたり、変えたりする。
+  gem "codeclimate-test-reporter"         # CodeClimateのテストカバレッジ計測
 end
 
 group :production do
