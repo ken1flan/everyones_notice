@@ -1,0 +1,28 @@
+{
+  "name": "everyones_notice",
+  "version": "1.0.0",
+  "description": "[![Code Climate](https://codeclimate.com/github/ken1flan/everyones_notice/badges/gpa.svg)](https://codeclimate.com/github/ken1flan/everyones_notice) [![Test Coverage](https://codeclimate.com/github/ken1flan/everyones_notice/badges/coverage.svg)](https://codeclimate.com/github/ken1flan/everyones_notice) [![Dependency Status](https://gemnasium.com/ken1flan/everyones_notice.svg)](https://gemnasium.com/ken1flan/everyones_notice) [![Circle CI](https://circleci.com/gh/ken1flan/everyones_notice.svg?style=svg)](https://circleci.com/gh/ken1flan/everyones_notice)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ken1flan/everyones_notice.git"
+  },
+  "keywords": [
+    "rails"
+  ],
+  "author": "ken1flan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ken1flan/everyones_notice/issues"
+  },
+  "homepage": "https://github.com/ken1flan/everyones_notice",
+  "devDependencies": {
+    "phantomjs": "~1.9.16"
+  }
+}
