@@ -27,7 +27,17 @@
           <% end %>
           <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
           <br>
-          <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>
+          <ul class="nav nav-tabs">
+            <li role="presentation" class="active"><a href="#">記入</a></li>
+            <li role="presentation"><a href="#">プレビュー</a></li>
+          </ul>
+          <br>
+          <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control notice_body_writing", rows: 10, placeholder: "きづきを書いてください。markdownで書けます。" %>
+	  <div class="panel panel-default notice_body_preview>">
+            <div class="panel-body">
+              レンダリング中です。
+            </div>
+          </div>
           <br>
           <span class="glyphicon glyphicon-tags"></span>&nbsp;タグ&nbsp;<span class="text-muted">カンマ区切りで複数していできます。例) タグ1,タグ2</span><br>
           <%= f.text_field :tags_string, id: "notice_tags_string_#{base_id}", class: "form-control", placeholder: "タグ1,タグ2" %></strong>
