@@ -1,8 +1,8 @@
-$(function() {
+function setup_all_notice_writing_preview () {
   $(".notice_writing_preview_tabs").
     children().
     click(set_notice_writing_preview);
-});
+}
 
 function set_notice_writing_preview () {
   var notice_writing = $(this).parent().parent().children(".notice_writing");
