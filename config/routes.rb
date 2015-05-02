@@ -62,7 +62,7 @@ Rails.application.routes.draw do
 
   resources :utils, only: [] do
     collection do
-      get "markdown"
+      post "markdown"
     end
   end
 

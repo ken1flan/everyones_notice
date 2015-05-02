@@ -18,7 +18,7 @@ function set_notice_writing_preview () {
     $(this).parent().children(".notice_writing_tab").removeClass("active");
     notice_writing.addClass("sr-only");
     notice_preview.removeClass("sr-only");
-    $.get("/utils/markdown", { src: notice_writing.val() }, function (data) {
+    $.post("/utils/markdown", { src: notice_writing.val() }, function (data) {
 
       notice_preview.find(".markdown_body").html(data);
     });
