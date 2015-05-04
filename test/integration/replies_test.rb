@@ -25,7 +25,7 @@ describe "返信 Integration" do
             end
 
             it "プレビューが表示されていること" do
-              find(".markdown_body").text.must_include(@reply.body)
+              find("#new_reply").find(".markdown_body").text.must_include(@reply.body)
             end
           end
 
@@ -77,12 +77,12 @@ describe "返信 Integration" do
 
             context "「プレビュー」をクリックしたとき" do
               before do
-                click_link("プレビュー")
+                find("#reply_notice_builtin_form_#{@base_id}").click_link("プレビュー")
                 sleep 1 # 反映されるまで少しタイムラグがあるので…
               end
   
               it "プレビューが表示されていること" do
-                find(".markdown_body").text.must_include(@reply_new.body)
+                find("#reply_notice_builtin_form_#{@base_id}").find(".markdown_body").text.must_include(@reply_new.body)
               end
             end
 
