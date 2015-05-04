@@ -28,6 +28,7 @@ describe "きづき Integration" do
             context "「プレビュー」をクリックしたとき" do
               before do
                 click_link("プレビュー")
+                sleep 1 # 反映されるまで少しタイムラグがあるので…
               end
 
               it "プレビューが表示されていること" do
@@ -108,7 +109,7 @@ describe "きづき Integration" do
           context "「プレビュー」をクリックしたとき" do
             before do
               click_link("プレビュー")
-              sleep 0.5
+              sleep 1 # 反映されるまで少しタイムラグがあるので…
             end
 
             it "プレビューが表示されていること" do
