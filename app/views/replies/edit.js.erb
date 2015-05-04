@@ -2,3 +2,7 @@
 $("#reply_detail_<%= base_id %>").before('<%= j(render("replies/builtin_form", user: current_user, notice: @notice, reply: @reply)) %>');
 $("#reply_detail_<%= base_id %>").hide();
 setup_easy_submit("#edit_reply_<%= @reply.id %>");
+$("#edit_reply_<%= @reply.id %>").
+  find(".reply_writing_preview_tabs").
+  children().
+  click(set_reply_writing_preview);
