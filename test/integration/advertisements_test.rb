@@ -62,6 +62,7 @@ describe "おしらせの投稿 Integration" do
         context "「プレビュー」ボタンを押したとき" do
           before do
             click_link "プレビュー"
+            sleep 1
           end
 
           it "プレビューの中に本文が表示されていること" do
@@ -105,6 +106,7 @@ describe "おしらせの投稿 Integration" do
                 context "「登録する」ボタンを押したとき" do
                   before do
                     click_link "プレビュー"
+                    sleep 1
                   end
 
                   it "プレビューの中に本文が表示されていること" do
