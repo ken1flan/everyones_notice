@@ -3,6 +3,6 @@ $("#notice_detail_<%= base_id %>").before('<%= j(render("form", notice: @notice,
 $("#notice_detail_<%= base_id %>").hide();
 setup_easy_submit("#edit_notice_<%= @notice.id %>");
 $("#notice_builtin_form_<%= base_id %>").
-  find(".notice_writing_preview_tabs").
+  find(".markdown_writing_preview_tabs").
   children().
-  click(set_notice_writing_preview);
+  click(set_markdown_writing_preview);

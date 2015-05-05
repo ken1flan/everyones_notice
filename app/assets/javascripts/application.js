@@ -24,6 +24,5 @@
 $(function() {
   $('.datepicker').datepicker();
   setup_all_easy_submit();
-  setup_all_notice_writing_preview();
-  setup_all_reply_writing_preview();
+  setup_all_markdown_writing_preview();
 });
