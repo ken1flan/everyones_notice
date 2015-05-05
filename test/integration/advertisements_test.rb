@@ -49,7 +49,7 @@ describe "おしらせの投稿 Integration" do
         end
       end
 
-      context "正しい情報を入力して「登録する」ボタンを押したとき" do
+      context "正しい情報を入力したとき" do
         before do
           @advertisement_data = build(:advertisement)
           fill_in "advertisement_title", with: @advertisement_data.title
@@ -57,59 +57,97 @@ describe "おしらせの投稿 Integration" do
           fill_in "advertisement_body", with: @advertisement_data.body
           fill_in "advertisement_started_on", with: @advertisement_data.started_on
           fill_in "advertisement_ended_on", with: @advertisement_data.ended_on
-          click_button "登録する"
         end
 
-        context "一覧画面を訪れたとき" do
-          before { visit all_advertisements_path }
-
-          it "タイトルとサマリーが表示されていること" do
-            visit all_advertisements_path
-            page.text.must_include @advertisement_data.title
-            page.text.must_include @advertisement_data.summary
+        context "「プレビュー」ボタンを押したとき" do
+          before do
+            click_link "プレビュー"
+            sleep 1
           end
 
-          context "編集ボタンを押したとき" do
-            before { click_link "編集" }
+          it "プレビューの中に本文が表示されていること" do
+            find(".markdown_body").text.must_include @advertisement_data.body
+          end
+        end
 
-            context "正しい情報を入力して「登録する」ボタンを押したとき" do
-              before do
-                @advertisement_data_new = build(:advertisement)
-                fill_in "advertisement_title", with: @advertisement_data_new.title
-                fill_in "advertisement_summary", with: @advertisement_data_new.summary
-                fill_in "advertisement_body", with: @advertisement_data_new.body
-                fill_in "advertisement_started_on", with: @advertisement_data_new.started_on
-                fill_in "advertisement_ended_on", with: @advertisement_data_new.ended_on
-                click_button "更新する"
-              end
+        context "「登録する」ボタンを押したとき" do
+          before do
+            @advertisement_data = build(:advertisement)
+            fill_in "advertisement_title", with: @advertisement_data.title
+            fill_in "advertisement_summary", with: @advertisement_data.summary
+            fill_in "advertisement_body", with: @advertisement_data.body
+            fill_in "advertisement_started_on", with: @advertisement_data.started_on
+            fill_in "advertisement_ended_on", with: @advertisement_data.ended_on
+            click_button "登録する"
+          end
 
-              context "一覧画面を訪れたとき" do
-                before { visit all_advertisements_path }
-      
-                it "タイトルとサマリーが表示されていること" do
-                  visit all_advertisements_path
-                  page.text.must_include @advertisement_data_new.title
-                  page.text.must_include @advertisement_data_new.summary
+          context "一覧画面を訪れたとき" do
+            before { visit all_advertisements_path }
+
+            it "タイトルとサマリーが表示されていること" do
+              visit all_advertisements_path
+              page.text.must_include @advertisement_data.title
+              page.text.must_include @advertisement_data.summary
+            end
+
+            context "編集ボタンを押したとき" do
+              before { click_link "編集" }
+
+              context "正しい情報を入力したとき" do
+                before do
+                  @advertisement_data_new = build(:advertisement)
+                  fill_in "advertisement_title", with: @advertisement_data_new.title
+                  fill_in "advertisement_summary", with: @advertisement_data_new.summary
+                  fill_in "advertisement_body", with: @advertisement_data_new.body
+                  fill_in "advertisement_started_on", with: @advertisement_data_new.started_on
+                  fill_in "advertisement_ended_on", with: @advertisement_data_new.ended_on
                 end
 
-                context "タイトルをクリックしたとき" do
-                  before { click_link @advertisement_data_new.title }
-    
-                  it "タイトルと本文が表示されていること" do
-                    page.text.must_include @advertisement_data_new.title
-                    page.text.must_include @advertisement_data_new.body
+                context "「登録する」ボタンを押したとき" do
+                  before do
+                    click_link "プレビュー"
+                    sleep 1
+                  end
+
+                  it "プレビューの中に本文が表示されていること" do
+                    find(".markdown_body").text.must_include @advertisement_data_new.body
+                  end
+                end
+
+                context "「登録する」ボタンを押したとき" do
+                  before do
+                    click_button "更新する"
+                  end
+  
+                  context "一覧画面を訪れたとき" do
+                    before { visit all_advertisements_path }
+          
+                    it "タイトルとサマリーが表示されていること" do
+                      visit all_advertisements_path
+                      page.text.must_include @advertisement_data_new.title
+                      page.text.must_include @advertisement_data_new.summary
+                    end
+  
+                    context "タイトルをクリックしたとき" do
+                      before { click_link @advertisement_data_new.title }
+      
+                      it "タイトルと本文が表示されていること" do
+                        page.text.must_include @advertisement_data_new.title
+                        page.text.must_include @advertisement_data_new.body
+                      end
+                    end
                   end
                 end
               end
             end
-          end
 
-          context "タイトルをクリックしたとき" do
-            before { click_link @advertisement_data.title }
+            context "タイトルをクリックしたとき" do
+              before { click_link @advertisement_data.title }
 
-            it "タイトルと本文が表示されていること" do
-              page.text.must_include @advertisement_data.title
-              page.text.must_include @advertisement_data.body
+              it "タイトルと本文が表示されていること" do
+                page.text.must_include @advertisement_data.title
+                page.text.must_include @advertisement_data.body
+              end
             end
           end
         end

@@ -15,7 +15,8 @@
     </div>
     <div class="panel-body">
       <%= f.text_field :summary, class: "form-control", placeholder: "概要を書いてください" %><br>
-      <%= f.text_area :body, class: "form-control", placeholder: "内容を書いてください。markdownで書けます。", rows: "5" %><br>
+      <%= render "shared/markdown_preview" %>
+      <%= f.text_area :body, class: "form-control markdown_writing", placeholder: "内容を書いてください。markdownで書けます。", rows: "5" %><br>
 
       <span class="col-md-2">
         <%= f.text_field :started_on, class: "form-control datepicker", placeholder: "掲載開始日" %>

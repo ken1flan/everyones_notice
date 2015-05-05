@@ -60,6 +60,12 @@ Rails.application.routes.draw do
 
   resources :feedbacks, only: [:index, :show, :create]
 
+  resources :utils, only: [] do
+    collection do
+      post "markdown"
+    end
+  end
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

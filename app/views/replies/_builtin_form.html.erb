@@ -8,8 +8,9 @@
     <div class="panel panel-default">
       <div class="panel-body">
         <%= form_for [notice, reply], remote: true, html: { class: "easy_submit_form" } do |f| %>
+          <%= render "shared/markdown_preview" %>
           <div id="reply_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
-          <%= f.text_area :body, id: "reply_body_#{base_id}", class: "form-control", rows: 5, placeholder: "返信を書く" %>
+          <%= f.text_area :body, id: "reply_body_#{base_id}", class: "form-control markdown_writing", rows: 5, placeholder: "返信を書く" %>
           <br>
           <span class="pull-right">
             <% if reply.id? %>

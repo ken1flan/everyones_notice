@@ -23,4 +23,6 @@
 
 $(function() {
   $('.datepicker').datepicker();
+  setup_all_easy_submit();
+  setup_all_markdown_writing_preview();
 });

@@ -1,7 +1,3 @@
-$(document).on("ready page:load", function () {
-  setup_all_easy_submit();
-});
-
 function setup_all_easy_submit () {
   setup_easy_submit(".easy_submit_form textarea");
 }

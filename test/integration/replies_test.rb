@@ -12,16 +12,32 @@ describe "返信 Integration" do
       context "きづき詳細ページを訪れたとき" do
         before { visit notice_path(@notice) }
 
-        context "正しい値を入力して「返信」したとき" do
+        context "正しい値を入力したとき" do
           before do
             @reply = build(:reply)
             fill_in "reply_body_#{@base_id}", with: @reply.body
-            find(:css, '#new_reply').click_button "返信する"
-            sleep 1 # 反映されるまで少しタイムラグがあるので…
           end
 
-          it "入力内容が表示されていること" do
-            page.text.must_include @reply.body
+          context "「プレビュー」をクリックしたとき" do
+            before do
+              click_link("プレビュー")
+              sleep 1 # 反映されるまで少しタイムラグがあるので…
+            end
+
+            it "プレビューが表示されていること" do
+              find("#new_reply").find(".markdown_body").text.must_include(@reply.body)
+            end
+          end
+
+          context "「返信」したとき" do
+            before do
+              find(:css, '#new_reply').click_button "返信する"
+              sleep 1 # 反映されるまで少しタイムラグがあるので…
+            end
+
+            it "入力内容が表示されていること" do
+              page.text.must_include @reply.body
+            end
           end
         end
 
@@ -53,16 +69,34 @@ describe "返信 Integration" do
             sleep 1 # 反映されるまで少しタイムラグがあるので…
           end
 
-          context "正しい値を入力して「更新」したとき" do
+          context "正しい値を入力したとき" do
             before do
               @reply_new = build(:reply)
               fill_in "reply_body_#{@base_id}", with: @reply_new.body
-              find(:css, "#reply_notice_builtin_form_#{@base_id}").click_button("更新する")
-              sleep 1 # 反映されるまで少しタイムラグがあるので…
             end
 
-            it "入力内容が表示されていること" do
-              page.text.must_include @reply_new.body
+            context "「プレビュー」をクリックしたとき" do
+              before do
+                find("#reply_notice_builtin_form_#{@base_id}").click_link("プレビュー")
+                sleep 1 # 反映されるまで少しタイムラグがあるので…
+              end
+  
+              it "プレビューが表示されていること" do
+                find("#reply_notice_builtin_form_#{@base_id}").find(".markdown_body").text.must_include(@reply_new.body)
+              end
+            end
+
+            context "「更新」したとき" do
+              before do
+                @reply_new = build(:reply)
+                fill_in "reply_body_#{@base_id}", with: @reply_new.body
+                find(:css, "#reply_notice_builtin_form_#{@base_id}").click_button("更新する")
+                sleep 1 # 反映されるまで少しタイムラグがあるので…
+              end
+
+              it "入力内容が表示されていること" do
+                page.text.must_include @reply_new.body
+              end
             end
           end
 
