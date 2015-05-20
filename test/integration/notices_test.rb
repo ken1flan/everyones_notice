@@ -25,17 +25,6 @@ describe "きづき Integration" do
               fill_in "notice_tags_string_#{@base_id}", with: "タグ1,タグ2"
             end
 
-            context "「プレビュー」をクリックしたとき" do
-              before do
-                click_link("プレビュー")
-                sleep 1 # 反映されるまで少しタイムラグがあるので…
-              end
-
-              it "プレビューが表示されていること" do
-                find(".markdown_body").text.must_include(@notice_new.body)
-              end
-            end
-
             context "「公開」を押したとき" do
               before do
                 click_button("公開")
@@ -104,17 +93,6 @@ describe "きづき Integration" do
         context "「編集」したとき" do
           before do
             find(:css, "#notice_detail_#{@base_id}").click_link("編集")
-          end
-
-          context "「プレビュー」をクリックしたとき" do
-            before do
-              click_link("プレビュー")
-              sleep 1 # 反映されるまで少しタイムラグがあるので…
-            end
-
-            it "プレビューが表示されていること" do
-              find(".markdown_body").text.must_include(@notice.body)
-            end
           end
 
           context "正しい値を入力して「更新」したとき" do
