@@ -2,7 +2,3 @@
 $("#notice_detail_<%= base_id %>").before('<%= j(render("form", notice: @notice, builtin: true)) %>');
 $("#notice_detail_<%= base_id %>").hide();
 setup_easy_submit("#edit_notice_<%= @notice.id %>");
-$("#notice_builtin_form_<%= base_id %>").
-  find(".markdown_writing_preview_tabs").
-  children().
-  click(set_markdown_writing_preview);

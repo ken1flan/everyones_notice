@@ -27,8 +27,7 @@
           <% end %>
           <strong><%= f.text_field :title, id: "notice_title_#{base_id}", class: "form-control", placeholder: "タイトルをつける" %></strong>
           <br>
-	  <%= render "shared/markdown_preview" %>
-          <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control markdown_writing", rows: 10, placeholder: "きづきを書いてください。markdownで書けます。" %>
+          <%= f.text_area :body, id: "notice_body_#{base_id}", class: "form-control", rows: 10, placeholder: "きづきを書く" %>
           <br>
           <span class="glyphicon glyphicon-tags"></span>&nbsp;タグ&nbsp;<span class="text-muted">カンマ区切りで複数していできます。例) タグ1,タグ2</span><br>
           <%= f.text_field :tags_string, id: "notice_tags_string_#{base_id}", class: "form-control", placeholder: "タグ1,タグ2" %></strong>
