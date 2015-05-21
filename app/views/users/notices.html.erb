@@ -7,7 +7,7 @@
 <% else %>
   <% @notices.each do |notice| %>
     <div class="row" id="notice_row_<%= notice.id %>">
-      <%= render "notices/detail", notice: notice %>
+      <%= render "notices/summary", notice: notice %>
     </div>
   <% end %>
 <% end %>

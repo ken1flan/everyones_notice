@@ -1,0 +1,40 @@
+<div class="media notice_unit" id="notice_detail_<%= notice.id %>">
+  <div class="media-left">
+    <%= link_to user_path(notice.user) do %>
+      <%= image_tag notice.user.icon_url, alt: notice.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= notice.user.nickname %></small>
+    <% end %>
+  </div>
+  <div class="media-body">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <% if notice.draft? %><span class="label label-default">下書き</span><% end %>
+        <strong><%= link_to notice.title, notice_path(notice) %></strong>
+        <br>
+        <% notice.tags.each do |tag| %>
+          <%= link_to tag.name, tag_path(tag), class: "btn btn-default btn-xs" %>
+        <% end %>
+      </div>
+      <div class="panel-footer">
+        <button id="like_notice_<%= notice.id %>" type="button" class="likeNotice btn btn-default btn-xs">
+          <% if user_signed_in? && notice.liked_by?(current_user) %>
+            いいね <span class="star glyphicon glyphicon-star"></span>
+          <% else %>
+            いいね <span class="star glyphicon glyphicon-star-empty"></span> 
+          <% end %>
+          <span class="value"><%= notice.like_number %><span>
+        </button>
+    
+        <button id="opened_notice_<%= notice.id %>" type="button" class="openedNotice btn btn-default btn-xs">
+          <% if user_signed_in? && notice.read_by?(current_user) %>
+            読んだ <span class="opened glyphicon glyphicon-ok"></span>
+          <% else %>
+            読んでない <span class="opened glyphicon glyphicon-minus"></span> 
+          <% end %>
+        </button>
+    
+        <%= link_to "返信数：#{ notice.replies.count }", notice_path(notice), class: "btn btn-default btn-xs" %>
+      </div>
+    </div>
+  </div>
+</div>
