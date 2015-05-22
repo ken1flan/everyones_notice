@@ -6,8 +6,8 @@ describe "きづきのタグ Integration" do
     @notice = create(:notice)
   end
 
-  context "きづき一覧を訪れたとき" do
-    before { visit notices_path }
+  context "きづき詳細を訪れたとき" do
+    before { visit notice_path(@notice) }
 
     context "タグの追加ボタンを押したとき" do
       before { click_button "add_tag_button_#{@notice.id}" }
