@@ -314,7 +314,6 @@ describe "ユーザ管理 Integration" do
 
   def includes_notice_info?(text, notice)
     text.must_include notice.title
-    text.must_include notice.body
   end
 
   def not_includes_notice_info?(text, notice)

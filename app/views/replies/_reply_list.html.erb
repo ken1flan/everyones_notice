@@ -4,7 +4,7 @@
   <div class="row" id="reply_list">
     <% replies.each do |reply| %>
       <div class="col-md-12" id="reply_row_#{reply.id}">
-        <%= render "notices/summary", notice: reply.notice %>
+        <%= render "replies/summary", reply: reply %>
       </div>
     <% end %>
   </div>
