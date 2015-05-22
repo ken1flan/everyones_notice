@@ -47,7 +47,6 @@ describe "きづき Integration" do
 
                 it "きづきが表示されていること" do
                   page.text.must_include @notice_new.title
-                  page.text.must_include @notice_new.body
                   page.text.must_include "タグ1"
                   page.text.must_include "タグ2"
                 end
@@ -74,7 +73,6 @@ describe "きづき Integration" do
 
                 it "きづきが表示されていないこと" do
                   page.text.wont_include @notice_new.title
-                  page.text.wont_include @notice_new.body
                 end
               end
 
@@ -83,7 +81,6 @@ describe "きづき Integration" do
 
                 it "きづきが表示されていること" do
                   page.text.must_include @notice_new.title
-                  page.text.must_include @notice_new.body
                 end
               end
             end
@@ -98,22 +95,25 @@ describe "きづき Integration" do
         @base_id = @notice.id
       end
 
-      context "きづき一覧ページを訪れたとき" do
-        before { visit notices_path }
+      context "きづきの詳細ページを訪れたとき" do
+        before { visit notice_path(@notice) }
 
         context "「編集」したとき" do
           before do
             find(:css, "#notice_detail_#{@base_id}").click_link("編集")
+            sleep 1 # 反映されるまで少しタイムラグがあるので…
           end
 
           context "「プレビュー」をクリックしたとき" do
             before do
-              click_link("プレビュー")
+              find(:css, "#edit_notice_#{@base_id}").click_link("プレビュー")
               sleep 1 # 反映されるまで少しタイムラグがあるので…
             end
 
             it "プレビューが表示されていること" do
-              find(".markdown_body").text.must_include(@notice.body)
+              find(:css, "#edit_notice_#{@base_id}").
+                find(".markdown_body").
+                text.must_include(@notice.body)
             end
           end
 
@@ -129,70 +129,6 @@ describe "きづき Integration" do
             it "入力内容が表示されていること" do
               page.text.must_include @notice_new.title
               page.text.must_include @notice_new.body
-            end
-          end
-        end
-      end
-    end
-  end
-
-  describe "下書き一覧ページ内" do
-    before do
-      @user = login
-    end
-
-    describe "編集" do
-      before do
-        @notice = create(:notice, :draft, user: @user)
-        @base_id = @notice.id
-      end
-
-      context "下書き一覧ページを訪れたとき" do
-        before { visit draft_notices_path }
-
-        context "「編集」したとき" do
-          before do
-            find(:css, "#notice_detail_#{@base_id}").click_link("編集")
-            sleep 1 # 反映されるまで少しタイムラグがあるので…
-          end
-
-          context "正しい値を入力したとき" do
-            before do
-              @notice_new = build(:notice)
-              fill_in "notice_title_#{@base_id}", with: @notice_new.title
-              fill_in "notice_body_#{@base_id}", with: @notice_new.body
-            end
-
-            context "「下書き」を押したとき" do
-              before do
-                find(:css, "#notice_builtin_form_#{@base_id}").click_button("下書き")
-                sleep 1 # 反映されるまで少しタイムラグがあるので…
-              end
-
-              it "下書きのままであること" do
-                find(:css, "#notice_detail_#{@base_id}").text.must_include "下書き"
-              end
-  
-              it "入力内容が表示されていること" do
-                page.text.must_include @notice_new.title
-                page.text.must_include @notice_new.body
-              end
-            end
-
-            context "「公開」を押したとき" do
-              before do
-                find(:css, "#notice_builtin_form_#{@base_id}").click_button("公開")
-                sleep 1 # 反映されるまで少しタイムラグがあるので…
-              end
-
-              it "下書きでないこと" do
-                find(:css, "#notice_detail_#{@base_id}").text.wont_include "下書き"
-              end
-  
-              it "入力内容が表示されていること" do
-                page.text.must_include @notice_new.title
-                page.text.must_include @notice_new.body
-              end
             end
           end
         end

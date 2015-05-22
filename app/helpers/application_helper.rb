@@ -22,4 +22,8 @@ module ApplicationHelper
   def set_facebook_oauth2?
     Rails.application.secrets.facebook_app_id.present? && Rails.application.secrets.facebook_app_secret.present?
   end
+
+  def summarize(str)
+    truncate(str, length: 50, ommistion: "...")
+  end
 end
