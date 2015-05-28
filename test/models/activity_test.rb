@@ -18,7 +18,6 @@
 #  index_activities_on_reply_id    (reply_id)
 #  index_activities_on_type_id     (type_id)
 #  index_activities_on_user_id     (user_id)
-#  index_activities_unique_key     (type_id,user_id,notice_id,reply_id) UNIQUE
 #
 
 require 'test_helper'

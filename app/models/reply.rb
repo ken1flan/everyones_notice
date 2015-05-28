@@ -20,6 +20,7 @@ class Reply < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :notice
+  has_many :approvals, as: :approvable
 
   has_reputation :likes,
     source: :user,
