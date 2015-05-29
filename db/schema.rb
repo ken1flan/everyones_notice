@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20150526164516) do
   add_index "activities", ["created_at"], name: "index_activities_on_created_at"
   add_index "activities", ["notice_id"], name: "index_activities_on_notice_id"
   add_index "activities", ["reply_id"], name: "index_activities_on_reply_id"
+  add_index "activities", ["type_id", "user_id", "notice_id", "reply_id"], name: "index_activities_unique_key", unique: true
   add_index "activities", ["type_id"], name: "index_activities_on_type_id"
   add_index "activities", ["user_id"], name: "index_activities_on_user_id"
 
