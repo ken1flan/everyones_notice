@@ -48,6 +48,7 @@ describe "Liked Concern" do
       it "0であること" do
         ret = @target_instance.like_number
         ret.must_equal(0)
+        ret.must_equal @target_instance.like_number2
       end
     end
 
@@ -55,34 +56,42 @@ describe "Liked Concern" do
       before do
         @target_instance.add_or_update_evaluation(:likes, 1, @users[0])
         @target_instance.add_or_update_evaluation(:likes, 0, @users[0])
+        @target_instance.approvals.create(user: @users[0])
+        @target_instance.approvals.find_by(user: @users[0]).update_attributes(deleted: true)
       end
 
       it "0であること" do
         ret = @target_instance.like_number
         ret.must_equal(0)
+        ret.must_equal @target_instance.like_number2
       end
     end
 
     context "likeしたひとが1人いるとき" do
       before do
         @target_instance.add_or_update_evaluation(:likes, 1, @users[0])
+        @target_instance.approvals.create(user: @users[0])
       end
 
       it "1であること" do
         ret = @target_instance.like_number
         ret.must_equal(1)
+        ret.must_equal @target_instance.like_number2
       end
     end
 
     context "likeしたひとが2人いるとき" do
       before do
         @target_instance.add_or_update_evaluation(:likes, 1, @users[0])
+        @target_instance.approvals.create(user: @users[0])
         @target_instance.add_or_update_evaluation(:likes, 1, @users[1])
+        @target_instance.approvals.create(user: @users[1])
       end
 
       it "1であること" do
         ret = @target_instance.like_number
         ret.must_equal(2)
+        ret.must_equal @target_instance.like_number2
       end
     end
   end

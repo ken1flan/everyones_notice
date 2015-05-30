@@ -14,11 +14,13 @@ module Liked
   end
 
   def liked_by(user)
+    add_or_update_evaluation(:likes, 1, user)  # TODO: いいねgem削除時に消すこと
     approval = approvals.where(user: user).first_or_create
     approval.update_attributes(deleted: false)
   end
 
   def unliked_by(user)
+    add_or_update_evaluation(:likes, 0, user)  # TODO: いいねgem削除時に消すこと
     approval = approvals.where(user: user).first_or_create
     approval.update_attributes(deleted: true)
   end
