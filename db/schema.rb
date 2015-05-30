@@ -48,9 +48,9 @@ ActiveRecord::Schema.define(version: 20150526164516) do
     t.integer  "approvable_id"
     t.string   "approvable_type"
     t.integer  "user_id"
-    t.boolean  "deleted"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.boolean  "deleted",         default: false, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
   end
 
   add_index "approvals", ["approvable_type", "approvable_id"], name: "index_approvals_on_approvable_type_and_approvable_id"

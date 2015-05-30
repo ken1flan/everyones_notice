@@ -3,7 +3,7 @@ class CreateApprovals < ActiveRecord::Migration
     create_table :approvals do |t|
       t.references :approvable, polymorphic: true, index: true
       t.integer :user_id
-      t.boolean :deleted
+      t.boolean :deleted, default: false, null: false
 
       t.timestamps null: false
 
