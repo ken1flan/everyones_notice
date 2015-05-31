@@ -3,6 +3,83 @@ require "test_helper"
 describe "Liked Concern" do
   before { @target = [:notice, :reply, :advertisement].sample }
 
+  describe "#liked_by / #unliked_by" do
+    before do
+      @user = create(:user)
+      @target_instance = create(@target)
+    end
+
+    context "#liked_byを実行したとき" do
+      before do
+        @target_instance.liked_by(@user)
+      end
+
+      it "approvalsが登録されていること" do
+        @target_instance.approvals.count.must_equal 1
+      end
+
+      it "evaluation.valueが1であること" do
+        evaluation = get_evaluation(@target_instance, @user)
+        evaluation.value.must_equal 1
+      end
+
+      context "unliked_byを実行したとき" do
+        before do
+          @target_instance.unliked_by(@user)
+        end
+  
+        it "approvalsがdeletedとして登録されていること" do
+          @target_instance.approvals.count.must_equal 1
+          @target_instance.approvals.where(deleted: true).count.must_equal 1
+        end
+  
+        it "evaluation.valueが1であること" do
+          evaluation = get_evaluation(@target_instance, @user)
+          evaluation.value.must_equal 0
+        end
+      end
+    end
+
+    context "#unliked_byを実行したとき" do
+      before do
+        @target_instance.unliked_by(@user)
+      end
+
+      it "approvalsがdeletedとして登録されていること" do
+        @target_instance.approvals.count.must_equal 1
+        @target_instance.approvals.where(deleted: true).count.must_equal 1
+      end
+
+      it "evaluation.valueが1であること" do
+        evaluation = get_evaluation(@target_instance, @user)
+        evaluation.value.must_equal 0
+      end
+
+      context "#liked_byを実行したとき" do
+        before do
+          @target_instance.liked_by(@user)
+        end
+  
+        it "approvalsが登録されていること" do
+          @target_instance.approvals.count.must_equal 1
+        end
+  
+        it "evaluation.valueが1であること" do
+          evaluation = get_evaluation(@target_instance, @user)
+          evaluation.value.must_equal 1
+        end
+      end
+    end
+
+
+    def get_evaluation(target_instance, user)
+      target_instance.
+        evaluations.
+        where(reputation_name: :likes, source_id: user.id).
+        first
+    end
+  end
+
   describe "#liked_by?" do
     before do
       @user = create(:user)
