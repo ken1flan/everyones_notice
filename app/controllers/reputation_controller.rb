@@ -3,11 +3,10 @@ class ReputationController < ApplicationController
     if user_signed_in?
       @notice = Notice.find(params[:id])
       @evaluation_value = params[:up_down] == 'down' ? 0 : 1
-      @notice.add_or_update_evaluation(:likes, @evaluation_value, current_user)
       if params[:up_down] == 'down'
-        @notice.liked_by(current_user)
-      else
         @notice.unliked_by(current_user)
+      else
+        @notice.liked_by(current_user)
       end
     else
       # TODO: ja.ymlを使うようにする
@@ -21,11 +20,10 @@ class ReputationController < ApplicationController
     if user_signed_in?
       @reply = Reply.find(params[:id])
       @evaluation_value = params[:up_down] == 'down' ? 0 : 1
-      @reply.add_or_update_evaluation(:likes, @evaluation_value, current_user)
       if params[:up_down] == 'down'
-        @reply.liked_by(current_user)
-      else
         @reply.unliked_by(current_user)
+      else
+        @reply.liked_by(current_user)
       end
     else
       # TODO: ja.ymlを使うようにする
@@ -39,11 +37,10 @@ class ReputationController < ApplicationController
     if user_signed_in?
       @advertisement = Advertisement.find(params[:id])
       @evaluation_value = params[:up_down] == 'down' ? 0 : 1
-      @advertisement.add_or_update_evaluation(:likes, @evaluation_value, current_user)
       if params[:up_down] == 'down'
-        @advertisement.liked_by(current_user)
-      else
         @advertisement.unliked_by(current_user)
+      else
+        @advertisement.liked_by(current_user)
       end
     else
       # TODO: ja.ymlを使うようにする
