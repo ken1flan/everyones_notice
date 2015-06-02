@@ -39,6 +39,7 @@ group :development do
   gem "letter_opener"                     # メールをブラウザで開く
   gem "annotate"                          # テーブル定義を各種ファイルに貼り付ける
   gem "squasher"                          # migrationファイルの圧縮
+  gem "rubocop", require: false           # 静的解析
 end
 
 group :development, :test do
