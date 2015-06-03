@@ -30,6 +30,7 @@ class Notice < ActiveRecord::Base
   has_many :notice_tags
   has_many :tags, through: :notice_tags
   has_many :activities
+  has_many :approvals, as: :approvable
 
   has_reputation :likes,
     source: :user,

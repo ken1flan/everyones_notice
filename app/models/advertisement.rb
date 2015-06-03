@@ -22,6 +22,8 @@ class Advertisement < ActiveRecord::Base
   belongs_to :user
   after_save :register_activity
 
+  has_many :approvals, as: :approvable
+
   has_reputation :likes,
     source: :user,
     aggregated_by: :sum,

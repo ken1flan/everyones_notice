@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150403163522) do
+ActiveRecord::Schema.define(version: 20150526164516) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -43,6 +43,18 @@ ActiveRecord::Schema.define(version: 20150403163522) do
 
   add_index "advertisements", ["started_on", "ended_on"], name: "index_advertisements_on_started_on_and_ended_on"
   add_index "advertisements", ["updated_at"], name: "index_advertisements_on_updated_at"
+
+  create_table "approvals", force: :cascade do |t|
+    t.integer  "approvable_id"
+    t.string   "approvable_type"
+    t.integer  "user_id"
+    t.boolean  "deleted",         default: false, null: false
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "approvals", ["approvable_type", "approvable_id"], name: "index_approvals_on_approvable_type_and_approvable_id"
+  add_index "approvals", ["user_id"], name: "index_approvals_on_user_id"
 
   create_table "clubs", force: :cascade do |t|
     t.string   "name",        limit: 128, null: false
