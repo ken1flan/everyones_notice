@@ -30,21 +30,6 @@ class User < ActiveRecord::Base
   has_many :post_images
   has_many :advertisements
 
-  has_reputation :total_likes,
-    source: [
-      { reputation: :total_notice_likes },
-      { reputation: :total_reply_likes }
-    ]
-
-  has_reputation :total_notice_likes,
-    source: { reputation: :likes, of: :notices }
-
-  has_reputation :total_reply_likes,
-    source: { reputation: :likes, of: :replies }
-
-  has_reputation :total_advertisement_likes,
-    source: { reputation: :likes, of: :advertisements }
-
   validates :nickname,
     presence: true,
     length: { maximum: 64 }
