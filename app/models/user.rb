@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   end
 
   def liked_count
-    reputation_for(:total_likes).to_i
+    approvals.available.count
   end
 
   def thumbup_count
