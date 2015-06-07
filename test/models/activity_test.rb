@@ -47,7 +47,7 @@ describe Activity do
       context "noticeにいいねされたとき" do
         before do
           @thumbup_notice_user = create(:user)
-          @notice.add_or_update_evaluation(:likes, 1, @thumbup_notice_user)
+          @notice.liked_by(@thumbup_notice_user)
           create(:activity, notice: @notice, type_id: Activity.type_ids["thumbup_notice"], user: @thumbup_notice_user)
         end
 
@@ -100,7 +100,7 @@ describe Activity do
         context "replyにいいねされたとき" do
           before do
             @thumbup_reply_user = create(:user)
-            @reply.add_or_update_evaluation(:likes, 1, @thumbup_reply_user)
+            @reply.liked_by(@thumbup_reply_user)
             create(:activity, notice: @notice, reply: @reply, type_id: Activity.type_ids["thumbup_reply"], user: @thumbup_reply_user)
           end
   
