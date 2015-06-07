@@ -64,11 +64,12 @@ class User < ActiveRecord::Base
   end
 
   def liked_count
-    approvals.available.count
+    # 自分の投稿にいいねされた数
+    # TODO
   end
 
   def thumbup_count
-    300
+    approvals.available.count
   end
 
   def activities_for_heatmap(

@@ -224,7 +224,7 @@ describe User do
       before do
         notice = create(:notice)
         another_user = create(:user)
-        notice.add_or_update_evaluation(:likes, 1, another_user)
+        notice.liked_by(another_user)
       end
 
       it "0であること" do
@@ -236,7 +236,7 @@ describe User do
       before do
         notice = create(:notice, user: @user)
         another_user = create(:user)
-        notice.add_or_update_evaluation(:likes, 1, another_user)
+        notice.liked_by(another_user)
       end
 
       it "1であること" do
@@ -249,7 +249,7 @@ describe User do
         2.times.each do
           notice = create(:notice, user: @user)
           another_user = create(:user)
-          notice.add_or_update_evaluation(:likes, 1, another_user)
+          notice.liked_by(another_user)
         end
       end
 
@@ -270,7 +270,7 @@ describe User do
       before do
         reply = create(:reply)
         another_user = create(:user)
-        reply.add_or_update_evaluation(:likes, 1, another_user)
+        reply.liked_by(another_user)
       end
 
       it "0であること" do
@@ -282,7 +282,7 @@ describe User do
       before do
         reply = create(:reply, user: @user)
         another_user = create(:user)
-        reply.add_or_update_evaluation(:likes, 1, another_user)
+        reply.liked_by(another_user)
       end
 
       it "1であること" do
@@ -295,7 +295,7 @@ describe User do
         2.times.each do
           reply = create(:reply, user: @user)
           another_user = create(:user)
-          reply.add_or_update_evaluation(:likes, 1, another_user)
+          reply.liked_by(another_user)
         end
       end
 
@@ -309,8 +309,8 @@ describe User do
         notice = create(:notice, user: @user)
         reply = create(:reply, user: @user)
         another_user = create(:user)
-        notice.add_or_update_evaluation(:likes, 1, another_user)
-        reply.add_or_update_evaluation(:likes, 1, another_user)
+        notice.liked_by(another_user)
+        reply.liked_by(another_user)
       end
 
       it "2であること" do
