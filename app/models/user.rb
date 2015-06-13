@@ -64,8 +64,19 @@ class User < ActiveRecord::Base
   end
 
   def liked_count
-    # 自分の投稿にいいねされた数
-    # TODO
+    liked_notice_count + liked_reply_count + liked_advertisement_count
+  end
+
+  def liked_notice_count
+    notices.joins(:approvals).merge(Approval.available).count
+  end
+
+  def liked_reply_count
+    replies.joins(:approvals).merge(Approval.available).count
+  end
+
+  def liked_advertisement_count
+    advertisements.joins(:approvals).merge(Approval.available).count
   end
 
   def thumbup_count

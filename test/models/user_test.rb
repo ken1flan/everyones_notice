@@ -216,7 +216,9 @@ describe User do
       before { create(:notice, user: @user) }
 
       it "0であること" do
-        @user.reload.liked_count.must_equal 0
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_notice_count.must_equal 0
       end
     end
 
@@ -228,7 +230,9 @@ describe User do
       end
 
       it "0であること" do
-        @user.reload.liked_count.must_equal 0
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_notice_count.must_equal 0
       end
     end
 
@@ -240,7 +244,9 @@ describe User do
       end
 
       it "1であること" do
-        @user.reload.liked_count.must_equal 1
+        @user.reload
+        @user.liked_count.must_equal 1
+        @user.liked_notice_count.must_equal 1
       end
     end
 
@@ -254,67 +260,137 @@ describe User do
       end
 
       it "2であること" do
-        @user.reload.liked_count.must_equal 2
+        @user.reload
+        @user.liked_count.must_equal 2
+        @user.liked_notice_count.must_equal 2
       end
     end
 
-    context "likeされていないreplyがひとつあるとき" do
-      before { create(:reply, user: @user) }
+    context "likeされていないadvertisementがひとつあるとき" do
+      before { create(:advertisement, user: @user) }
 
       it "0であること" do
-        @user.reload.liked_count.must_equal 0
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
       end
     end
 
-    context "likeされたほかのuserのreplyがひとつあるとき" do
+    context "likeされたほかのuserのadvertisementがひとつあるとき" do
       before do
-        reply = create(:reply)
+        advertisement = create(:advertisement)
         another_user = create(:user)
-        reply.liked_by(another_user)
+        advertisement.liked_by(another_user)
       end
 
       it "0であること" do
-        @user.reload.liked_count.must_equal 0
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
       end
     end
 
-    context "likeされたreplyがひとつあるとき" do
+    context "likeされたadvertisementがひとつあるとき" do
       before do
-        reply = create(:reply, user: @user)
+        advertisement = create(:advertisement, user: @user)
         another_user = create(:user)
-        reply.liked_by(another_user)
+        advertisement.liked_by(another_user)
       end
 
       it "1であること" do
-        @user.reload.liked_count.must_equal 1
+        @user.reload
+        @user.liked_count.must_equal 1
+        @user.liked_advertisement_count.must_equal 1
       end
     end
 
-    context "likeされたreplyがふたつあるとき" do
+    context "likeされたadvertisementがふたつあるとき" do
       before do
         2.times.each do
-          reply = create(:reply, user: @user)
+          advertisement = create(:advertisement, user: @user)
           another_user = create(:user)
-          reply.liked_by(another_user)
+          advertisement.liked_by(another_user)
         end
       end
 
       it "2であること" do
-        @user.reload.liked_count.must_equal 2
+        @user.reload
+        @user.liked_count.must_equal 2
+        @user.liked_advertisement_count.must_equal 2
       end
     end
 
-    context "likeされたnotice、replyがひとつずつあるとき" do
+    context "likeされていないadvertisementがひとつあるとき" do
+      before { create(:advertisement, user: @user) }
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
+      end
+    end
+
+    context "likeされたほかのuserのadvertisementがひとつあるとき" do
       before do
-        notice = create(:notice, user: @user)
-        reply = create(:reply, user: @user)
+        advertisement = create(:advertisement)
         another_user = create(:user)
-        notice.liked_by(another_user)
-        reply.liked_by(another_user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
+      end
+    end
+
+    context "likeされたadvertisementがひとつあるとき" do
+      before do
+        advertisement = create(:advertisement, user: @user)
+        another_user = create(:user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "1であること" do
+        @user.reload
+        @user.liked_count.must_equal 1
+        @user.liked_advertisement_count.must_equal 1
+      end
+    end
+
+    context "likeされたadvertisementがふたつあるとき" do
+      before do
+        2.times.each do
+          advertisement = create(:advertisement, user: @user)
+          another_user = create(:user)
+          advertisement.liked_by(another_user)
+        end
       end
 
       it "2であること" do
-        @user.reload.liked_count.must_equal 2
+        @user.reload
+        @user.liked_count.must_equal 2
+        @user.liked_advertisement_count.must_equal 2
+      end
+    end
+
+    context "likeされたnotice、reply、advertisementがひとつずつあるとき" do
+      before do
+        notice = create(:notice, user: @user)
+        reply = create(:reply, user: @user)
+        advertisement = create(:advertisement, user: @user)
+        another_user = create(:user)
+        notice.liked_by(another_user)
+        reply.liked_by(another_user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "3であること" do
+        @user.reload
+        @user.liked_count.must_equal 3
+        @user.liked_notice_count.must_equal 1
+        @user.liked_reply_count.must_equal 1
+        @user.liked_advertisement_count.must_equal 1
       end
     end
   end
