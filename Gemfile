@@ -18,7 +18,6 @@ gem "kaminari"                            # ページング
 gem "redcarpet"                           # マークダウン
 gem "pygments.rb"                         # シンタックスハイライト
 gem "active_decorator"                    # デコレータ
-gem "activerecord-reputation-system"      # いいね
 gem "omniauth"                            # OAuth
 gem "omniauth-facebook"                   # OAuth for facebook
 gem "omniauth-twitter"                    # OAuth for twitter

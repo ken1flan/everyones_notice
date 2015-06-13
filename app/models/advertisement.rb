@@ -24,10 +24,6 @@ class Advertisement < ActiveRecord::Base
 
   has_many :approvals, as: :approvable
 
-  has_reputation :likes,
-    source: :user,
-    aggregated_by: :sum,
-    source_of: { reputation: :total_advertisement_likes, of: :user }
   include Liked
 
   scope :displayable, -> {

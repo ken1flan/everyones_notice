@@ -22,11 +22,6 @@ class Reply < ActiveRecord::Base
   belongs_to :notice
   has_many :approvals, as: :approvable
 
-  has_reputation :likes,
-    source: :user,
-    aggregated_by: :sum,
-    source_of: { reputation: :total_reply_likes, of: :user }
-
   include Liked
 
   validates :notice_id,

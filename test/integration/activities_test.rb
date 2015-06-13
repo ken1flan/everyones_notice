@@ -26,7 +26,7 @@ describe "アクティビティ Integration" do
       context "ほかのひとがきづきにいいねしてくれたとき" do
         before do
           @thumbup_notice_user = create(:user)
-          @notice.add_or_update_evaluation(:likes, 1, @thumbup_notice_user)
+          @notice.liked_by(@thumbup_notice_user)
           create(:activity, notice: @notice, type_id: Activity.type_ids["thumbup_notice"], user: @thumbup_notice_user)
         end
 
@@ -71,7 +71,7 @@ describe "アクティビティ Integration" do
 
       context "きづきにいいねしたとき" do
         before do
-          @notice.add_or_update_evaluation(:likes, 1, @user)
+          @notice.liked_by(@user)
           create(:activity, notice: @notice, type_id: Activity.type_ids["thumbup_notice"], user: @user)
         end
 
@@ -95,7 +95,7 @@ describe "アクティビティ Integration" do
       context "ほかのひとがきづきにいいねしたとき" do
         before do
           @another_user = create(:user)
-          @notice.add_or_update_evaluation(:likes, 1, @another_user)
+          @notice.liked_by(@another_user)
           create(:activity, notice: @notice, type_id: Activity.type_ids["thumbup_notice"], user: @another_user)
         end
 
@@ -165,7 +165,7 @@ describe "アクティビティ Integration" do
 
         context "返信にいいねしたとき" do
           before do
-            @reply.add_or_update_evaluation(:likes, 1, @user)
+            @reply.liked_by(@user)
             create(:activity, notice: @notice, reply: @reply, type_id: Activity.type_ids["thumbup_reply"], user: @user)
           end
     
@@ -189,7 +189,7 @@ describe "アクティビティ Integration" do
         context "ほかのひとが返信にいいねしたとき" do
           before do
             @another_user = create(:user)
-            @reply.add_or_update_evaluation(:likes, 1, @another_user)
+            @reply.liked_by(@another_user)
             create(:activity, notice: @notice, reply: @reply, type_id: Activity.type_ids["thumbup_reply"], user: @another_user)
           end
     
@@ -236,7 +236,7 @@ describe "アクティビティ Integration" do
       context "ほかのひとがおしらせにいいねしてくれたとき" do
         before do
           @thumbup_advertisement_user = create(:user)
-          @advertisement.add_or_update_evaluation(:likes, 1, @thumbup_advertisement_user)
+          @advertisement.liked_by(@thumbup_notice_user)
           create(:activity, advertisement: @advertisement, type_id: Activity.type_ids["thumbup_advertisement"], user: @thumbup_advertisement_user)
         end
 

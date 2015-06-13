@@ -30,21 +30,6 @@ class User < ActiveRecord::Base
   has_many :post_images
   has_many :advertisements
 
-  has_reputation :total_likes,
-    source: [
-      { reputation: :total_notice_likes },
-      { reputation: :total_reply_likes }
-    ]
-
-  has_reputation :total_notice_likes,
-    source: { reputation: :likes, of: :notices }
-
-  has_reputation :total_reply_likes,
-    source: { reputation: :likes, of: :replies }
-
-  has_reputation :total_advertisement_likes,
-    source: { reputation: :likes, of: :advertisements }
-
   validates :nickname,
     presence: true,
     length: { maximum: 64 }
@@ -79,11 +64,23 @@ class User < ActiveRecord::Base
   end
 
   def liked_count
-    reputation_for(:total_likes).to_i
+    liked_notice_count + liked_reply_count + liked_advertisement_count
+  end
+
+  def liked_notice_count
+    notices.joins(:approvals).merge(Approval.available).count
+  end
+
+  def liked_reply_count
+    replies.joins(:approvals).merge(Approval.available).count
+  end
+
+  def liked_advertisement_count
+    advertisements.joins(:approvals).merge(Approval.available).count
   end
 
   def thumbup_count
-    300
+    approvals.available.count
   end
 
   def activities_for_heatmap(
