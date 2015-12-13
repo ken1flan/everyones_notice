@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150526164516) do
+ActiveRecord::Schema.define(version: 20150630163246) do
 
   create_table "activities", force: :cascade do |t|
     t.integer  "type_id"
@@ -21,8 +21,11 @@ ActiveRecord::Schema.define(version: 20150526164516) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "advertisement_id"
+    t.integer  "activity_recordable_id"
+    t.string   "activity_recordable_type"
   end
 
+  add_index "activities", ["activity_recordable_type", "activity_recordable_id"], name: "index_activities_on_activity_recordable_reference"
   add_index "activities", ["created_at"], name: "index_activities_on_created_at"
   add_index "activities", ["notice_id"], name: "index_activities_on_notice_id"
   add_index "activities", ["reply_id"], name: "index_activities_on_reply_id"
