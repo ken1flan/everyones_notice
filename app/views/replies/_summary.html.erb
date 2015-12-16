@@ -1,0 +1,35 @@
+<% notice = reply.notice %>
+<% base_id = "#{notice.id}"; base_id += "_#{reply.id}" if reply.id %>
+<div class="media notice_unit" id="reply_detail_<%= base_id %>">
+  <div class="media-left">
+    <%= link_to user_path(reply.user) do %>
+      <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= reply.user.nickname %></small>
+    <% end %>
+  </div>
+  <div class="media-body">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="panel-title">
+          <strong><small>「<%= link_to notice.title, notice_path(notice) %>」への返信</small></strong>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="markdown_body">
+          <%= summarize(reply.body) %>
+        </div>
+        <span class="pull-right small"><%= reply.created_at_string %></span>
+      </div>
+      <div class="panel-footer">
+        <button id="like_reply_<%= reply.id %>" type="button" class="likeReply btn btn-default btn-xs">
+          <% if user_signed_in? && reply.liked_by?(current_user) %>
+            いいね <span class="star glyphicon glyphicon-star"></span>
+          <% else %>
+            いいね <span class="star glyphicon glyphicon-star-empty"></span> 
+          <% end %>
+          <span class="value"><%= reply.like_number %><span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

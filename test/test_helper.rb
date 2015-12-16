@@ -5,8 +5,10 @@ require 'capybara/rails'
 require 'capybara/email'
 require 'capybara/poltergeist'
 require 'minitest/reporters'
-Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, Minitest::Reporters::JUnitReporter.new]
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
 require 'database_cleaner'
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.

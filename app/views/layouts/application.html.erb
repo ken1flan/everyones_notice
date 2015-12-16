@@ -13,9 +13,16 @@
     <div class="container">
       <%= render 'shared/flash' %>
       <%= yield %>
+    </div>
+
+    <div class="container">
       <%= render "shared/breadcrumbs", links: @breadcrumb %>
     </div>
 
-    <%#= render "shared/facebook" %>
+    <%= render "shared/footer" %>
+
+    <%= render "feedbacks/dialog_form", feedback: Feedback.new %>
+    <%= render "notices/dialog_form", notice: Notice.new %>
+    <%= render "shared/message_dialog" %>
   </body>
 </html>

@@ -1,0 +1,27 @@
+<% base_id = "#{notice.id}"; base_id += "_#{reply.id}" if reply.id %>
+<div class="media notice_unit" id="reply_notice_builtin_form_<%= base_id %>">
+  <div class="media-left">
+    <%= image_tag user.icon_url, alt: user.nickname, class: "img-rounded", size: "64x64" %>
+    <br><%= user.nickname %>
+  </div>
+  <div class="media-body">
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <%= form_for [notice, reply], remote: true, html: { class: "easy_submit_form" } do |f| %>
+          <%= render "shared/markdown_preview" %>
+          <div id="reply_errors_<%= base_id %>" class="alert alert-warning" style="display: none;"></div>
+          <%= f.text_area :body, id: "reply_body_#{base_id}", class: "form-control markdown_writing", rows: 5, placeholder: "返信を書く" %>
+          <br>
+          <span class="pull-right">
+            <% if reply.id? %>
+              <%= f.submit "更新する", class: "btn btn-primary", data: { disable_with: "送信中" } %>
+              <a class="btn btn-default" onClick="$('#reply_detail_<%= base_id %>').show(); $('#reply_notice_builtin_form_<%= base_id %>').remove()" href="javascript:void(0);">キャンセル</a>
+            <% else %>
+              <%= f.submit "返信する", class: "btn btn-primary", data: { disable_with: "送信中" } %>
+            <% end %>
+          </span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

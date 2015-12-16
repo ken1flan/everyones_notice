@@ -18,7 +18,7 @@
         <%= f.text_area :body, rows: 15, class: "form-control "%>
       </div>
       <div class="actions">
-        <%= f.submit nil, class: "btn btn-primary" %>
+        <%= f.submit nil, class: "btn btn-primary", data: { disable_with: "送信中" } %>
       </div>
     <% end %>
   </div>

@@ -16,12 +16,12 @@
 #
 
 class Reply < ActiveRecord::Base
-  attr_accessible :notice_id, :body, :user_id
-  after_save :register_activity
+  after_save :register_activity, :index_notice
 
   belongs_to :user
   belongs_to :notice
-  has_reputation :likes, source: :user, aggregated_by: :sum
+  has_many :approvals, as: :approvable
+
   include Liked
 
   validates :notice_id,
@@ -48,5 +48,10 @@ class Reply < ActiveRecord::Base
       rescue
         logger.warn("failed to register writing notice(id: #{self.id})")
       end
+    end
+
+    def index_notice
+      Notice.reindex
+      Sunspot.commit
     end
 end

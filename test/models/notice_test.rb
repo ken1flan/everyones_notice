@@ -20,6 +20,82 @@
 require 'test_helper'
 
 describe Notice do
+  describe "バリデーション" do
+    before { @notice_data = build(:notice) }
+
+    describe "title" do
+      valid_data = [1, 2, "a", "aaa", "あああ", "あ"*64]
+      valid_data.each do |vd|
+        context "title = #{vd}のとき" do
+          before { @notice_data.title = vd }
+
+          it "validであること" do
+            @notice_data.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "あ"*65]
+      invalid_data.each do |ivd|
+        context "title = #{ivd}のとき" do
+          before { @notice_data.title = ivd }
+
+          it "invalidであること" do
+            @notice_data.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "body" do
+      valid_data = [1, 2, "a", "aaa", "あああ"]
+      valid_data.each do |vd|
+        context "body = #{vd}のとき" do
+          before { @notice_data.body = vd }
+
+          it "validであること" do
+            @notice_data.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, ""]
+      invalid_data.each do |ivd|
+        context "body = #{ivd}のとき" do
+          before { @notice_data.body = ivd }
+
+          it "invalidであること" do
+            @notice_data.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "user_id" do
+      valid_data = [1, 2]
+      valid_data.each do |vd|
+        context "user_id = #{vd}のとき" do
+          before { @notice_data.user_id = vd }
+
+          it "validであること" do
+            @notice_data.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "a"]
+      invalid_data.each do |ivd|
+        context "user_id = #{ivd}のとき" do
+          before { @notice_data.user_id = ivd }
+
+          it "invalidであること" do
+            @notice_data.invalid?.must_equal true
+          end
+        end
+      end
+    end
+  end
+
   describe "#read_by" do
     before do
       @notice = create(:notice)
@@ -286,6 +362,254 @@ describe Notice do
 
         it "Activityにユーザが登録されていること" do
           @activity.user_id.must_equal @notice.user_id
+        end
+      end
+    end
+  end
+
+  describe "#previous" do
+    context "前にnoticeがないとき" do
+      before { @notice = create(:notice) }
+
+      it "nilであること" do
+        @notice.previous.must_be_nil
+      end
+    end
+
+    context "前にひとつ下書きのnoticeがあるとき" do
+      before do
+        @previous_notice = create(:notice, :draft)
+        @notice = create(:notice)
+      end
+
+      it "nilであること" do
+        @notice.previous.must_be_nil
+      end
+    end
+
+    context "前にひとつ公開されたnoticeがあるとき" do
+      before do
+        @previous_notice = create(:notice)
+        @notice = create(:notice)
+      end
+
+      it "前に公開されたnoticeであること" do
+        @notice.previous.must_equal @previous_notice
+      end
+    end
+
+    context "前にふたつ公開されたnoticeがあるとき" do
+      before do
+        @previous_previous_notice = create(:notice)
+        @previous_notice = create(:notice)
+        @notice = create(:notice)
+      end
+
+      it "直前で公開されたnoticeであること" do
+        @notice.previous.must_equal @previous_notice
+      end
+    end
+  end
+
+  describe "#tags_string" do
+    before { @notice = create(:notice) }
+
+    context "タグが存在しないとき" do
+      it "空の文字列であること" do
+        @notice.tags_string.must_equal ""
+      end
+    end
+
+    context "noticeに紐付かないtagがあるとき" do
+      before { @tag = create(:tag) }
+
+      it "空の文字列であること" do
+        @notice.tags_string.must_equal ""
+      end
+    end
+
+    context "noticeに紐付くtagがあるとき" do
+      before do
+        @tag = create(:tag)
+        @tag.notices = [@notice]
+        @tag.save
+      end
+
+      it "tag.nameであること" do
+        Notice.find(@notice).tags_string.must_equal @tag.name
+      end
+    end
+
+    context "noticeに紐付くtagが2つあるとき" do
+      before do
+        @tags = create_list(:tag, 2, notices: [@notice])
+        @tags.each do |tag|
+          tag.notices = [@notice]
+          tag.save
+        end
+      end
+
+      it "tag.nameが両方カンマ区切りで含まれていること" do
+        Notice.find(@notice).tags_string.must_equal @tags.map {|tag| tag.name }.join(",")
+      end
+    end
+  end
+
+  describe "#next" do
+    context "後にnoticeがないとき" do
+      before { @notice = create(:notice) }
+
+      it "nilであること" do
+        @notice.next.must_be_nil
+      end
+    end
+
+    context "後にひとつ下書きのnoticeがあるとき" do
+      before do
+        @notice = create(:notice)
+        @next_notice = create(:notice, :draft)
+      end
+
+      it "nilであること" do
+        @notice.next.must_be_nil
+      end
+    end
+
+    context "後にふたつ公開されたnoticeがあるとき" do
+      before do
+        @notice = create(:notice)
+        @next_notice = create(:notice)
+        @next_next_notice = create(:notice)
+      end
+
+      it "直後に公開されたnoticeであること" do
+        @notice.next.must_equal @next_notice
+      end
+    end
+  end
+
+  describe "#create_tags" do
+    context "tagが紐付いていないnoticeがあったとき" do
+      before { @notice = build(:notice) }
+
+      context "tags_stringに空を設定してsaveしたとき" do
+        before do
+          @notice.tags_string = ""
+          @notice.save
+        end
+
+        it "tagがないこと" do
+          Tag.count.must_equal 0
+        end
+      end
+
+      context "tags_stringに「タグ1」を設定してsaveしたとき" do
+        before do
+          @notice.tags_string = "タグ1"
+          @notice.save
+        end
+
+        it "「タグ1」のタグが作成されていること" do
+          Tag.count.must_equal 1
+          Tag.find_by(name: "タグ1").present?.must_equal true
+          Notice.find(@notice).tags.first.name.must_equal "タグ1"
+        end
+      end
+    end
+
+    context "ひとつtagが紐付いているnoticeがあったとき" do
+      before do
+        @notice = build(:notice)
+        @tag = create(:tag)
+        @notice.tags = [@tag]
+        @notice.save
+      end
+
+      context "tags_stringに空を設定してsaveしたとき" do
+        before do
+          @notice.tags_string = ""
+          @notice.save
+        end
+
+        it "紐付いたtagがないこと" do
+          Notice.find(@notice).tags.blank?.must_equal true
+        end
+      end
+
+      context "tags_stringに「タグ1」を設定してsaveしたとき" do
+        before do
+          @notice.tags_string = "タグ1"
+          @notice.save
+        end
+
+        it "「タグ1」のタグが作成されていること" do
+          Tag.count.must_equal 2
+          Tag.find_by(name: "タグ1").present?.must_equal true
+          Notice.find(@notice).tags.first.name.must_equal "タグ1"
+        end
+      end
+
+      context "tags_stringに「タグ1,タグ2」を設定してsaveしたとき" do
+        before do
+          @notice.tags_string = "タグ1,タグ2"
+          @notice.save
+        end
+
+        it "「タグ1」「タグ2」のタグが作成されていること" do
+          Tag.find_by(name: "タグ1").present?.must_equal true
+          Tag.find_by(name: "タグ2").present?.must_equal true
+          Notice.find(@notice).tags.first.name.must_equal "タグ1"
+          Notice.find(@notice).tags.last.name.must_equal "タグ2"
+        end
+      end
+
+      context "noticeに紐付いていないtagがあったとき" do
+        before do
+          @tag = create(:tag)
+          @tags_count = Tag.count
+        end
+
+        context "tag.nameをtags_stringに設定してsaveしたとき" do
+          before do
+            @notice.tags_string = @tag.name
+            @notice.save
+          end
+
+          it "tagの総数が変わらないこと" do
+            Tag.count.must_equal @tags_count
+          end
+
+          it "noticeにtagが紐付いていること" do
+            Notice.find(@notice).tags.first.name.must_equal @tag.name
+          end
+        end
+      end
+
+      context "ほかのnoticeに紐付いているtagがあるとき" do
+        before do
+          @notice = create(:notice)
+          @other_notice = create(:notice, :with_tags)
+          @tag = Notice.find(@other_notice.id).tags.sample
+          @tags_count = Tag.count
+        end
+
+        context "tags_stringにほかのnoticeに紐付いているtagのnameを設定してsaveしたとき" do
+          before do
+            @notice.tags_string = @tag.name
+            @notice.save
+          end
+
+          it "tagの総数が変わらないこと" do
+            Tag.count.must_equal @tags_count
+          end
+
+          it "noticeにtagが紐付いていること" do
+            Notice.find(@notice).tags.first.name.must_equal @tag.name
+          end
+
+          it "ほかのnoticeにもtagが紐付いていること" do
+            Notice.find(@other_notice).tags.map {|t| t.name }.join(",").must_include @tag.name
+          end
         end
       end
     end

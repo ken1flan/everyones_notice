@@ -11,15 +11,34 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :mail_address %><br>
-    <%= f.text_field :mail_address %>
-  </div>
-  <div class="field">
-    <%= f.label :message %><br>
-    <%= f.text_area :message %>
-  </div>
-  <div class="actions">
-    <%= f.submit "送信" %>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <strong>SUBJECT: </strong> みんなのきづきへの招待状<br><br>
+      <span class="input-group">
+        <span class="input-group-addon">
+          <strong>TO:</strong>
+        </span>
+        <%= f.text_field :mail_address, class: "form-control", placeholder: "メールアドレス" %>
+      </span>
+    </div>
+    <div class="panel-body">
+      <%= f.text_area :message, class: "form-control", placeholder: "呼びかけの言葉をお願いします。" %>
+      <br>
+      <p>
+        下のURLをクリックしてください。<br>
+        「みんなのきづき」のユーザ登録画面に飛びます。<br>
+      </p>
+      <p>
+        <%= link_to new_user_url(token: "dummy_token"), "#" %>
+      </p>
+      <p>
+        セキュリティの観点から、YYYY/MM/DD hh:mm:ss までしか有効じゃありません。<br>
+        もし切れていたらお声がけください。
+      </p>
+    </div>
+    <div class="panel-footer">
+      <%= f.submit "作成", class: "btn btn-primary" %>
+      <%= link_to "キャンセル", invitations_path, class: "btn btn-default" %>
+    </div>
   </div>
 <% end %>

@@ -40,12 +40,12 @@ describe "ユーザを招待する Integration" do
         page.text.must_include "招待の新規作成"
       end
 
-      context "正しい値を入力して、「送信」を押したとき" do
+      context "正しい値を入力して、「作成」を押したとき" do
         before do
           @invitation = build :invitation
           fill_in "invitation_mail_address", with: @invitation.mail_address
           fill_in "invitation_message", with: @invitation.message
-          click_button "送信"
+          click_button "作成"
         end
 
         it "入力値が表示されていること" do

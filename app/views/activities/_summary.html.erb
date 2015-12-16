@@ -1,0 +1,12 @@
+<div class="media notice_unit">
+  <div class="media-left">
+    <%= link_to user_path(activity.user) do %>
+      <%= image_tag activity.user.icon_url, alt: activity.user.nickname, class: "img-rounded", size: "20x20" %>
+    <% end %>
+  </div>
+  <div class="media-body">
+    <p>
+    <%= activity.summary_html(32) %>
+    </p>
+  </div>
+</div>

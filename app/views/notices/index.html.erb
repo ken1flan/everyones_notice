@@ -1,18 +1,21 @@
-<%
-    action_name = controller.action_name
-    nav_links = [
-      ["サマリー", "/", nil],
-      ["今日", todays_notices_path, action_name == "todays" ? :active : nil],
-      ["まだ読んでない", unread_notices_path,  action_name == "unread" ? :active : nil],
-      ["下書き", draft_notices_path,  action_name == "draft" ? :active : nil],
-      ["注目", watched_notices_path,  action_name == "watched" ? :active : nil],
-      ["すべて", notices_path,  action_name == "index" ? :active : nil]
-    ]
-%>
-
-<%= render "shared/tabs", links: nav_links %>
+<%= render "notices/tabs" %>
 <br>
 
-<%= render "notices/notice_list", notices: @notices %>
+<% if params[:search] %>
+  <legend>「<%= params[:search] %>」の検索結果</legend>
+  <br>
+<% end %>
 
+<div class="container" id="notice_list">
+  <% unless @notices.present? %>
+    きづきはまだありません。
+  <% else %>
+    <% @notices.each do |notice| %>
+      <div class="row" id="notice_row_<%= notice.id %>">
+        <%= render "notices/summary", notice: notice %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+  
 <%= paginate @notices %>

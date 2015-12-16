@@ -1,11 +1,15 @@
-<% nav_links = [
-  [@user.nickname, user_path(@user), :nil],
-  ["きづき", notices_user_path(@user), :active],
-  ["返信", replies_user_path(@user), nil]
-]
-%>
-<%= render "shared/tabs", links: nav_links %>
+<%= render "users/tabs" %>
 <br>
-<%= render "notices/notice_list", notices: @notices %>
+<% unless @notices.present? %>
+  <div class="row" id="notice_list">
+    きづきはまだありません。
+  </div>
+<% else %>
+  <% @notices.each do |notice| %>
+    <div class="row" id="notice_row_<%= notice.id %>">
+      <%= render "notices/summary", notice: notice %>
+    </div>
+  <% end %>
+<% end %>
 
 <%= paginate @notices %>

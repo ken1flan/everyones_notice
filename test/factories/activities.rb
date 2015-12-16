@@ -2,13 +2,14 @@
 #
 # Table name: activities
 #
-#  id         :integer          not null, primary key
-#  type_id    :integer
-#  user_id    :integer
-#  notice_id  :integer
-#  reply_id   :integer
-#  created_at :datetime
-#  updated_at :datetime
+#  id               :integer          not null, primary key
+#  type_id          :integer
+#  user_id          :integer
+#  notice_id        :integer
+#  reply_id         :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  advertisement_id :integer
 #
 # Indexes
 #
@@ -24,9 +25,8 @@
 
 FactoryGirl.define do
   factory :activity do
-    type_id 1
-    user_id 1
-    notice_id 1
-    reply_id 1
+    type_id { Activity.type_ids.sample }
+    user
+    notice
   end
 end

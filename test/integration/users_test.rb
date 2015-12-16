@@ -12,7 +12,7 @@ describe "ユーザ管理 Integration" do
 
     context "期限の切れたトークンでユーザ作成ページへ訪れたとき" do
       before do
-        invitation = create( :invitation )
+        invitation = create(:invitation)
         invitation.update_attributes(expired_at: 1.day.ago)
         visit new_user_path( token: invitation.token )
       end
@@ -35,12 +35,55 @@ describe "ユーザ管理 Integration" do
 
     context "正しいトークンでユーザ作成ページを訪れたとき" do
       before do
-        invitation = create( :invitation )
-        visit new_user_path( token: invitation.token )
+        invitation = create(:invitation)
+        visit new_user_path(token: invitation.token)
       end
 
       it "200 OKであること" do
         page.status_code.must_equal 200
+      end
+
+      context "「twitterアカウントで登録する」ボタンを押したとき" do
+        before do
+          @user = build(:user)
+          @identity = build(:identity)
+          set_auth_mock("twitter", @identity.uid, @user.nickname)
+          click_link "twitterアカウントで登録する"
+        end
+
+        context "「更新する」ボタンを押したとき" do
+          before do
+            click_button "更新する"
+          end
+
+          it "ユーザ情報が表示されていること" do
+            page.text.must_include @user.nickname
+            page.text.must_include @user.club.name
+          end
+        end
+
+        context "内容を変更して「更新する」ボタンを押したとき" do
+          before do
+            @new_user_data = build(:user)
+            fill_in :user_nickname, with: @new_user_data.nickname
+            fill_in :user_belonging_to, with: @new_user_data.belonging_to
+            click_button "更新する"
+          end
+
+          it "ユーザ情報が表示されていること" do
+            page.text.must_include @new_user_data.nickname
+            page.text.must_include @user.club.name
+            page.text.must_include @new_user_data.belonging_to
+          end
+
+          context "きづきの新規作成ページを訪れたとき" do
+            before { visit new_notice_path }
+
+            it "タグに所属などが表示されていること" do
+              page.html.must_include @new_user_data.belonging_to
+            end
+          end
+        end
       end
     end
   end
@@ -60,7 +103,7 @@ describe "ユーザ管理 Integration" do
         end
 
         it "編集ボタンが表示されていること" do
-          has_link?("編集").must_equal true
+          has_link?("edit_user_button_#{@user.id}").must_equal true
         end
       end
 
@@ -76,6 +119,14 @@ describe "ユーザ管理 Integration" do
 
         it "編集ボタンが表示されていないこと" do
           has_link?("編集").must_equal false
+        end
+
+        context "他のユーザの編集画面を直接見ようとしたとき" do
+          before { visit edit_user_path(@another_user) }
+
+          it "404 not foundになること" do
+            page.status_code.must_equal 404
+          end
         end
       end
     end
@@ -176,13 +227,93 @@ describe "ユーザ管理 Integration" do
     end
   end
 
+  describe "ユーザのアクティビティ" do
+    before { login }
+
+    context "ユーザがおり、アクティビティがあるとき" do
+      before do
+        @user = create(:user)
+        @notice = create(:notice, user: @user)
+      end
+
+      context "もうひとりユーザがおり、アクティビティがあるとき" do
+        before do
+          @another_user = create(:user)
+          @another_notice = create(:notice, user: @another_user)
+        end
+
+        context "ユーザのアクティビティページを訪れたとき" do
+          before { visit activities_user_path(@user) }
+
+          it "ユーザのアクティビティが表示されていること" do
+            page.text.must_include @notice.title
+          end
+
+          it "もうひとりのユーザのアクティビティが表示されていないこと" do
+            page.text.wont_include @another_notice.title
+          end
+        end
+      end
+    end
+  end
+
+  describe "ユーザの削除" do
+    before { @user = create(:user) }
+
+    context "管理者でないユーザでログインしたとき" do
+      before do
+        @no_admin_user = create_user_and_identity(:twitter, nil, false)
+        login @no_admin_user
+      end
+
+      context "ユーザ一覧を訪れたとき" do
+        before { visit users_path }
+
+        it "削除ボタンがないこと" do
+          page.text.must_include @user.nickname
+          has_link?("destroy_user_button_#{@user.id}").must_equal false
+        end
+      end
+    end
+
+    context "管理者でログインしたとき" do
+      before do
+        @admin_user = create_user_and_identity(:twitter, nil, true)
+        login @admin_user
+      end
+
+      context "ユーザ一覧を訪れたとき" do
+        before { visit users_path }
+
+        it "削除ボタンがあること" do
+          page.text.must_include @user.nickname
+          has_link?("destroy_user_button_#{@user.id}").must_equal true
+        end
+
+        context "削除ボタンを押したとき" do
+          before do
+            click_link("destroy_user_button_#{@user.id}")
+            # 確認ダイアログがpoltergeistにはない
+          end
+
+          context "ユーザ一覧を訪れたとき" do
+            before { visit users_path }
+
+            it "ユーザのニックネームが表示されていないこと" do
+              page.text.wont_include @user.nickname
+            end
+          end
+        end
+      end
+    end
+  end
+
   def includes_user_info?(text, user)
     text.must_include user.nickname
   end
 
   def includes_notice_info?(text, notice)
     text.must_include notice.title
-    text.must_include notice.body
   end
 
   def not_includes_notice_info?(text, notice)

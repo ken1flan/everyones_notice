@@ -11,12 +11,19 @@
       var cal = new CalHeatMap();
       cal.init({
         itemSelector: "#user_activity_map",
-        data: "<%= activities_user_path(user) %>",
+        data: "<%= activities_user_path(user, format: :json) %>",
         domain: "month",
         subDomain: "day",
         range: 6,
         start: startDate,
-       });
+        onClick: function(date, nb) {
+          url = "<%= activities_user_path(user) %>" +
+            "?year=" + date.getFullYear() +
+            "&month=" + (date.getMonth() + 1) +
+            "&day=" + date.getDate();
+          document.location.href = url;
+        },
+      });
     </script>
   </div>
 </div>

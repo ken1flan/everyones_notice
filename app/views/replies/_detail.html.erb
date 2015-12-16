@@ -1,26 +1,38 @@
-<div class="media">
-  <%= link_to user_path(reply.user), class: "pull-left" do %>
-    <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
-    <br><%= reply.user.nickname %>
-  <% end %>
+<% base_id = "#{notice.id}"; base_id += "_#{reply.id}" if reply.id %>
+<div class="media notice_unit" id="reply_detail_<%= base_id %>">
+  <div class="media-left">
+    <%= link_to user_path(reply.user) do %>
+      <%= image_tag reply.user.icon_url, alt: reply.user.nickname, class: "img-rounded", size: "64x64" %>
+      <br><small><%= reply.user.nickname %></small>
+    <% end %>
+  </div>
   <div class="media-body">
     <div class="panel panel-default">
       <div class="panel-body">
-        <%= raw markdown_to_html(reply.body) %>
-        <br><span class="pull-right"><%= reply.created_at_string %></span>
+        <div class="markdown_body">
+          <%= raw markdown_to_html(reply.body) %>
+        </div>
+        <pre id="reply_body_src_<%= reply.id %>" style="display: none;">
+<%= reply.body %>
+        </pre>
+        <span class="pull-right"><%= reply.created_at_string %></span>
       </div>
       <div class="panel-footer">
         <button id="like_reply_<%= reply.id %>" type="button" class="likeReply btn btn-default">
           <% if user_signed_in? && reply.liked_by?(current_user) %>
-            <span class="star glyphicon glyphicon-star"></span>
+            いいね <span class="star glyphicon glyphicon-star"></span>
           <% else %>
-            <span class="star glyphicon glyphicon-star-empty"></span> 
+            いいね <span class="star glyphicon glyphicon-star-empty"></span> 
           <% end %>
           <span class="value"><%= reply.like_number %><span>
         </button>
     
         <span class="pull-right">
-          <%= link_to '編集', edit_notice_reply_path(notice, reply), class: "btn btn-primary" if reply.user_id == current_user.id %>
+          <% if reply.user.id == current_user.id %>
+            <%= link_to '編集', edit_notice_reply_path(notice, reply), remote: true, class: "btn btn-primary" %>
+          <% else %>
+            <button class="btn btn-default" onclick="$('#reply_body_src_<%= reply.id %>').toggle(200);">ソース</button>
+          <% end %>
         </span>
       </div>
     </div>

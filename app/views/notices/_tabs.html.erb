@@ -1,0 +1,12 @@
+<%
+    nav_links = [
+      ["サマリー", root_path],
+      ["まだ読んでない", unread_notices_path],
+      ["今日", todays_notices_path],
+      ["注目", watched_notices_path],
+      ["すべて", notices_path],
+      ["下書き", draft_notices_path],
+    ]
+%>
+
+<%= render "shared/tabs", links: nav_links %>

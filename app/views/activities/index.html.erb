@@ -1,0 +1,24 @@
+<%
+    action_name = controller.action_name
+    nav_links = [
+      ["自分の関わる", activities_path, action_name == "index" ? :active : nil],
+      ["すべて", all_activities_path,  action_name == "all" ? :active : nil]
+    ]
+%>
+
+<%= render "shared/tabs", links: nav_links %>
+<br>
+
+<% if @target_date.present? %>
+  <div class="well">
+    <%= @target_date %> のアクティビティ
+  </div>
+<% end %>
+
+<% @activities.each do |activity| %>
+  <div class="row">
+    <%= render "activities/summary", activity: activity %>
+  </div>
+<% end %>
+
+<%= paginate @activities %>

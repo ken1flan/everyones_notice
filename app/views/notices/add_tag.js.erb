@@ -1,0 +1,9 @@
+<% if @tag.valid? %>
+  $("#notice_tag_error_<%= @notice.id %>").hide()
+  $("#add_tag_button_<%= @notice.id %>").before('<%= link_to @tag.name, tag_path(@tag), class: "btn btn-default btn-xs" %>');
+  $("#notice_tag_name_<%= @notice.id %>").val("");
+  $('#notice_tag_form_<%= @notice.id %>').hide();
+<% else %>
+  $("#notice_tag_error_<%= @notice.id %>").html('<%= h @tag.errors.full_messages.join("<br>") %>');
+  $("#notice_tag_error_<%= @notice.id %>").show();
+<% end %>

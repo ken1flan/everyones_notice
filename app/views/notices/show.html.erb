@@ -1,8 +1,15 @@
+<%= render "notices/prev_next_buttons", notice: @notice %>
+
 <%= render "notices/detail", notice: @notice %>
 
 <% @notice.replies.each do |reply| %>
   <%= render "replies/detail", notice: @notice, reply: reply %>
 <% end %>
+
+<%= render "replies/builtin_form", user: current_user, notice: @notice, reply: Reply.new %>
+
+<%= render "notices/prev_next_buttons", notice: @notice %>
+<br>
 
 <% @breadcrumb = [
   [@notice.title, notice_path(@notice)],

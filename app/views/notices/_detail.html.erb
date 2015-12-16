@@ -1,5 +1,5 @@
-<div class="media">
-  <div class="col-md-1 pull-left">
+<div class="media notice_unit" id="notice_detail_<%= notice.id %>">
+  <div class="media-left">
     <%= link_to user_path(notice.user) do %>
       <%= image_tag notice.user.icon_url, alt: notice.user.nickname, class: "img-rounded", size: "64x64" %>
       <br><small><%= notice.user.nickname %></small>
@@ -11,33 +11,69 @@
         <div class="panel-title">
           <% if notice.draft? %><span class="label label-default">下書き</span><% end %>
           <strong><%= link_to notice.title, notice_path(notice) %></strong>
+          <br>
+          <% notice.tags.each do |tag| %>
+            <%= link_to tag.name, tag_path(tag), class: "btn btn-default btn-xs" %>
+          <% end %>
+          <button id="add_tag_button_<%= notice.id %>" class="btn btn-xs btn-default" onclick="$('#notice_tag_form_<%= notice.id %>').toggle();$('#notice_tag_error_<%= notice.id %>').hide();">
+            <span class="glyphicon glyphicon-plus"></span> <span class="glyphicon glyphicon-tag"></span>
+          </button>
+          <div id="notice_tag_form_<%= notice.id %>" style="display: none;">
+            <% tag = Tag.new %>
+            <%= form_for tag, url: add_tag_notice_path(notice), remote: true do |f| %>
+              <br>
+              <div id="notice_tag_error_<%= notice.id %>" class="alert alert-danger" style="display: none;">
+              </div>
+              <div class="input-group col-md-4">
+                <span class="input-group-addon glyphicon glyphicon-tag" id="basic-addon1"></span>
+                <%= f.text_field :name, id: "notice_tag_name_#{notice.id}", class: "form-control" %>
+                <span class="input-group-btn">
+                  <button id="submit_notice_tag_button_<%= notice.id %>" class="btn btn-default" type="submit">
+                    <span class="glyphicon glyphicon-ok text-success"></span> 
+                  </button>
+                  <button class="btn btn-default" onclick="$('#notice_tag_form_<%= notice.id %>').toggle();$('#notice_tag_error_<%= notice.id %>').hide();">
+                    <span class="glyphicon glyphicon-remove text-danger"></span> 
+                  </button>
+                </span>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
       <div class="panel-body">
-        <%= raw markdown_to_html(notice.body) %>
-        <br><span class="pull-right"><%= notice.created_at_string %></span>
+        <div class="markdown_body">
+          <%= raw markdown_to_html(notice.body) %>
+        </div>
+        <pre id="notice_body_src_<%= notice.id %>" style="display: none;">
+<%= notice.body %>
+        </pre>
+        <span class="pull-right"><%= notice.created_at_string %></span>
       </div>
       <div class="panel-footer">
         <button id="like_notice_<%= notice.id %>" type="button" class="likeNotice btn btn-default">
           <% if user_signed_in? && notice.liked_by?(current_user) %>
-            <span class="star glyphicon glyphicon-star"></span>
+            いいね <span class="star glyphicon glyphicon-star"></span>
           <% else %>
-            <span class="star glyphicon glyphicon-star-empty"></span> 
+            いいね <span class="star glyphicon glyphicon-star-empty"></span> 
           <% end %>
           <span class="value"><%= notice.like_number %><span>
         </button>
     
         <button id="opened_notice_<%= notice.id %>" type="button" class="openedNotice btn btn-default">
           <% if user_signed_in? && notice.read_by?(current_user) %>
-            <span class="opened glyphicon glyphicon-ok"></span>
+            読んだ <span class="opened glyphicon glyphicon-ok"></span>
           <% else %>
-            <span class="opened glyphicon glyphicon-minus"></span> 
+            読んでない <span class="opened glyphicon glyphicon-minus"></span> 
           <% end %>
         </button>
     
-        <%= link_to "返信数：#{ notice.replies.count }", new_notice_reply_path(notice), class: "btn btn-default" %>
+        <%= link_to "返信数：#{ notice.replies.count }", notice_path(notice), class: "btn btn-default" %>
         <span class="pull-right">
-          <%= link_to '編集', edit_notice_path(notice), class: "btn btn-primary"  if notice.user_id == current_user.id %>
+          <% if notice.user_id == current_user.id %>
+            <%= link_to('編集', edit_notice_path(notice), class: "btn btn-primary", remote: true) if notice.user_id == current_user.id %>
+          <% else %>
+            <button class="btn btn-default" onclick="$('#notice_body_src_<%= notice.id %>').toggle(200);">ソース</button>
+          <% end %>
         </span>
       </div>
     </div>

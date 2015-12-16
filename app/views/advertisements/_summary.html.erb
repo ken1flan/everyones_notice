@@ -1,0 +1,17 @@
+<div class="panel panel-default">
+  <div class="panel-body">
+    <div class="media notice_unit">
+      <div class="media-left">
+        <%= image_tag advertisement.user.icon_url, class: "img-rounded", width: 64, height: 64, align: "left" %>
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">
+          <%= link_to advertisement.title, advertisement %><br>
+        </h4>
+        <p>
+          <%= advertisement.summary %>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

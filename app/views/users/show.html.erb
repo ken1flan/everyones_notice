@@ -1,16 +1,9 @@
-<% nav_links = [
-  [@user.nickname, user_path(@user), :active],
-  ["きづき", notices_user_path(@user), nil],
-  ["返信", replies_user_path(@user), nil]
-]
-%>
-<%= render "shared/tabs", links: nav_links %>
+<%= render "users/tabs" %>
 <br>
 <div class="row">
   <div class="col-md-12">
     <%= render "detail", user: @user %>
   </div>
-
   <div class="col-md-12">
     <%= render "users/activities", user: @user %>
   </div>

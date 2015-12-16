@@ -7,10 +7,14 @@ ja:
       club: クラブ
       notice: きづき
       reply: 返信
+      tag: タグ
+      post_image: 投稿画像
+      advertisement: おしらせ
 
     attributes:
       user:
         nickname: ニックネーム
+        belonging_to: 所属など
         icon_url: アイコンURL
         club_id: クラブ
         admin: 管理者フラグ
@@ -23,3 +27,17 @@ ja:
         published_at: 公開日時
         created_at: 作成日時
         updated_at: 更新日時
+      tag:
+        name: タグ名
+      post_image:
+        title: タイトル
+        image: 画像
+        user: 投稿者
+        user_id: 投稿者
+      advertisement:
+        title: タイトル
+        summary: 概要
+        body: 本文
+        started_on: 開始日
+        ended_on: 終了日
+        user_id: ユーザ

@@ -4,19 +4,42 @@ Rails.application.routes.draw do
     member do
       get "opened"
       get "not_opened"
+      post "add_tag"
     end
     collection do
       get "todays"
       get "unread"
       get "draft"
       get "watched"
+      get "searched_by_word"
     end
     resources :replies
+  end
+
+  resources :tags, only: [:index, :show]
+  resources :activities, only: [:index] do
+    collection do
+      get "all"
+    end
   end
 
   resource :reputation, only: [] do
     get 'notice/:id/:up_down' => 'reputation#notice'
     get 'reply/:id/:up_down' => 'reputation#reply'
+    get 'advertisement/:id/:up_down' => 'reputation#advertisement'
+  end
+
+  resources :post_images, except: [:edit, :update] do
+    collection do
+      get "all"
+    end
+  end
+
+  resources :advertisements do
+    collection do
+      get "all"
+      get "random_list"
+    end
   end
 
   root "top#index"
@@ -34,6 +57,14 @@ Rails.application.routes.draw do
   resources :invitations, except: [:edit, :update]
   get "/auth/:provider/callback", to: "sessions#create"
   get "/signout", to: "sessions#destroy", as: :signout
+
+  resources :feedbacks, only: [:index, :show, :create]
+
+  resources :utils, only: [] do
+    collection do
+      post "markdown"
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

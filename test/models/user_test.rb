@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  nickname   :string(255)
-#  club_id    :integer          default(1), not null
-#  admin      :boolean          default(FALSE), not null
-#  created_at :datetime
-#  updated_at :datetime
-#  icon_url   :string(255)
+#  id           :integer          not null, primary key
+#  nickname     :string(255)
+#  club_id      :integer          default(1), not null
+#  admin        :boolean          default(FALSE), not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#  icon_url     :string(255)
+#  belonging_to :string
 #
 # Indexes
 #
@@ -18,6 +19,382 @@
 require 'test_helper'
 
 describe User do
+  describe "バリデーション" do
+    before { @user = build(:user) }
+
+    describe "#nickname" do
+      valid_data = [1, 2, "a", "aaa", "あああ", "あ"*64]
+      valid_data.each do |vd|
+        context "nickname = #{vd}" do
+          before { @user.nickname = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "あ"*65]
+      invalid_data.each do |ivd|
+        context "nickname = #{ivd}のとき" do
+          before { @user.nickname = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "#club_id" do
+      valid_data = [1, 2]
+      valid_data.each do |vd|
+        context "club_id = #{vd}" do
+          before { @user.club_id = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = [nil, "", "a", "aaa", "あああ", 0]
+      invalid_data.each do |ivd|
+        context "club_id = #{ivd}のとき" do
+          before { @user.club_id = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "#admin" do
+      valid_data = [true, false, nil, "", "a", "aaa", "あああ"]
+      valid_data.each do |vd|
+        context "admin = #{vd}" do
+          before { @user.admin = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+    end
+
+    describe "#icon_url" do
+      valid_data = [nil, "", 1, 2, "a", "aaa", "あああ", "あ"*255]
+      valid_data.each do |vd|
+        context "icon_url = #{vd}" do
+          before { @user.icon_url = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = ["あ"*256]
+      invalid_data.each do |ivd|
+        context "icon_url = #{ivd}のとき" do
+          before { @user.icon_url = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+
+
+    describe "#belonging_to" do
+      valid_data = [nil, "", 1, 2, "a", "aaa", "あああ", "あ"*64]
+      valid_data.each do |vd|
+        context "belonging_to = #{vd}" do
+          before { @user.belonging_to = vd }
+
+          it "validであること" do
+            @user.valid?.must_equal true
+          end
+        end
+      end
+
+      invalid_data = ["あ"*65]
+      invalid_data.each do |ivd|
+        context "belonging_to = #{ivd}のとき" do
+          before { @user.belonging_to = ivd }
+
+          it "invalidであること" do
+            @user.invalid?.must_equal true
+          end
+        end
+      end
+    end
+  end
+
+  describe "#notices_count" do
+    before { @user = create(:user) }
+
+    context "noticeがないとき" do
+      it "0であること" do
+        @user.notices_count.must_equal 0
+      end
+    end
+
+    context "ほかのひとのnoticeがあるとき" do
+      before{ create(:notice) }
+
+      it "0であること" do
+        @user.notices_count.must_equal 0
+      end
+    end
+
+    context "下書きのnoticeがあるとき" do
+      before{ create(:notice, :draft, user: @user) }
+
+      it "0であること" do
+        @user.notices_count.must_equal 0
+      end
+    end
+
+    context "noticeがあるとき" do
+      before{ create(:notice, user: @user) }
+
+      it "1であること" do
+        @user.notices_count.must_equal 1
+      end
+    end
+
+    context "noticeが2つあるとき" do
+      before{ create_list(:notice, 2, user: @user) }
+
+      it "2であること" do
+        @user.notices_count.must_equal 2
+      end
+    end
+  end
+
+  describe "#replies_count" do
+    before { @user = create(:user) }
+
+    context "replyがないとき" do
+      it "0であること" do
+        @user.replies_count.must_equal 0
+      end
+    end
+
+    context "ほかのひとのreplyがあるとき" do
+      before{ create(:reply) }
+
+      it "0であること" do
+        @user.replies_count.must_equal 0
+      end
+    end
+
+    context "replyがあるとき" do
+      before{ create(:reply, user: @user) }
+
+      it "1であること" do
+        @user.replies_count.must_equal 1
+      end
+    end
+
+    context "replyが2つあるとき" do
+      before{ create_list(:reply, 2, user: @user) }
+
+      it "2であること" do
+        @user.replies_count.must_equal 2
+      end
+    end
+  end
+
+  describe "#liked_count" do
+    before { @user = create(:user) }
+
+    context "likeされていないnoticeがひとつあるとき" do
+      before { create(:notice, user: @user) }
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_notice_count.must_equal 0
+      end
+    end
+
+    context "likeされたほかのuserのnoticeがひとつあるとき" do
+      before do
+        notice = create(:notice)
+        another_user = create(:user)
+        notice.liked_by(another_user)
+      end
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_notice_count.must_equal 0
+      end
+    end
+
+    context "likeされたnoticeがひとつあるとき" do
+      before do
+        notice = create(:notice, user: @user)
+        another_user = create(:user)
+        notice.liked_by(another_user)
+      end
+
+      it "1であること" do
+        @user.reload
+        @user.liked_count.must_equal 1
+        @user.liked_notice_count.must_equal 1
+      end
+    end
+
+    context "likeされたnoticeがふたつあるとき" do
+      before do
+        2.times.each do
+          notice = create(:notice, user: @user)
+          another_user = create(:user)
+          notice.liked_by(another_user)
+        end
+      end
+
+      it "2であること" do
+        @user.reload
+        @user.liked_count.must_equal 2
+        @user.liked_notice_count.must_equal 2
+      end
+    end
+
+    context "likeされていないadvertisementがひとつあるとき" do
+      before { create(:advertisement, user: @user) }
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
+      end
+    end
+
+    context "likeされたほかのuserのadvertisementがひとつあるとき" do
+      before do
+        advertisement = create(:advertisement)
+        another_user = create(:user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
+      end
+    end
+
+    context "likeされたadvertisementがひとつあるとき" do
+      before do
+        advertisement = create(:advertisement, user: @user)
+        another_user = create(:user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "1であること" do
+        @user.reload
+        @user.liked_count.must_equal 1
+        @user.liked_advertisement_count.must_equal 1
+      end
+    end
+
+    context "likeされたadvertisementがふたつあるとき" do
+      before do
+        2.times.each do
+          advertisement = create(:advertisement, user: @user)
+          another_user = create(:user)
+          advertisement.liked_by(another_user)
+        end
+      end
+
+      it "2であること" do
+        @user.reload
+        @user.liked_count.must_equal 2
+        @user.liked_advertisement_count.must_equal 2
+      end
+    end
+
+    context "likeされていないadvertisementがひとつあるとき" do
+      before { create(:advertisement, user: @user) }
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
+      end
+    end
+
+    context "likeされたほかのuserのadvertisementがひとつあるとき" do
+      before do
+        advertisement = create(:advertisement)
+        another_user = create(:user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "0であること" do
+        @user.reload
+        @user.liked_count.must_equal 0
+        @user.liked_advertisement_count.must_equal 0
+      end
+    end
+
+    context "likeされたadvertisementがひとつあるとき" do
+      before do
+        advertisement = create(:advertisement, user: @user)
+        another_user = create(:user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "1であること" do
+        @user.reload
+        @user.liked_count.must_equal 1
+        @user.liked_advertisement_count.must_equal 1
+      end
+    end
+
+    context "likeされたadvertisementがふたつあるとき" do
+      before do
+        2.times.each do
+          advertisement = create(:advertisement, user: @user)
+          another_user = create(:user)
+          advertisement.liked_by(another_user)
+        end
+      end
+
+      it "2であること" do
+        @user.reload
+        @user.liked_count.must_equal 2
+        @user.liked_advertisement_count.must_equal 2
+      end
+    end
+
+    context "likeされたnotice、reply、advertisementがひとつずつあるとき" do
+      before do
+        notice = create(:notice, user: @user)
+        reply = create(:reply, user: @user)
+        advertisement = create(:advertisement, user: @user)
+        another_user = create(:user)
+        notice.liked_by(another_user)
+        reply.liked_by(another_user)
+        advertisement.liked_by(another_user)
+      end
+
+      it "3であること" do
+        @user.reload
+        @user.liked_count.must_equal 3
+        @user.liked_notice_count.must_equal 1
+        @user.liked_reply_count.must_equal 1
+        @user.liked_advertisement_count.must_equal 1
+      end
+    end
+  end
+
   describe ".create_with_identity" do
     before do
       @auth = {

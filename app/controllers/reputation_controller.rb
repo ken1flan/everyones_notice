@@ -3,7 +3,11 @@ class ReputationController < ApplicationController
     if user_signed_in?
       @notice = Notice.find(params[:id])
       @evaluation_value = params[:up_down] == 'down' ? 0 : 1
-      @notice.add_or_update_evaluation(:likes, @evaluation_value, current_user)
+      if params[:up_down] == 'down'
+        @notice.unliked_by(current_user)
+      else
+        @notice.liked_by(current_user)
+      end
     else
       # TODO: ja.ymlを使うようにする
       @error_message = 'ログインが必要です'
@@ -16,7 +20,11 @@ class ReputationController < ApplicationController
     if user_signed_in?
       @reply = Reply.find(params[:id])
       @evaluation_value = params[:up_down] == 'down' ? 0 : 1
-      @reply.add_or_update_evaluation(:likes, @evaluation_value, current_user)
+      if params[:up_down] == 'down'
+        @reply.unliked_by(current_user)
+      else
+        @reply.liked_by(current_user)
+      end
     else
       # TODO: ja.ymlを使うようにする
       @error_message = 'ログインが必要です'
@@ -24,6 +32,22 @@ class ReputationController < ApplicationController
 
     register_thumbup_reply_activity if params[:up_down] == 'up'
   end
+
+  def advertisement
+    if user_signed_in?
+      @advertisement = Advertisement.find(params[:id])
+      @evaluation_value = params[:up_down] == 'down' ? 0 : 1
+      if params[:up_down] == 'down'
+        @advertisement.unliked_by(current_user)
+      else
+        @advertisement.liked_by(current_user)
+      end
+    else
+      # TODO: ja.ymlを使うようにする
+      @error_message = 'ログインが必要です'
+    end
+  end
+
 
   private
     def register_thumbup_notice_activity

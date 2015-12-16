@@ -1,0 +1,16 @@
+<%= render "users/tabs" %>
+<br>
+
+<% if @target_date.present? %>
+  <div class="well">
+    <%= @target_date %> のアクティビティ
+  </div>
+<% end %>
+
+<% @activities.each do |activity| %>
+  <div class="row">
+    <%= render"activities/summary", activity: activity %>
+  </div>
+<% end %>
+
+<%= paginate @activities %>

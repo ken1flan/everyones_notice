@@ -28,5 +28,15 @@ FactoryGirl.define do
     trait :draft do
       published_at nil
     end
+
+    trait :with_tags do
+      ignore do
+        tags_count { rand(3) + 1 }
+      end
+
+      after(:create) do |notice, evaluator|
+        create_list(:tag, evaluator.tags_count, notices: [notice])
+      end
+    end
   end
 end

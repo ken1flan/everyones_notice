@@ -1,5 +1,5 @@
 <h1>ユーザ登録</h1>
 
-<%= link_to "googleアカウントで登録する", "/auth/google_oauth2" %>
-<%= link_to "facebookアカウントで登録する", "/auth/facebook" %>
-<%= link_to "twitterアカウントで登録する", "/auth/twitter" %><br>
+<%= link_to "googleアカウントで登録する", "/auth/google_oauth2" if set_google_oauth2? %>
+<%= link_to "facebookアカウントで登録する", "/auth/facebook" if set_twitter_oauth2? %>
+<%= link_to "twitterアカウントで登録する", "/auth/twitter" if set_facebook_oauth2? %><br>

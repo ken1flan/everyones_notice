@@ -2,13 +2,14 @@
 #
 # Table name: users
 #
-#  id         :integer          not null, primary key
-#  nickname   :string(255)
-#  club_id    :integer          default(1), not null
-#  admin      :boolean          default(FALSE), not null
-#  created_at :datetime
-#  updated_at :datetime
-#  icon_url   :string(255)
+#  id           :integer          not null, primary key
+#  nickname     :string(255)
+#  club_id      :integer          default(1), not null
+#  admin        :boolean          default(FALSE), not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#  icon_url     :string(255)
+#  belonging_to :string
 #
 # Indexes
 #
@@ -16,15 +17,35 @@
 #
 
 class User < ActiveRecord::Base
-  attr_accessible :nickname, :icon_url, :club_id, :admin
   belongs_to :club
   has_many :identities, dependent: :destroy
   has_many :notices
   has_many :notice_read_users
   has_many :read_notices, through: :notice_read_users, source: :notice
   has_many :replies
+  has_many :approvals
   has_many :activities
+  has_many :feedbacks
   has_one :invitation
+  has_many :post_images
+  has_many :advertisements
+
+  validates :nickname,
+    presence: true,
+    length: { maximum: 64 }
+
+  validates :club_id,
+    presence: true,
+    numericality: { allow_blank: true, greater_than: 0 }
+
+  validates :admin,
+    inclusion: { allow_blank: true, in: [true, false] }
+
+  validates :icon_url,
+    length: { maximum: 255 }
+
+  validates :belonging_to,
+    length: { maximum: 64 }
 
   def unread_notices
     Notice.where.not(id: read_notices.pluck(:id))
@@ -32,6 +53,34 @@ class User < ActiveRecord::Base
 
   def draft_notices
     Notice.where(user_id: id, published_at: nil)
+  end
+
+  def notices_count
+    notices.displayable.count
+  end
+
+  def replies_count
+    replies.count
+  end
+
+  def liked_count
+    liked_notice_count + liked_reply_count + liked_advertisement_count
+  end
+
+  def liked_notice_count
+    notices.joins(:approvals).merge(Approval.available).count
+  end
+
+  def liked_reply_count
+    replies.joins(:approvals).merge(Approval.available).count
+  end
+
+  def liked_advertisement_count
+    advertisements.joins(:approvals).merge(Approval.available).count
+  end
+
+  def thumbup_count
+    approvals.available.count
   end
 
   def activities_for_heatmap(

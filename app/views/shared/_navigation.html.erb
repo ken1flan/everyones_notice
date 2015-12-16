@@ -11,13 +11,53 @@
       <%= link_to "みんなのきづき", root_path, class: "navbar-brand" %>
     </div>
 
-    <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li <% if controller_name == "notices" %>class="active dropdown"<% else %>class="dropdown"<% end %>>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-flash"></span> きづき<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to "今日", todays_notices_path %></li>
+            <li><%= link_to "まだ読んでない", unread_notices_path %></li>
+            <li><%= link_to "下書き", draft_notices_path %></li>
+            <li><%= link_to "注目", watched_notices_path %></li>
+            <li><%= link_to "すべて", notices_path %></li>
+            <li class="divider"></li>
+            <li><%= link_to "画像", post_images_path %></li>
+          </ul>
+        </li>
+        <li <% if controller_name == "tags" %>class="active"<% end %>><%= link_to tags_path do %><span class="glyphicon glyphicon-tags"></span> タグ<% end %></li>
+        <li <% if controller_name == "users" %>class="active dropdown"<% else %>class="dropdown"<% end %>>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> ユーザ<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to "ユーザ一覧", users_path %></li>
+            <% if current_user.present? %>
+              <li><%= link_to "自分のプロフィール", user_path(current_user) %></li>
+            <% end %>
+            <li class="divider"></li>
+            <li><%= link_to "招待", invitations_path %></li>
+          </ul>
+        </li>
+        <li <% if controller_name == "activities" %>class="active dropdown"<% else %>class="dropdown"<% end %>>
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-star"></span> アクティビティ<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to "自分に関わる", activities_path %></li>
+            <li><%= link_to "すべて", all_activities_path %></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="gglyphicon glyphicon-asterisk"></span> その他<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><%= link_to "おしらせ", advertisements_path %></li>
+            <% if can_manage_users? %>
+              <li class="divider"></li>
+              <li><%= link_to "フィードバック", feedbacks_path %></li>
+            <% end %>
+          </ul>
+        </li>
+      </ul>
+
       <ul class="nav navbar-nav navbar-right">
         <% if current_user.present? %>
-          <li><%= link_to new_notice_path do %>
-            <span class="glyphicon glyphicon-edit"></span>
-          <% end %></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%= current_user.nickname %><span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
@@ -36,6 +76,29 @@
           </li>
         <% end %>
       </ul>
+      <% if current_user.present? %>
+        <%#
+          <button id="new_notice_button" type="button" class="btn btn-primary navbar-btn navbar-right" data-toggle="modal" data-target="#newNoticeDialog">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+        %>
+        <%= link_to new_notice_path,  id: "new_notice_button", class: "btn btn-primary navbar-btn navbar-right" do %>
+          <span class="glyphicon glyphicon-pencil"></span> きづきを書く
+        <% end %>
+
+        <%= form_tag searched_by_word_notices_path, method: :get, class: "navbar-form navbar-right", role: "search" do %>
+          <div class="input-group">
+            <div class="form-group">
+              <%= text_field_tag :search, params[:search], class: "form-control", placeholder: "〜で検索" %>
+            </div>
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-default" id="search_button">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>
+            </span>
+          </div>
+        <% end %>
+      <% end %>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>

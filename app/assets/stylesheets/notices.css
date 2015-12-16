@@ -1,0 +1,22 @@
+.notice_unit .media-body {
+  width: 100%;
+}
+
+.markdown_body img {
+  max-width: 100%;
+}
+
+.markdown_body table {
+  border: 1px solid #999;
+}
+
+.markdown_body table th{
+  border: 1px solid #999;
+  background-color: #eee;
+  padding: 0.5em 1em;
+}
+
+.markdown_body table td{
+  border: 1px solid #999;
+  padding: 0.5em 1em;
+}

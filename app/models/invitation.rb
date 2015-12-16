@@ -15,10 +15,9 @@
 #
 
 class Invitation < ActiveRecord::Base
-  attr_accessible :mail_address, :message, :club_id, :user_id, :admin, :token, :expired_at
-
   EXPIRATION_PERIOD = 3.days
 
+  belongs_to :club
   belongs_to :user
 
   before_create :generate_token

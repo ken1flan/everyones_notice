@@ -16,7 +16,10 @@ describe Club do
   describe ".activities_for_heatmap" do
     before do
       @club = create(:club)
-      @user = create(:user, club_id: @club.id)
+      @users = create_list(:user, 2, club_id: @club.id)
+      @user = @users.first
+      Notice.skip_callback(:save, :after, :register_activity)
+      Reply.skip_callback(:save, :after, :register_activity)
       Timecop.freeze
     end
 
@@ -85,7 +88,9 @@ describe Club do
         context "2014/06/01 00:00:00に#{activity_type}が2件あったとき" do
           before do
             @created_at = Time.local(2014, 6, 1, 0, 0, 0)
-            create_list(:activity, 2, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
+            @users.each do |user|
+              create(:activity, type_id: Activity.type_ids[activity_type], user: user, created_at: @created_at)
+            end
           end
  
           it "2であること" do
@@ -110,6 +115,10 @@ describe Club do
       end
     end
 
-    after { Timecop.return }
+    after do
+      Notice.set_callback(:save, :after, :register_activity)
+      Reply.set_callback(:save, :after, :register_activity)
+      Timecop.return
+    end
   end
 end

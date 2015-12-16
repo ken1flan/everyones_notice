@@ -18,21 +18,47 @@
 #
 
 class Notice < ActiveRecord::Base
-  attr_accessible :title, :body, :user_id, :published_at, :status
+  before_save :create_tags
   after_save :register_activity
+
+  attr_accessor :tags_string
 
   belongs_to :user
   has_many :replies
   has_many :notice_read_users
   has_many :read_users, through: :notice_read_users, source: :user
+  has_many :notice_tags
+  has_many :tags, through: :notice_tags
   has_many :activities
+  has_many :approvals, as: :approvable
 
-  has_reputation :likes, source: :user, aggregated_by: :sum
   include Liked
 
   scope :displayable, -> { where.not(published_at: nil) }
   scope :default_order, -> { order(published_at: :desc) }
   scope :today, -> { where("published_at > ?", 1.day.ago) }
+
+  searchable do
+    text :user_nickname do
+      user.nickname
+    end
+    text :title, :body
+    text :replies do
+      replies.map { |reply| reply.body }
+    end
+    boolean :published do
+      published_at.present?
+    end
+  end
+
+  validates :title,
+    presence: true,
+    length: { maximum: 64 }
+  validates :body,
+    presence: true
+  validates :user_id,
+    presence: true,
+    numericality: { allow_blank: true, greater_than: 0 }
 
   def published?
     self.published_at.present?
@@ -62,6 +88,20 @@ class Notice < ActiveRecord::Base
     User.where.not(id: read_users.pluck(:id))
   end
 
+  def previous
+    @previous ||= Notice.displayable.where("id < ?", id).order("id DESC").first
+    @previous
+  end
+
+  def next
+    @next ||= Notice.displayable.where("id > ?", id).order("id ASC").first
+    @next
+  end
+ 
+  def tags_string
+    @tags_string ||= tags.map {|tag| tag.name }.join(",")
+  end
+
   def self.weekly_watched
     Notice.select("notices.*").
       joins(:activities).merge(
@@ -74,6 +114,12 @@ class Notice < ActiveRecord::Base
   end
 
   private
+    def create_tags
+      self.tags = tags_string.split(",").map do |tag_name|
+        Tag.find_or_create_by(name: tag_name)
+      end
+    end
+
     def register_activity
       return if published_at.blank?
       return if Activity.find_by(

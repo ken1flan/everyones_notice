@@ -1,13 +1,128 @@
 require "test_helper"
 
 describe "返信 Integration" do
+  describe "きづき詳細ページ内" do
+    before do
+      @user = login
+      @notice = create(:notice)
+      @base_id = "#{@notice.id}"
+    end
+
+    describe "新規作成" do
+      context "きづき詳細ページを訪れたとき" do
+        before { visit notice_path(@notice) }
+
+        context "正しい値を入力したとき" do
+          before do
+            @reply = build(:reply)
+            fill_in "reply_body_#{@base_id}", with: @reply.body
+          end
+
+          context "「プレビュー」をクリックしたとき" do
+            before do
+              click_link("プレビュー")
+              sleep 1 # 反映されるまで少しタイムラグがあるので…
+            end
+
+            it "プレビューが表示されていること" do
+              find("#new_reply").find(".markdown_body").text.must_include(@reply.body)
+            end
+          end
+
+          context "「返信」したとき" do
+            before do
+              find(:css, '#new_reply').click_button "返信する"
+              sleep 1 # 反映されるまで少しタイムラグがあるので…
+            end
+
+            it "入力内容が表示されていること" do
+              page.text.must_include @reply.body
+            end
+          end
+        end
+
+        context "何も入力しないで「返信」したとき" do
+          before do
+            find(:css, "#new_reply").click_button "返信する"
+            sleep 1 # 反映されるまで少しタイムラグがあるので…
+          end
+
+          it "エラーが表示されていること" do
+            find(:css, "#new_reply").text.must_include "を入力してください"
+          end
+        end
+      end
+    end
+
+    describe "編集" do
+      before do
+        @reply = create(:reply, user: @user, notice: @notice)
+        @base_id = "#{@notice.id}_#{@reply.id}"
+      end
+
+      context "きづき詳細ページを訪れたとき" do
+        before { visit notice_path(@notice) }
+
+        context "「編集」を押したとき" do
+          before do
+            find(:css, "#reply_detail_#{@base_id}").click_link("編集")
+            sleep 1 # 反映されるまで少しタイムラグがあるので…
+          end
+
+          context "正しい値を入力したとき" do
+            before do
+              @reply_new = build(:reply)
+              fill_in "reply_body_#{@base_id}", with: @reply_new.body
+            end
+
+            context "「プレビュー」をクリックしたとき" do
+              before do
+                find("#reply_notice_builtin_form_#{@base_id}").click_link("プレビュー")
+                sleep 1 # 反映されるまで少しタイムラグがあるので…
+              end
+  
+              it "プレビューが表示されていること" do
+                find("#reply_notice_builtin_form_#{@base_id}").find(".markdown_body").text.must_include(@reply_new.body)
+              end
+            end
+
+            context "「更新」したとき" do
+              before do
+                @reply_new = build(:reply)
+                fill_in "reply_body_#{@base_id}", with: @reply_new.body
+                find(:css, "#reply_notice_builtin_form_#{@base_id}").click_button("更新する")
+                sleep 1 # 反映されるまで少しタイムラグがあるので…
+              end
+
+              it "入力内容が表示されていること" do
+                page.text.must_include @reply_new.body
+              end
+            end
+          end
+
+          context "空にして「更新」したとき" do
+            before do
+              fill_in "reply_body_#{@base_id}", with: ""
+              find(:css, "#reply_notice_builtin_form_#{@base_id}").click_button "更新する"
+              sleep 1 # 反映されるまで少しタイムラグがあるので…
+            end
+
+            it "エラーが表示されていること" do
+              find(:css, "#reply_notice_builtin_form_#{@base_id}").text.must_include "を入力してください"
+            end
+          end
+        end
+      end
+    end
+  end
+
   describe "新規作成" do
     context "ログインしているとき" do
       before do
         @user = login
       end
 
-      context "存在しないきづきの返信新規作成ページを訪れたとき" do
+      context "存在しないきづきの返信の新規作成ページを訪れたとき" do
         before { visit new_notice_reply_path(notice_id: 99999) }
 
         it "404 not foundであること" do
@@ -16,7 +131,9 @@ describe "返信 Integration" do
       end
 
       context "きづきがあるとき" do
-        before { @notice = create(:notice) }
+        before do
+          @notice = create(:notice)
+        end
 
         context "新規作成ページを訪れたとき" do
           before { visit new_notice_reply_path(@notice) }
@@ -46,7 +163,7 @@ describe "返信 Integration" do
 
               it "アクティビティが表示されていること" do
                 find(:css, ".activity_list").text.must_include @user.nickname
-                find(:css, ".activity_list").text.must_include @notice.title
+                find(:css, ".activity_list").text.must_include @notice.title.truncate(15)
               end
             end
           end
@@ -175,7 +292,7 @@ describe "返信 Integration" do
 
           it "アクティビティが表示されていること" do
             find(:css, ".activity_list").text.must_include @user.nickname
-            find(:css, ".activity_list").text.must_include @notice.title
+            find(:css, ".activity_list").text.must_include @notice.title.truncate(15)
           end
         end
 
