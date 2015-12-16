@@ -22,7 +22,7 @@ gem "omniauth"                            # OAuth
 gem "omniauth-facebook"                   # OAuth for facebook
 gem "omniauth-twitter"                    # OAuth for twitter
 gem "omniauth-google-oauth2"              # OAuth for google
-gem "sunspot_rails"                       # 全文検索
+gem "sunspot_rails", "2.2.0"              # 全文検索 # XXX: CircleCIで落ちるので固定
 gem "carrierwave"                         # ファイルアップローダ
 gem "mini_magick"                         # 画像処理
 gem "carrierwave-magic"                   # ファイル内容でファイル形式を判断
@@ -47,7 +47,7 @@ group :development, :test do
   gem "pry-doc"                           # クラスやメソッドのドキュメントやソースを参照
   gem "pry-byebug"                        # binding.pryでデバッガ起動
   gem "factory_girl_rails"                # fixturesより細やかなデータを記述できる
-  gem "sunspot_solr"                      # sunspot用solrパック
+  gem "sunspot_solr", "2.2.0"             # sunspot用solrパック # XXX: CircleCIで落ちるので固定
 end
 
 group :test do
