@@ -30,12 +30,8 @@ FactoryGirl.define do
     end
 
     trait :with_tags do
-      ignore do
-        tags_count { rand(3) + 1 }
-      end
-
       after(:create) do |notice, evaluator|
-        create_list(:tag, evaluator.tags_count, notices: [notice])
+        create_list(:tag, 3, notices: [notice])
       end
     end
   end
