@@ -35,6 +35,9 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Set test order to random
+  config.active_support.test_order = :random
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
