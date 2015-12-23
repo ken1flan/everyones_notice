@@ -43,4 +43,7 @@ Rails.application.configure do
 
   # Enable Shoulda minitest-spec-rails
   config.minitest_spec_rails.mini_shoulda = true
+
+  # For not swallow errors in after_commit/after_rollback callbacks.
+  config.active_record.raise_in_transactional_callbacks = true
 end
