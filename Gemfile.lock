@@ -152,6 +152,8 @@ GEM
       multi_json (~> 1.3)
       multi_xml (~> 0.5)
       rack (~> 1.2)
+    octokit (2.1.1)
+      sawyer (~> 0.3.0)
     omniauth (1.2.2)
       hashie (>= 1.2, < 4)
       rack (~> 1.0)
@@ -254,6 +256,7 @@ GEM
       tins (<= 1.6.0)
     ruby-filemagic (0.7.1)
     ruby-progressbar (1.7.5)
+    safe_yaml (1.0.4)
     sass (3.4.20)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -261,6 +264,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sawyer (0.3.0)
+      faraday (~> 0.8, < 0.10)
+      uri_template (~> 0.5.0)
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
@@ -288,6 +294,12 @@ GEM
       rails (>= 3)
       sunspot (= 2.2.0)
     sunspot_solr (2.2.0)
+    tachikoma (4.0.3)
+      json
+      octokit (>= 2, < 3)
+      rake
+      safe_yaml
+      thor
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.1)
@@ -300,6 +312,7 @@ GEM
     uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    uri_template (0.5.3)
     web-console (2.2.1)
       activemodel (>= 4.0)
       binding_of_caller (>= 0.7.2)
@@ -364,6 +377,7 @@ DEPENDENCIES
   squasher
   sunspot_rails (= 2.2.0)
   sunspot_solr (= 2.2.0)
+  tachikoma
   timecop
   turbolinks
   uglifier (>= 1.3.0)
