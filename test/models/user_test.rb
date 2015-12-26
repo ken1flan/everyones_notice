@@ -71,7 +71,7 @@ describe User do
     end
 
     describe "#admin" do
-      valid_data = [true, false, nil, "", "a", "aaa", "あああ"]
+      valid_data = [true, false, nil, ""]
       valid_data.each do |vd|
         context "admin = #{vd}" do
           before { @user.admin = vd }
@@ -619,7 +619,7 @@ describe User do
             @created_at = Time.local(2014, 6, 1, 0, 0, 0)
             create_list(:activity, 2, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
           end
- 
+
           it "2であること" do
             @heatmap = @user.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 2
@@ -632,7 +632,7 @@ describe User do
             @created_at = Time.local(2014, 6, 1, 0, 0, 0)
             create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user_another.id, created_at: @created_at)
           end
- 
+
           it "nilであること" do
             @heatmap = @user.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil

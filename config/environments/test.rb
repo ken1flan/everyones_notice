@@ -13,7 +13,7 @@ Rails.application.configure do
   config.eager_load = false
 
   # Configure static asset server for tests with Cache-Control for performance.
-  config.serve_static_assets  = true
+  config.serve_static_files = true
   config.static_cache_control = 'public, max-age=3600'
 
   # Show full error reports and disable caching.
@@ -35,9 +35,15 @@ Rails.application.configure do
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
+  # Set test order to random
+  config.active_support.test_order = :random
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
   # Enable Shoulda minitest-spec-rails
   config.minitest_spec_rails.mini_shoulda = true
+
+  # For not swallow errors in after_commit/after_rollback callbacks.
+  config.active_record.raise_in_transactional_callbacks = true
 end

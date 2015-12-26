@@ -297,7 +297,7 @@ describe Notice do
           it ".read_usersが空であること" do
             @notice.read_users.blank?.must_equal true
           end
-    
+
           it ".unread_usersがユーザが全員いること" do
             unread_users = @notice.unread_users
             unread_users.include?(@notice.user).must_equal true
@@ -436,7 +436,7 @@ describe Notice do
       end
 
       it "tag.nameであること" do
-        Notice.find(@notice).tags_string.must_equal @tag.name
+        Notice.find(@notice.id).tags_string.must_equal @tag.name
       end
     end
 
@@ -450,7 +450,7 @@ describe Notice do
       end
 
       it "tag.nameが両方カンマ区切りで含まれていること" do
-        Notice.find(@notice).tags_string.must_equal @tags.map {|tag| tag.name }.join(",")
+        Notice.find(@notice.id).tags_string.must_equal @tags.map {|tag| tag.name }.join(",")
       end
     end
   end
@@ -512,7 +512,7 @@ describe Notice do
         it "「タグ1」のタグが作成されていること" do
           Tag.count.must_equal 1
           Tag.find_by(name: "タグ1").present?.must_equal true
-          Notice.find(@notice).tags.first.name.must_equal "タグ1"
+          Notice.find(@notice.id).tags.first.name.must_equal "タグ1"
         end
       end
     end
@@ -532,7 +532,7 @@ describe Notice do
         end
 
         it "紐付いたtagがないこと" do
-          Notice.find(@notice).tags.blank?.must_equal true
+          Notice.find(@notice.id).tags.blank?.must_equal true
         end
       end
 
@@ -545,7 +545,7 @@ describe Notice do
         it "「タグ1」のタグが作成されていること" do
           Tag.count.must_equal 2
           Tag.find_by(name: "タグ1").present?.must_equal true
-          Notice.find(@notice).tags.first.name.must_equal "タグ1"
+          Notice.find(@notice.id).tags.first.name.must_equal "タグ1"
         end
       end
 
@@ -558,8 +558,8 @@ describe Notice do
         it "「タグ1」「タグ2」のタグが作成されていること" do
           Tag.find_by(name: "タグ1").present?.must_equal true
           Tag.find_by(name: "タグ2").present?.must_equal true
-          Notice.find(@notice).tags.first.name.must_equal "タグ1"
-          Notice.find(@notice).tags.last.name.must_equal "タグ2"
+          Notice.find(@notice.id).tags.first.name.must_equal "タグ1"
+          Notice.find(@notice.id).tags.last.name.must_equal "タグ2"
         end
       end
 
@@ -580,7 +580,7 @@ describe Notice do
           end
 
           it "noticeにtagが紐付いていること" do
-            Notice.find(@notice).tags.first.name.must_equal @tag.name
+            Notice.find(@notice.id).tags.first.name.must_equal @tag.name
           end
         end
       end
@@ -604,11 +604,11 @@ describe Notice do
           end
 
           it "noticeにtagが紐付いていること" do
-            Notice.find(@notice).tags.first.name.must_equal @tag.name
+            Notice.find(@notice.id).tags.first.name.must_equal @tag.name
           end
 
           it "ほかのnoticeにもtagが紐付いていること" do
-            Notice.find(@other_notice).tags.map {|t| t.name }.join(",").must_include @tag.name
+            Notice.find(@other_notice.id).tags.map {|t| t.name }.join(",").must_include @tag.name
           end
         end
       end
@@ -621,7 +621,7 @@ describe Notice do
       Notice.skip_callback(:save, :after, :register_activity)
       Reply.skip_callback(:save, :after, :register_activity)
     end
-      
+
     describe "選択について" do
       context "7日+1秒前のactivity(notice)のあるnoticeがあるとき" do
         before do
