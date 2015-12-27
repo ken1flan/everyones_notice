@@ -30,7 +30,7 @@ FactoryGirl.define do
     end
 
     trait :with_tags do
-      after(:create) do |notice, evaluator|
+      after(:create) do |notice, _evaluator|
         create_list(:tag, 3, notices: [notice])
       end
     end
