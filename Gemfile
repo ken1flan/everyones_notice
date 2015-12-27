@@ -48,6 +48,7 @@ group :development, :test do
   gem "pry-byebug"                        # binding.pryでデバッガ起動
   gem "factory_girl_rails"                # fixturesより細やかなデータを記述できる
   gem "sunspot_solr", "2.2.0"             # sunspot用solrパック # XXX: CircleCIで落ちるので固定
+  gem 'tachikoma'                         # bundle update & send pull request
 end
 
 group :test do

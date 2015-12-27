@@ -25,3 +25,6 @@ solr/test
 
 /public/uploads
 /node_modules
+
+/repos/*
+!/repos/.gitkeep
