@@ -21,3 +21,8 @@ database:
 test:
   pre:
     - bundle exec rubocop
+  post:
+    - >
+      if [ -n "${BUNDLE_UPDATE}" ]; then
+        rake tachikoma:run_bundle
+      fi
