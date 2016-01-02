@@ -13,6 +13,7 @@ gem "jquery-turbolinks"
 gem "jbuilder", "~> 2.0"
 gem "sdoc", "~> 0.4.0", group: :doc
 
+gem 'hamlit'                              # hamlの速い実装
 gem "zurui-sass-rails"                    # ズルいデザイン
 gem "kaminari"                            # ページング
 gem "redcarpet"                           # マークダウン
