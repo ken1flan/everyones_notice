@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id           :integer          not null, primary key
+#  nickname     :string(255)
+#  club_id      :integer          default(1), not null
+#  admin        :boolean          default(FALSE), not null
+#  created_at   :datetime
+#  updated_at   :datetime
+#  icon_url     :string(255)
+#  belonging_to :string
+#
+# Indexes
+#
+#  index_users_on_club_id  (club_id)
+#
+
 class UsersController < ApplicationController
   skip_filter :require_login, only: [:new, :create]
   before_action :set_user, except: [:index, :new, :create]
