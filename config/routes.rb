@@ -1,17 +1,16 @@
 Rails.application.routes.draw do
-
   resources :notices do
     member do
-      get "opened"
-      get "not_opened"
-      post "add_tag"
+      get 'opened'
+      get 'not_opened'
+      post 'add_tag'
     end
     collection do
-      get "todays"
-      get "unread"
-      get "draft"
-      get "watched"
-      get "searched_by_word"
+      get 'todays'
+      get 'unread'
+      get 'draft'
+      get 'watched'
+      get 'searched_by_word'
     end
     resources :replies
   end
@@ -19,7 +18,7 @@ Rails.application.routes.draw do
   resources :tags, only: [:index, :show]
   resources :activities, only: [:index] do
     collection do
-      get "all"
+      get 'all'
     end
   end
 
@@ -31,20 +30,20 @@ Rails.application.routes.draw do
 
   resources :post_images, except: [:edit, :update] do
     collection do
-      get "all"
+      get 'all'
     end
   end
 
   resources :advertisements do
     collection do
-      get "all"
-      get "random_list"
+      get 'all'
+      get 'random_list'
     end
   end
 
-  root "top#index"
-  get "current_user_activities", to: "top#current_user_activities"
-  get "current_club_activities", to: "top#current_club_activities"
+  root 'top#index'
+  get 'current_user_activities', to: 'top#current_user_activities'
+  get 'current_club_activities', to: 'top#current_club_activities'
 
   resource :login, only: [:show]
   resources :users do
@@ -55,14 +54,14 @@ Rails.application.routes.draw do
     end
   end
   resources :invitations, except: [:edit, :update]
-  get "/auth/:provider/callback", to: "sessions#create"
-  get "/signout", to: "sessions#destroy", as: :signout
+  get '/auth/:provider/callback', to: 'sessions#create'
+  get '/signout', to: 'sessions#destroy', as: :signout
 
   resources :feedbacks, only: [:index, :show, :create]
 
   resources :utils, only: [] do
     collection do
-      post "markdown"
+      post 'markdown'
     end
   end
 

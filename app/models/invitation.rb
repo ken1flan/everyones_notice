@@ -25,23 +25,23 @@ class Invitation < ActiveRecord::Base
   def generate_token
     begin
       self.token = SecureRandom.urlsafe_base64
-    end while Invitation.exists?(token: self.token)
+    end while Invitation.exists?(token: token)
     self.expired_at = EXPIRATION_PERIOD.since
   end
 
   def expired?
-    self.expired_at < Time.zone.now
+    expired_at < Time.zone.now
   end
 
   def user_registered?
-    self.user_id.present?
+    user_id.present?
   end
 
   def self.invalid_token?(token)
-      invitation = Invitation.find_by(token: token)
-      invitation.blank? ||
-        invitation.expired? ||
-        invitation.user_registered?
+    invitation = Invitation.find_by(token: token)
+    invitation.blank? ||
+      invitation.expired? ||
+      invitation.user_registered?
   end
 
   def self.valid_token?(token)

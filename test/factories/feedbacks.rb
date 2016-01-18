@@ -19,10 +19,9 @@
 
 FactoryGirl.define do
   factory :feedback do
-    body "MyText"
+    body 'MyText'
     user_id 1
-    url "MyString"
+    url 'MyString'
     status 1
   end
-
 end

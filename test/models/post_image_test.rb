@@ -18,51 +18,51 @@
 require 'test_helper'
 
 describe PostImage do
-  describe "バリデーション" do
+  describe 'バリデーション' do
     before { @post_image = build(:post_image) }
 
-    describe "title" do
-      valid_data = [1, 2, "a", "aaa", "あああ", "あ"*64]
+    describe 'title' do
+      valid_data = [1, 2, 'a', 'aaa', 'あああ', 'あ' * 64]
       valid_data.each do |vd|
         context "title = #{vd}のとき" do
           before { @post_image.title = vd }
 
-          it "validであること" do
+          it 'validであること' do
             @post_image.valid?.must_equal true
           end
         end
       end
 
-      invalid_data = [nil, "", "あ"*65]
+      invalid_data = [nil, '', 'あ' * 65]
       invalid_data.each do |ivd|
         context "title = #{ivd}のとき" do
           before { @post_image.title = ivd }
 
-          it "invalidであること" do
+          it 'invalidであること' do
             @post_image.invalid?.must_equal true
           end
         end
       end
     end
 
-    describe "image" do
-      context "nilのとき" do
-        before { @post_image = build(:post_image, title:"タイトル", image: nil) }
+    describe 'image' do
+      context 'nilのとき' do
+        before { @post_image = build(:post_image, title: 'タイトル', image: nil) }
 
-        it "invalidであること" do
+        it 'invalidであること' do
           @post_image.valid?.must_equal false
         end
       end
 
       valid_ext = %w(jpg jpeg JPG png PNG)
       valid_ext.each do |ext|
-        context "jpgが指定されているとき" do
+        context 'jpgが指定されているとき' do
           before do
-            image = open Rails.root.join("test", "fixtures", "images", "テスト画像.#{ext}")
-            @post_image = build(:post_image, title:"タイトル", image: image)
+            image = open Rails.root.join('test', 'fixtures', 'images', "テスト画像.#{ext}")
+            @post_image = build(:post_image, title: 'タイトル', image: image)
           end
 
-          it "validであること" do
+          it 'validであること' do
             @post_image.valid?.must_equal true
           end
         end
@@ -70,25 +70,25 @@ describe PostImage do
 
       invalid_ext = %w(bmp txt zip)
       invalid_ext.each do |ext|
-        context "bmpが指定されているとき" do
+        context 'bmpが指定されているとき' do
           before do
-            image = open Rails.root.join("test", "fixtures", "images", "テスト画像.#{ext}")
-            @post_image = build(:post_image, title:"タイトル", image: image)
+            image = open Rails.root.join('test', 'fixtures', 'images', "テスト画像.#{ext}")
+            @post_image = build(:post_image, title: 'タイトル', image: image)
           end
 
-          it "invalidであること" do
+          it 'invalidであること' do
             @post_image.valid?.must_equal false
           end
         end
       end
 
-      context "3MB以上の画像データを指定したとき" do
+      context '3MB以上の画像データを指定したとき' do
         before do
-          image = open Rails.root.join("test", "fixtures", "images", "3MBテスト画像.jpg")
-          @post_image = build(:post_image, title:"タイトル", image: image)
+          image = open Rails.root.join('test', 'fixtures', 'images', '3MBテスト画像.jpg')
+          @post_image = build(:post_image, title: 'タイトル', image: image)
         end
 
-        it "invalidであること" do
+        it 'invalidであること' do
           @post_image.valid?.must_equal false
         end
       end

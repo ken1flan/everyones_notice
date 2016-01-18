@@ -7,7 +7,7 @@ class CreateInvitations < ActiveRecord::Migration
       t.integer :user_id
       t.boolean :admin, null: false, default: false
       t.string :token, null: false
-      t.datetime :expired_at, null:false
+      t.datetime :expired_at, null: false
 
       t.timestamps
     end

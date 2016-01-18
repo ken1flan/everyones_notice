@@ -23,10 +23,10 @@ class Feedback < ActiveRecord::Base
   enum status: { unclassified: 0, opened: 1, closed: 2 }
 
   validates :body,
-    presence: true
+            presence: true
   validates :user_id,
-    presence: true,
-    numericality: { allow_blank: true, greater_than: 0 }
+            presence: true,
+            numericality: { allow_blank: true, greater_than: 0 }
   validates :url,
-    length: { maximum: 255 }
+            length: { maximum: 255 }
 end

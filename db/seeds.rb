@@ -9,11 +9,11 @@
 
 # Club
 
-default_group = Club.where(slug: "default")
+default_group = Club.where(slug: 'default')
 if default_group.blank?
   Club.create(
-    name: "default",
-    slug: "default",
-    description: "default group"
+    name: 'default',
+    slug: 'default',
+    description: 'default group'
   )
 end

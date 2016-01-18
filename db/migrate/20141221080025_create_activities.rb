@@ -13,7 +13,7 @@ class CreateActivities < ActiveRecord::Migration
     add_index :activities, [:user_id]
     add_index :activities, [:notice_id]
     add_index :activities, [:reply_id]
-    add_index :activities, [:type_id, :user_id, :notice_id, :reply_id], name: "index_activities_unique_key", unique: true
+    add_index :activities, [:type_id, :user_id, :notice_id, :reply_id], name: 'index_activities_unique_key', unique: true
     add_index :activities, [:created_at]
   end
 end

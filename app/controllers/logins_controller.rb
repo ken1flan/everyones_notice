@@ -1,5 +1,5 @@
 class LoginsController < ApplicationController
-  layout "no_header"
+  layout 'no_header'
   skip_filter :require_login
 
   def show

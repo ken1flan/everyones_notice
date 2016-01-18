@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
-describe "トップページ Integration" do
+describe 'トップページ Integration' do
 end

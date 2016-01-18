@@ -20,8 +20,8 @@
 
 FactoryGirl.define do
   factory :user do
-    sequence :nickname do
-      |n| "nickname#{n}"
+    sequence :nickname do |n|
+      "nickname#{n}"
     end
     club_id 1
     admin false

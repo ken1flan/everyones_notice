@@ -19,8 +19,8 @@
 
 FactoryGirl.define do
   factory :notice do
-    title { "title" + ('a'..'z').to_a.sample(26).join }
-    body { "body" + ('a'..'z').to_a.sample(26).join }
+    title { 'title' + ('a'..'z').to_a.sample(26).join }
+    body { 'body' + ('a'..'z').to_a.sample(26).join }
     user
     published_at { (rand(10) + 1).days.ago }
     status 1

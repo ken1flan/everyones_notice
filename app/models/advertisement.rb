@@ -26,18 +26,18 @@ class Advertisement < ActiveRecord::Base
 
   include Liked
 
-  scope :displayable, -> {
-    where(arel_table[:started_on].lteq Date.today).
-    where(arel_table[:ended_on].gteq Date.today)
+  scope :displayable, lambda {
+    where(arel_table[:started_on].lteq Date.today)
+      .where(arel_table[:ended_on].gteq Date.today)
   }
 
   validates :title,
-    presence: true,
-    length: { maximum: 64 }
+            presence: true,
+            length: { maximum: 64 }
 
   validates :summary,
-    presence: true,
-    length: { maximum: 255 }
+            presence: true,
+            length: { maximum: 255 }
 
   validates :body, presence: true
 
@@ -45,20 +45,21 @@ class Advertisement < ActiveRecord::Base
   validates :ended_on, presence: true, date: true
 
   private
-    def register_activity
-      return if Activity.find_by(
-        type_id: Activity.type_ids[:advertisement],
-        advertisement_id: id
-      ).present?
 
-      begin
-        activity = Activity.new
-        activity.type_id = Activity.type_ids[:advertisement]
-        activity.user_id = user_id
-        activity.advertisement_id = id
-        activity.save!
-      rescue
-        logger.warn("failed to register writing advertisement(id: #{self.id}")
-      end
+  def register_activity
+    return if Activity.find_by(
+      type_id: Activity.type_ids[:advertisement],
+      advertisement_id: id
+    ).present?
+
+    begin
+      activity = Activity.new
+      activity.type_id = Activity.type_ids[:advertisement]
+      activity.user_id = user_id
+      activity.advertisement_id = id
+      activity.save!
+    rescue
+      logger.warn("failed to register writing advertisement(id: #{id}")
     end
+  end
 end

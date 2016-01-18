@@ -5,10 +5,10 @@ class NoticesController < ApplicationController
   PAR_PAGE = 10
 
   def index
-    @notices = Notice.
-      displayable.
-      default_order.
-      page(params[:page]).per(PAR_PAGE)
+    @notices = Notice
+               .displayable
+               .default_order
+               .page(params[:page]).per(PAR_PAGE)
   end
 
   def show
@@ -73,7 +73,7 @@ class NoticesController < ApplicationController
 
   def not_opened
     @notice.read_users.delete current_user
-    render "opened"
+    render 'opened'
   end
 
   def add_tag
@@ -87,31 +87,31 @@ class NoticesController < ApplicationController
   end
 
   def todays
-    @notices = Notice.
-      displayable.
-      today.
-      default_order.
-      page(params[:page]).per(PAR_PAGE)
-    render "index"
+    @notices = Notice
+               .displayable
+               .today
+               .default_order
+               .page(params[:page]).per(PAR_PAGE)
+    render 'index'
   end
 
   def unread
-    @notice = current_user.unread_notices.
-      displayable.
-      default_order.
-      first
+    @notice = current_user.unread_notices
+              .displayable
+              .default_order
+              .first
   end
 
   def draft
-    @notices = current_user.draft_notices.
-      default_order.
-      page(params[:page]).per(PAR_PAGE)
-    render "index"
+    @notices = current_user.draft_notices
+               .default_order
+               .page(params[:page]).per(PAR_PAGE)
+    render 'index'
   end
 
   def watched
     @notices = Notice.weekly_watched.page(params[:page]).per(PAR_PAGE)
-    render "index"
+    render 'index'
   end
 
   def searched_by_word
@@ -122,28 +122,29 @@ class NoticesController < ApplicationController
     end
 
     @notices = @search.results
-    render "index"
+    render 'index'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_notice
-      @notice = Notice.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def notice_params
-      params.require(:notice).permit(:title, :body, :tags_string)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_notice
+    @notice = Notice.find(params[:id])
+  end
 
-    def tag_params
-      params.require(:tag).permit(:name)
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def notice_params
+    params.require(:notice).permit(:title, :body, :tags_string)
+  end
 
-    def opened_by_current_user
-      return if @notice.blank?
-      unless @notice.read_users.include? current_user
-        @notice.read_users << current_user
-      end
+  def tag_params
+    params.require(:tag).permit(:name)
+  end
+
+  def opened_by_current_user
+    return if @notice.blank?
+    unless @notice.read_users.include? current_user
+      @notice.read_users << current_user
     end
+  end
 end

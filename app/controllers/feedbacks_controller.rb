@@ -5,9 +5,9 @@ class FeedbacksController < ApplicationController
   PAR_PAGE = 10
 
   def index
-    @feedbacks = Feedback.
-      order("created_at DESC").
-      page(params[:page]).per(PAR_PAGE)
+    @feedbacks = Feedback
+                 .order('created_at DESC')
+                 .page(params[:page]).per(PAR_PAGE)
   end
 
   def show
@@ -21,15 +21,16 @@ class FeedbacksController < ApplicationController
   end
 
   private
-    def set_feedback
-      @feedback = Feedback.find(params[:id])
-    end
 
-    def feedback_params
-      params.require(:feedback).permit(:body)
-    end
+  def set_feedback
+    @feedback = Feedback.find(params[:id])
+  end
 
-    def redirect_no_user_manager
-      not_found unless can_manage_users?
-    end
+  def feedback_params
+    params.require(:feedback).permit(:body)
+  end
+
+  def redirect_no_user_manager
+    not_found unless can_manage_users?
+  end
 end

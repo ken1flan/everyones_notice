@@ -10,6 +10,6 @@
 
 FactoryGirl.define do
   factory :tag do
-    name { "name" + ('a'..'z').to_a.sample(26).join }
+    name { 'name' + ('a'..'z').to_a.sample(26).join }
   end
 end

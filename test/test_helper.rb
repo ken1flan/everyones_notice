@@ -7,7 +7,7 @@ require 'capybara/poltergeist'
 require 'minitest/reporters'
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new]
 require 'database_cleaner'
-require "codeclimate-test-reporter"
+require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 
 class ActiveSupport::TestCase

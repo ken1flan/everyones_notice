@@ -20,7 +20,7 @@
 FactoryGirl.define do
   factory :reply do
     notice
-    body { "body" + ('a'..'z').to_a.sample(26).join }
+    body { 'body' + ('a'..'z').to_a.sample(26).join }
     user
   end
 end
