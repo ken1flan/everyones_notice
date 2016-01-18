@@ -13,7 +13,7 @@
 require 'test_helper'
 
 describe Club do
-  describe ".activities_for_heatmap" do
+  describe '.activities_for_heatmap' do
     before do
       @club = create(:club)
       @users = create_list(:user, 2, club_id: @club.id)
@@ -25,13 +25,13 @@ describe Club do
 
     [:notice, :reply].each do |activity_type|
       context "#{activity_type}がないとき" do
-        it "nilであること" do
+        it 'nilであること' do
           @heatmap = @club.activities_for_heatmap
           JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
         end
       end
 
-      context "現在が2014/11/29 09:04:12 のとき" do
+      context '現在が2014/11/29 09:04:12 のとき' do
         before do
           @now = Time.local(2014, 11, 29, 9, 4, 12)
           Timecop.travel @now
@@ -43,7 +43,7 @@ describe Club do
             create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
           end
 
-          it "nilであること" do
+          it 'nilであること' do
             @heatmap = @club.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
           end
@@ -55,7 +55,7 @@ describe Club do
             create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
           end
 
-          it "1であること" do
+          it '1であること' do
             @heatmap = @club.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 1
           end
@@ -67,7 +67,7 @@ describe Club do
             create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
           end
 
-          it "1であること" do
+          it '1であること' do
             @heatmap = @club.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 1
           end
@@ -79,7 +79,7 @@ describe Club do
             create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user.id, created_at: @created_at)
           end
 
-          it "nilであること" do
+          it 'nilであること' do
             @heatmap = @club.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
           end
@@ -92,8 +92,8 @@ describe Club do
               create(:activity, type_id: Activity.type_ids[activity_type], user: user, created_at: @created_at)
             end
           end
- 
-          it "2であること" do
+
+          it '2であること' do
             @heatmap = @club.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal 2
           end
@@ -106,8 +106,8 @@ describe Club do
             @created_at = Time.local(2014, 6, 1, 0, 0, 0)
             create(:activity, type_id: Activity.type_ids[activity_type], user_id: @user_club_another.id, created_at: @created_at)
           end
- 
-          it "nilであること" do
+
+          it 'nilであること' do
             @heatmap = @club.activities_for_heatmap
             JSON.parse(@heatmap)[@created_at.to_i.to_s].must_equal nil
           end

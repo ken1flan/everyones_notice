@@ -72,59 +72,58 @@ class UsersController < ApplicationController
 
   def notices
     @notices = Notice.where(user_id: @user.id)
-    unless @user == current_user
-      @notices = @notices.displayable
-    end
-    @notices = @notices.
-      default_order.
-      page(params[:page]).per(PAR_PAGE)
+    @notices = @notices.displayable unless @user == current_user
+    @notices = @notices
+               .default_order
+               .page(params[:page]).per(PAR_PAGE)
   end
 
   def replies
-    @replies = Reply.
-      where(user_id: @user.id).
-      order("created_at DESC").
-      page(params[:page]).per(PAR_PAGE)
+    @replies = Reply
+               .where(user_id: @user.id)
+               .order('created_at DESC')
+               .page(params[:page]).per(PAR_PAGE)
   end
 
   def activities
     respond_to do |format|
       format.html do
         set_target_date
-        @activities = Activity.
-          related_user(@user).
-          between_beginning_and_end_of_day(@target_date).
-          default_order.
-          page(params[:page]).per(PAR_PAGE)
+        @activities = Activity
+                      .related_user(@user)
+                      .between_beginning_and_end_of_day(@target_date)
+                      .default_order
+                      .page(params[:page]).per(PAR_PAGE)
       end
       format.json { render json: @user.activities_for_heatmap }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:nickname, :icon_url, :club_id, :belonging_to)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    def redirect_no_current_user
-      not_found unless current_user == @user
-    end
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:nickname, :icon_url, :club_id, :belonging_to)
+  end
 
-    def redirect_no_user_manager
-      not_found unless can_manage_users?
-    end
+  def redirect_no_current_user
+    not_found unless current_user == @user
+  end
 
-    def set_target_date
-      if params[:year] && params[:month] && params[:day]
-        begin
-          @target_date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-        end
+  def redirect_no_user_manager
+    not_found unless can_manage_users?
+  end
+
+  def set_target_date
+    if params[:year] && params[:month] && params[:day]
+      begin
+        @target_date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
       end
     end
+  end
 end

@@ -70,18 +70,19 @@ class RepliesController < ApplicationController
   end
 
   private
-    def set_notice
-      @notice = Notice.find(params[:notice_id])
-    end
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reply
-      @reply = Reply.find(params[:id])
-    end
+  def set_notice
+    @notice = Notice.find(params[:notice_id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def reply_params
-      (params.require(:reply).permit(:body)).
-        merge(user_id: current_user.id, notice_id: @notice.id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_reply
+    @reply = Reply.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def reply_params
+    (params.require(:reply).permit(:body))
+      .merge(user_id: current_user.id, notice_id: @notice.id)
+  end
 end

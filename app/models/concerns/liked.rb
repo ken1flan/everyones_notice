@@ -1,6 +1,6 @@
 module Liked
   def liked_by?(user)
-    approvals.where(user_id:user.id, deleted: false).present?
+    approvals.where(user_id: user.id, deleted: false).present?
   end
 
   def like_number

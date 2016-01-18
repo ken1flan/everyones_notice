@@ -17,7 +17,6 @@
 FactoryGirl.define do
   factory :notice_tag do
     notice_id 1
-tag_id 1
+    tag_id 1
   end
-
 end

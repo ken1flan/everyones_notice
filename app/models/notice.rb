@@ -36,7 +36,7 @@ class Notice < ActiveRecord::Base
 
   scope :displayable, -> { where.not(published_at: nil) }
   scope :default_order, -> { order(published_at: :desc) }
-  scope :today, -> { where("published_at > ?", 1.day.ago) }
+  scope :today, -> { where('published_at > ?', 1.day.ago) }
 
   searchable do
     text :user_nickname do
@@ -44,7 +44,7 @@ class Notice < ActiveRecord::Base
     end
     text :title, :body
     text :replies do
-      replies.map { |reply| reply.body }
+      replies.map(&:body)
     end
     boolean :published do
       published_at.present?
@@ -52,28 +52,28 @@ class Notice < ActiveRecord::Base
   end
 
   validates :title,
-    presence: true,
-    length: { maximum: 64 }
+            presence: true,
+            length: { maximum: 64 }
   validates :body,
-    presence: true
+            presence: true
   validates :user_id,
-    presence: true,
-    numericality: { allow_blank: true, greater_than: 0 }
+            presence: true,
+            numericality: { allow_blank: true, greater_than: 0 }
 
   def published?
-    self.published_at.present?
+    published_at.present?
   end
 
   def draft?
-    self.published_at.blank?
+    published_at.blank?
   end
 
   def read_by(user)
-    self.read_users << user unless self.read_users.include? user
+    read_users << user unless read_users.include? user
   end
 
   def unread_by(user)
-    self.read_users.delete user if self.read_users.include? user
+    read_users.delete user if read_users.include? user
   end
 
   def read_by?(user)
@@ -89,50 +89,51 @@ class Notice < ActiveRecord::Base
   end
 
   def previous
-    @previous ||= Notice.displayable.where("id < ?", id).order("id DESC").first
+    @previous ||= Notice.displayable.where('id < ?', id).order('id DESC').first
     @previous
   end
 
   def next
-    @next ||= Notice.displayable.where("id > ?", id).order("id ASC").first
+    @next ||= Notice.displayable.where('id > ?', id).order('id ASC').first
     @next
   end
- 
+
   def tags_string
-    @tags_string ||= tags.map {|tag| tag.name }.join(",")
+    @tags_string ||= tags.map(&:name).join(',')
   end
 
   def self.weekly_watched
-    Notice.select("notices.*").
-      joins(:activities).merge(
-        Activity.
-        select("notice_id, count(activities.id) AS count_id").
-        where("activities.created_at >= ?", 1.week.ago).
-        group(:notice_id)
-      ).
-      order("count_id DESC")
+    Notice.select('notices.*')
+      .joins(:activities).merge(
+        Activity
+        .select('notice_id, count(activities.id) AS count_id')
+        .where('activities.created_at >= ?', 1.week.ago)
+        .group(:notice_id)
+      )
+      .order('count_id DESC')
   end
 
   private
-    def create_tags
-      self.tags = tags_string.split(",").map do |tag_name|
-        Tag.find_or_create_by(name: tag_name)
-      end
-    end
 
-    def register_activity
-      return if published_at.blank?
-      return if Activity.find_by(
-        type_id: Activity.type_ids[:notice], notice_id: id).present?
-
-      begin
-        activity = Activity.new
-        activity.type_id = Activity.type_ids[:notice]
-        activity.user_id = user_id
-        activity.notice_id = id
-        activity.save!
-      rescue
-        logger.warn("failed to register writing notice(id: #{self.id})")
-      end
+  def create_tags
+    self.tags = tags_string.split(',').map do |tag_name|
+      Tag.find_or_create_by(name: tag_name)
     end
+  end
+
+  def register_activity
+    return if published_at.blank?
+    return if Activity.find_by(
+      type_id: Activity.type_ids[:notice], notice_id: id).present?
+
+    begin
+      activity = Activity.new
+      activity.type_id = Activity.type_ids[:notice]
+      activity.user_id = user_id
+      activity.notice_id = id
+      activity.save!
+    rescue
+      logger.warn("failed to register writing notice(id: #{id})")
+    end
+  end
 end

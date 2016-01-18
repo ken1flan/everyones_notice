@@ -15,17 +15,18 @@ class SessionsController < ApplicationController
       @user = User.find_from(auth_hash)
       not_found if @user.blank?
       session[:user_id] = @user.id
-      redirect_to "/"
+      redirect_to '/'
     end
   end
 
   def destroy
     session[:user_id] = nil
-    redirect_to "/", notice: "ログアウトしました"
+    redirect_to '/', notice: 'ログアウトしました'
   end
 
   protected
-    def auth_hash
-      request.env['omniauth.auth']
-    end
+
+  def auth_hash
+    request.env['omniauth.auth']
+  end
 end

@@ -19,7 +19,6 @@
 FactoryGirl.define do
   factory :approval do
     approvable nil
-user_id 1
+    user_id 1
   end
-
 end

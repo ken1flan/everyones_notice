@@ -19,11 +19,11 @@ class Club < ActiveRecord::Base
 
     Activity.where(
       type_id: [Activity.type_ids[:notice], Activity.type_ids[:reply]],
-      created_at: [start_date..end_date]).
-      select("created_at").
-      joins(user: :club).merge(Club.where(id: id)).
-      map {|n| n.created_at.to_i }.
-      inject(Hash.new(0)){|h, tm| h[tm] += 1; h}.
-      to_json
+      created_at: [start_date..end_date])
+      .select('created_at')
+      .joins(user: :club).merge(Club.where(id: id))
+      .map { |n| n.created_at.to_i }
+      .inject(Hash.new(0)) { |h, tm| h[tm] += 1; h }
+      .to_json
   end
 end

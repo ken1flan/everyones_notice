@@ -31,21 +31,21 @@ class User < ActiveRecord::Base
   has_many :advertisements
 
   validates :nickname,
-    presence: true,
-    length: { maximum: 64 }
+            presence: true,
+            length: { maximum: 64 }
 
   validates :club_id,
-    presence: true,
-    numericality: { allow_blank: true, greater_than: 0 }
+            presence: true,
+            numericality: { allow_blank: true, greater_than: 0 }
 
   validates :admin,
-    inclusion: { allow_blank: true, in: [true, false] }
+            inclusion: { allow_blank: true, in: [true, false] }
 
   validates :icon_url,
-    length: { maximum: 255 }
+            length: { maximum: 255 }
 
   validates :belonging_to,
-    length: { maximum: 64 }
+            length: { maximum: 64 }
 
   def unread_notices
     Notice.where.not(id: read_notices.pluck(:id))
@@ -89,28 +89,26 @@ class User < ActiveRecord::Base
 
     activities.where(
       type_id: [Activity.type_ids[:notice], Activity.type_ids[:reply]],
-      created_at: [start_date..end_date]).
-      select("created_at").
-      map {|n| n.created_at.to_i }.
-      inject(Hash.new(0)){|h, tm| h[tm] += 1; h}.
-      to_json
+      created_at: [start_date..end_date])
+      .select('created_at')
+      .map { |n| n.created_at.to_i }
+      .inject(Hash.new(0)) { |h, tm| h[tm] += 1; h }
+      .to_json
   end
 
   def self.create_with_identity(auth, token)
     invitation = Invitation.find_by(token: token)
     if invitation.blank?
-      raise ActiveRecord::RecordNotFound.new('Invitation Not Found') 
+      fail ActiveRecord::RecordNotFound.new('Invitation Not Found')
     end
 
     nickname = auth[:info][:nickname]
     nickname ||= auth[:info][:name]
     icon_url = auth[:info][:image]
     user = create!(nickname: nickname, club_id: invitation.club_id, icon_url: icon_url)
-    identity = Identity.create!({
-      user_id: user.id,
-      provider: auth[:provider],
-      uid: auth[:uid]
-    })
+    identity = Identity.create!(user_id: user.id,
+                                provider: auth[:provider],
+                                uid: auth[:uid])
 
     invitation.update_attributes(user_id: user.id)
 
@@ -118,12 +116,10 @@ class User < ActiveRecord::Base
   end
 
   def self.find_from(auth)
-    user = User.joins(:identities).
-      merge(Identity.where(provider: auth[:provider], uid: auth[:uid])).
-      first
-    if user.blank?
-      raise ActiveRecord::RecordNotFound.new('User Not Found') 
-    end
+    user = User.joins(:identities)
+           .merge(Identity.where(provider: auth[:provider], uid: auth[:uid]))
+           .first
+    fail ActiveRecord::RecordNotFound.new('User Not Found') if user.blank?
     user
   end
 end

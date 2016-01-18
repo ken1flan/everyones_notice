@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?, :can_manage_users?, :current_user, :markdown_to_html
 
   def not_found
-    raise ActionController::RoutingError.new('Not Found')
+    fail ActionController::RoutingError.new('Not Found')
   end
 
   def user_signed_in?
@@ -28,8 +28,8 @@ class ApplicationController < ActionController::Base
   class HTMLwithPygments < Redcarpet::Render::HTML
     def block_code(code, language)
       sha = Digest::SHA1.hexdigest(code)
-      Rails.cache.fetch ["code", language, sha].join('-') do
-        Pygments.highlight(code, lexer:language)
+      Rails.cache.fetch ['code', language, sha].join('-') do
+        Pygments.highlight(code, lexer: language)
       end
     end
   end

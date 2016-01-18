@@ -6,9 +6,9 @@ class InvitationsController < ApplicationController
   # GET /invitations
   # GET /invitations.json
   def index
-    @invitations = Invitation.
-      order("created_at DESC").
-      page(params[:page]).per(PAR_PAGE)
+    @invitations = Invitation
+                   .order('created_at DESC')
+                   .page(params[:page]).per(PAR_PAGE)
   end
 
   # GET /invitations/1
@@ -25,7 +25,7 @@ class InvitationsController < ApplicationController
   # POST /invitations.json
   def create
     @invitation = Invitation.new(invitation_params)
-    
+
     @invitation.club_id = current_user.club_id
 
     respond_to do |format|
@@ -52,13 +52,14 @@ class InvitationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_invitation
-      @invitation = Invitation.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def invitation_params
-      params.require(:invitation).permit(:mail_address, :message, :user_id, :token, :expired_at)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_invitation
+    @invitation = Invitation.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def invitation_params
+    params.require(:invitation).permit(:mail_address, :message, :user_id, :token, :expired_at)
+  end
 end
