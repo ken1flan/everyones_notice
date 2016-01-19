@@ -45,8 +45,6 @@ GEM
     ansi (1.5.0)
     arel (6.0.3)
     ast (2.2.0)
-    astrolabe (1.3.1)
-      parser (~> 2.2)
     better_errors (2.1.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
@@ -55,7 +53,8 @@ GEM
       debug_inspector (>= 0.0.1)
     builder (3.2.2)
     byebug (8.2.1)
-    capybara (2.5.0)
+    capybara (2.6.0)
+      addressable
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -126,6 +125,7 @@ GEM
       addressable (~> 2.3)
     letter_opener (1.4.1)
       launchy (~> 2.2)
+    libv8 (3.16.14.13)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
@@ -179,8 +179,8 @@ GEM
     omniauth-twitter (1.2.1)
       json (~> 1.3)
       omniauth-oauth (~> 1.1)
-    parser (2.2.3.0)
-      ast (>= 1.1, < 3.0)
+    parser (2.3.0.1)
+      ast (~> 2.2)
     pg (0.18.4)
     poltergeist (1.8.1)
       capybara (~> 2.1)
@@ -231,7 +231,7 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
-    rails-footnotes (4.1.7)
+    rails-footnotes (4.1.8)
       rails (>= 3.2)
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
@@ -250,18 +250,17 @@ GEM
     rdoc (4.2.1)
       json (~> 1.4)
     redcarpet (3.3.4)
+    ref (2.0.0)
     restore_bundled_with (0.3.0)
       git
       thor
     rsolr (1.0.13)
       builder (>= 2.1.2)
-    rubocop (0.35.1)
-      astrolabe (~> 1.3)
-      parser (>= 2.2.3.0, < 3.0)
+    rubocop (0.36.0)
+      parser (>= 2.3.0.0, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
       ruby-progressbar (~> 1.7)
-      tins (<= 1.6.0)
     ruby-filemagic (0.7.1)
     ruby-progressbar (1.7.5)
     safe_yaml (1.0.4)
@@ -310,11 +309,13 @@ GEM
       safe_yaml
       thor
     temple (0.7.6)
+    therubyracer (0.12.2)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.5)
     tilt (2.0.2)
     timecop (0.8.0)
-    tins (1.6.0)
     turbolinks (2.5.3)
       coffee-rails
     tzinfo (1.2.2)
@@ -388,11 +389,9 @@ DEPENDENCIES
   sunspot_rails (= 2.2.0)
   sunspot_solr (= 2.2.0)
   tachikoma
+  therubyracer
   timecop
   turbolinks
   uglifier (>= 1.3.0)
   web-console (~> 2.0)
   zurui-sass-rails
-
-BUNDLED WITH
-   1.11.2
