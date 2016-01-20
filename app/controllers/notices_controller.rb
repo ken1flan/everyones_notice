@@ -97,15 +97,15 @@ class NoticesController < ApplicationController
 
   def unread
     @notice = current_user.unread_notices
-              .displayable
-              .default_order
-              .first
+                          .displayable
+                          .default_order
+                          .first
   end
 
   def draft
     @notices = current_user.draft_notices
-               .default_order
-               .page(params[:page]).per(PAR_PAGE)
+                           .default_order
+                           .page(params[:page]).per(PAR_PAGE)
     render 'index'
   end
 

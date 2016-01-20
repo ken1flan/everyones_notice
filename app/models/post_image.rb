@@ -18,7 +18,7 @@ require 'file_size_validator'
 
 class PostImage < ActiveRecord::Base
   belongs_to :user
-  VALID_IMAGE_TYPES = %w(image/jpeg image/png)
+  VALID_IMAGE_TYPES = %w(image/jpeg image/png).freeze
 
   mount_uploader :image, ImageUploader
 

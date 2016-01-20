@@ -14,7 +14,7 @@ describe 'ログイン・ログアウト Integration' do
         before { visit login_path }
 
         context "#{provider_name}ログインをクリックしたとき" do
-          before { click_link "#{provider_name}" }
+          before { click_link provider_name.to_s }
 
           it 'トップページであること' do
             current_path.must_equal root_path
