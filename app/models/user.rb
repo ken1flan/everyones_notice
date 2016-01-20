@@ -90,10 +90,10 @@ class User < ActiveRecord::Base
     activities.where(
       type_id: [Activity.type_ids[:notice], Activity.type_ids[:reply]],
       created_at: [start_date..end_date])
-      .select('created_at')
-      .map { |n| n.created_at.to_i }
-      .inject(Hash.new(0)) { |h, tm| h[tm] += 1; h }
-      .to_json
+              .select('created_at')
+              .map { |n| n.created_at.to_i }
+              .inject(Hash.new(0)) { |h, tm| h[tm] += 1; h }
+              .to_json
   end
 
   def self.create_with_identity(auth, token)
@@ -117,8 +117,8 @@ class User < ActiveRecord::Base
 
   def self.find_from(auth)
     user = User.joins(:identities)
-           .merge(Identity.where(provider: auth[:provider], uid: auth[:uid]))
-           .first
+               .merge(Identity.where(provider: auth[:provider], uid: auth[:uid]))
+               .first
     fail ActiveRecord::RecordNotFound.new('User Not Found') if user.blank?
     user
   end

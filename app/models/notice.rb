@@ -104,13 +104,13 @@ class Notice < ActiveRecord::Base
 
   def self.weekly_watched
     Notice.select('notices.*')
-      .joins(:activities).merge(
-        Activity
-        .select('notice_id, count(activities.id) AS count_id')
-        .where('activities.created_at >= ?', 1.week.ago)
-        .group(:notice_id)
-      )
-      .order('count_id DESC')
+          .joins(:activities).merge(
+            Activity
+            .select('notice_id, count(activities.id) AS count_id')
+            .where('activities.created_at >= ?', 1.week.ago)
+            .group(:notice_id)
+          )
+          .order('count_id DESC')
   end
 
   private

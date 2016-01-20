@@ -398,7 +398,7 @@ describe User do
     before do
       @auth = {
         provider: :test_provider,
-        uid: "#{rand(10_000)}",
+        uid: rand(10_000).to_s,
         info: { nickname: "nickname_#{rand(10_000)}" }
       }
     end
@@ -435,7 +435,7 @@ describe User do
       @identity = create(:identity, user_id: @user.id)
       @auth = {
         provider: :test_provider,
-        uid: "#{rand(10_000)}",
+        uid: rand(10_000).to_s,
         info: { nickname: "nickname_#{rand(10_000)}" }
       }
     end

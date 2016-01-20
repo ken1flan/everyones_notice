@@ -97,15 +97,15 @@ class NoticesController < ApplicationController
 
   def unread
     @notice = current_user.unread_notices
-              .displayable
-              .default_order
-              .first
+                          .displayable
+                          .default_order
+                          .first
   end
 
   def draft
     @notices = current_user.draft_notices
-               .default_order
-               .page(params[:page]).per(PAR_PAGE)
+                           .default_order
+                           .page(params[:page]).per(PAR_PAGE)
     render 'index'
   end
 
@@ -143,8 +143,7 @@ class NoticesController < ApplicationController
 
   def opened_by_current_user
     return if @notice.blank?
-    unless @notice.read_users.include? current_user
-      @notice.read_users << current_user
-    end
+    return if @notice.read_users.include? current_user
+    @notice.read_users << current_user
   end
 end

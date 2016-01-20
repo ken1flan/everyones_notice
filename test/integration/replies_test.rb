@@ -5,7 +5,7 @@ describe '返信 Integration' do
     before do
       @user = login
       @notice = create(:notice)
-      @base_id = "#{@notice.id}"
+      @base_id = @notice.id.to_s
     end
 
     describe '新規作成' do
