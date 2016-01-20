@@ -25,10 +25,9 @@ class ActivitiesController < ApplicationController
   private
 
   def set_target_date
-    if params[:year] && params[:month] && params[:day]
-      begin
-        @target_date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
-      end
+    return nil if !params[:year] || !params[:month] || !params[:day]
+    begin
+      @target_date = Date.new(params[:year].to_i, params[:month].to_i, params[:day].to_i)
     end
   end
 end

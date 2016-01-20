@@ -143,8 +143,7 @@ class NoticesController < ApplicationController
 
   def opened_by_current_user
     return if @notice.blank?
-    unless @notice.read_users.include? current_user
-      @notice.read_users << current_user
-    end
+    return if @notice.read_users.include? current_user
+    @notice.read_users << current_user
   end
 end
