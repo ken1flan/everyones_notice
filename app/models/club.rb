@@ -11,7 +11,7 @@
 #
 
 class Club < ActiveRecord::Base
-  has_many :users
+  has_and_belongs_to_many :users
 
   def activities_for_heatmap(
     start_date = 5.month.ago.beginning_of_month,

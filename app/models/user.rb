@@ -17,7 +17,7 @@
 #
 
 class User < ActiveRecord::Base
-  belongs_to :club
+  has_and_belongs_to_many :clubs
   has_many :identities, dependent: :destroy
   has_many :notices
   has_many :notice_read_users
