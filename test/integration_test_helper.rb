@@ -4,7 +4,8 @@ end
 
 def create_user_and_identity(provider, club = nil, admin = false)
   club = create(:club) unless club.present?
-  user = create(:user, club: club, admin: admin)
+  user = create(:user, admin: admin)
+  user.clubs << club
   create(:identity, user_id: user.id, provider: provider)
   user
 end
