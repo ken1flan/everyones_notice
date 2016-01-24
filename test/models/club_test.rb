@@ -17,6 +17,7 @@ describe Club do
     before do
       @club = create(:club)
       @users = create_list(:user, 2, club_id: @club.id)
+      @users.each { |user| user.clubs << @club}
       @user = @users.first
       Notice.skip_callback(:save, :after, :register_activity)
       Reply.skip_callback(:save, :after, :register_activity)
