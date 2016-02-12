@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   helper_method :user_signed_in?, :can_manage_users?, :current_user, :markdown_to_html
 
   def not_found
-    fail ActionController::RoutingError.new('Not Found')
+    raise ActionController::RoutingError.new('Not Found')
   end
 
   def user_signed_in?

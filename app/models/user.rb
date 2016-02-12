@@ -99,7 +99,7 @@ class User < ActiveRecord::Base
   def self.create_with_identity(auth, token)
     invitation = Invitation.find_by(token: token)
     if invitation.blank?
-      fail ActiveRecord::RecordNotFound.new('Invitation Not Found')
+      raise ActiveRecord::RecordNotFound.new('Invitation Not Found')
     end
 
     nickname = auth[:info][:nickname]
@@ -119,7 +119,7 @@ class User < ActiveRecord::Base
     user = User.joins(:identities)
                .merge(Identity.where(provider: auth[:provider], uid: auth[:uid]))
                .first
-    fail ActiveRecord::RecordNotFound.new('User Not Found') if user.blank?
+    raise ActiveRecord::RecordNotFound.new('User Not Found') if user.blank?
     user
   end
 end
