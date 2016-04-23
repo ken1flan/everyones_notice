@@ -24,10 +24,14 @@ class NoticesController < ApplicationController
   PAR_PAGE = 10
 
   def index
+=begin
     @notices = Notice
                .displayable
                .default_order
                .page(params[:page]).per(PAR_PAGE)
+=end
+    @notices = Notice.displayable.default_order.offset(PAR_PAGE * params[:page].to_i).limit(PAR_PAGE)
+    @paginatable_array = Kaminari.paginate_array([], total_count: Notice.displayable.count).page(params[:page]).per(PAR_PAGE)
   end
 
   def show
