@@ -53,7 +53,8 @@ class ReputationController < ApplicationController
   def register_thumbup_notice_activity
     return if Activity.find_by(
       type_id: Activity.type_ids[:thumbup_notice],
-      notice_id: @notice.id).present?
+      notice_id: @notice.id
+    ).present?
 
     begin
       activity = Activity.new
@@ -69,7 +70,8 @@ class ReputationController < ApplicationController
   def register_thumbup_reply_activity
     return if Activity.find_by(
       type_id: Activity.type_ids[:thumbup_reply],
-      reply_id: @reply.id).present?
+      reply_id: @reply.id
+    ).present?
 
     begin
       activity = Activity.new

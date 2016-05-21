@@ -124,7 +124,8 @@ class Notice < ActiveRecord::Base
   def register_activity
     return if published_at.blank?
     return if Activity.find_by(
-      type_id: Activity.type_ids[:notice], notice_id: id).present?
+      type_id: Activity.type_ids[:notice], notice_id: id
+    ).present?
 
     begin
       activity = Activity.new
