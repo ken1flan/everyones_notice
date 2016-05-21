@@ -630,7 +630,8 @@ describe Notice do
             :activity,
             notice: @notice,
             type_id: Activity.type_ids[:notice],
-            created_at: (7.days.ago - 1))
+            created_at: (7.days.ago - 1)
+          )
         end
 
         it '空であること' do
@@ -645,7 +646,8 @@ describe Notice do
             :activity,
             notice: @notice,
             type_id: Activity.type_ids[:notice],
-            created_at: 7.days.ago)
+            created_at: 7.days.ago
+          )
         end
 
         it 'activityのnoticeが1件含まれていること' do
@@ -662,7 +664,8 @@ describe Notice do
             :activity,
             notice: @notice,
             type_id: Activity.type_ids[:thumbup_notice],
-            created_at: (7.days.ago - 1))
+            created_at: (7.days.ago - 1)
+          )
         end
 
         it '空であること' do
@@ -677,7 +680,8 @@ describe Notice do
             :activity,
             notice: @notice,
             type_id: Activity.type_ids[:thumbup_notice],
-            created_at: 7.days.ago)
+            created_at: 7.days.ago
+          )
         end
 
         it 'activityのnoticeが1件含まれていること' do
@@ -695,7 +699,8 @@ describe Notice do
             notice: @reply.notice,
             reply: @reply,
             type_id: Activity.type_ids[:reply],
-            created_at: (7.days.ago - 1))
+            created_at: (7.days.ago - 1)
+          )
         end
 
         it '空であること' do
@@ -711,7 +716,8 @@ describe Notice do
             notice: @reply.notice,
             reply: @reply,
             type_id: Activity.type_ids[:reply],
-            created_at: 7.days.ago)
+            created_at: 7.days.ago
+          )
         end
 
         it 'activityのnoticeが1件含まれていること' do
@@ -729,7 +735,8 @@ describe Notice do
             notice: @reply.notice,
             reply: @reply,
             type_id: Activity.type_ids[:thumbup_reply],
-            created_at: (7.days.ago - 1))
+            created_at: (7.days.ago - 1)
+          )
         end
 
         it '空であること' do
@@ -745,7 +752,8 @@ describe Notice do
             notice: @reply.notice,
             reply: @reply,
             type_id: Activity.type_ids[:thumbup_reply],
-            created_at: 7.days.ago)
+            created_at: 7.days.ago
+          )
         end
 
         it 'activityのnoticeが1件含まれていること' do

@@ -41,13 +41,13 @@ class Activity < ActiveRecord::Base
 
   scope :related_user, -> (user) do
     joins_related_models
-      .where("
-          activities.user_id = ? OR
+      .where(
+        "activities.user_id = ? OR
           notices.user_id = ? OR
           replies.user_id = ? OR
           advertisements.user_id = ?",
-             user.id, user.id, user.id, user.id
-            )
+        user.id, user.id, user.id, user.id
+      )
   end
 
   scope :joins_related_models, -> do
